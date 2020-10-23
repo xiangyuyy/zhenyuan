@@ -8,6 +8,9 @@ public class Test implements Serializable {
 
     private Integer age;
 
+    private String name1;
+
+
     private static final long serialVersionUID = 1L;
 
     public String getName() {
@@ -16,6 +19,14 @@ public class Test implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setName1(String name1) {
+        this.name1 = name1;
+    }
+
+    public String getName1() {
+        return name1;
     }
 
     public Integer getAge() {
