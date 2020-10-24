@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    codesetid, codeitemid, codeitemdesc, CreateTime, ModTime
+    codesetid, codeitemid, codeitemdesc
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.CodeitemExample" resultMap="BaseResultMap">
     select

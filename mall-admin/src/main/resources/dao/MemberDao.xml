@@ -1,23 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.macro.mall.dao.MemberDao">
+    <resultMap id="BaseResultMap" type="com.macro.mall.model.Member">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="relation_id" jdbcType="VARCHAR" property="relationId"/>
+        <result column="drug_shop_id" jdbcType="VARCHAR" property="drugShopId"/>
+        <result column="drug_title_id" jdbcType="VARCHAR" property="drugTitleId"/>
+        <result column="drug_org_id" jdbcType="VARCHAR" property="drugOrgId"/>
+        <result column="drug_education_id" jdbcType="VARCHAR" property="drugEducationId"/>
+        <result column="drug_major_id" jdbcType="VARCHAR" property="drugMajorId"/>
+        <result column="drug_position_one_id" jdbcType="VARCHAR" property="drugPositionOneId"/>
+        <result column="drug_position_two_id" jdbcType="VARCHAR" property="drugPositionTwoId"/>
+        <result column="drug_position_three_id" jdbcType="VARCHAR" property="drugPositionThreeId"/>
+        <result column="work_time" jdbcType="TIMESTAMP" property="workTime"/>
+        <result column="health_status" jdbcType="INTEGER" property="healthStatus"/>
+        <result column="education_status" jdbcType="INTEGER" property="educationStatus"/>
+        <result column="train_status" jdbcType="INTEGER" property="trainStatus"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
+    </resultMap>
 
-    <select id="getMemberList" resultType="com.macro.mall.model.Member">
-        select * from member m LEFT JOIN usra01 u  on m.relation_id = u.A0100
+    <select id="getMemberList" resultMap="BaseResultMap">
+        select m.* from member m LEFT JOIN usra01 u on m.relation_id = u.A0100
         <where>
             <if test="shopId != null and shopId !=''">
                 AND u.B0110 = #{shopId}
             </if>
-            <if test="name != null and name !=''">
+            <if test="name != null">
                 AND u.A0101 LIKE CONCAT('%',#{name},'%')
             </if>
             <if test="major != null">
                 AND u.a0130 = #{major}
             </if>
             <if test="drugPositionId != null">
-                AND m.drugPosition_id = #{drugPositionId}
+                AND (m.drug_position_one_id = #{drugPositionId} or m.drug_position_two_id = #{drugPositionId}
+                or m.drug_position_three_id = #{drugPositionId})
             </if>
         </where>
         order by m.relation_id desc
+    </select>
+
+    <select id="getAllmajor" resultType="java.lang.String">
+        SELECT DISTINCT(A0130) from UsrA01
     </select>
 </mapper>

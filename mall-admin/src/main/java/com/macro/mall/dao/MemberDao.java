@@ -14,7 +14,13 @@ import java.util.List;
  */
 public interface MemberDao {
     /**
-     * 获得人员信息
+     * 查询获得人员信息
      */
     List<Member> getMemberList(MemberListParam param);
+
+    /**
+     * 查询获得人员的专业
+     */
+    List<String> getAllmajor();
+
 }

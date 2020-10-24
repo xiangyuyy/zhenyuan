@@ -74,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     codeitemid, codesetid, codeitemdesc, parentid, childid, grade, state, start_date, 
-    end_date, create_time, modify_time
+    end_date<!--, create_time, modify_time-->
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.OrganizationExample" resultMap="BaseResultMap">
     select
