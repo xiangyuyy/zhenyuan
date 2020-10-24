@@ -1,7 +1,10 @@
 package com.macro.mall;
 
 
+import com.macro.mall.dto.MemberListParam;
+import com.macro.mall.model.Member;
 import com.macro.mall.msservice.TestService;
+import com.macro.mall.service.MemberService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -17,11 +20,21 @@ import java.util.List;
 public class PmsDaoTests {
     @Autowired
     TestService testService;
+
+    @Autowired
+    MemberService memberService;
     private static final Logger LOGGER = LoggerFactory.getLogger(PmsDaoTests.class);
 
     @Test
     public void  testsql(){
         List<com.macro.mall.msmodel.Test> list = testService.list("",1,10);
+        LOGGER.info(list.toString());
+    }
+
+    @Test
+    public void  testMember(){
+        MemberListParam param  = new MemberListParam();
+        List<Member> list = memberService.getMemberList(param);
         LOGGER.info(list.toString());
     }
 }
