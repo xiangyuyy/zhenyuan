@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.macro.mall.dao.MemberDao">
 
-    <select id="getMemberList" resultType="com.macro.mall.model.Member" parameterType="com.macro.mall.dto.MemberListParam">
+    <select id="getMemberList" resultType="com.macro.mall.model.Member">
         select * from member m LEFT JOIN usra01 u  on m.relation_id = u.A0100
         <where>
-            <if test="shop_id != null and shop_id !=''">
-                AND u.B0110 = #{shop_id}
+            <if test="shopId != null and shopId !=''">
+                AND u.B0110 = #{shopId}
             </if>
             <if test="name != null and name !=''">
                 AND u.A0101 LIKE CONCAT('%',#{name},'%')
@@ -14,8 +14,8 @@
             <if test="major != null">
                 AND u.a0130 = #{major}
             </if>
-            <if test="drugPosition_id != null">
-                AND t.is_deleted = #{drugPosition_id}
+            <if test="drugPositionId != null">
+                AND m.drugPosition_id = #{drugPositionId}
             </if>
         </where>
         order by m.relation_id desc

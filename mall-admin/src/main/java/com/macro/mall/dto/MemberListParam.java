@@ -10,13 +10,13 @@ import lombok.Data;
 @Data
 public class MemberListParam  extends  ListParam{
     @ApiModelProperty(value = "门店id")
-    private String shop_id;
+    private String shopId;
     @ApiModelProperty(value = "姓名")
     private String name;
     @ApiModelProperty(value = "职称id")
-    private String title_id;
+    private String titleId;
     @ApiModelProperty(value = "专业")
     private String major;
     @ApiModelProperty(value = "职务id")
-    private String drugPosition_id;
+    private String drugPositionId;
 }

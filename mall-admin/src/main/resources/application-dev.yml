@@ -17,7 +17,7 @@ spring:
 
     ms:
       driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-      jdbc-url: jdbc:sqlserver://127.0.0.1:1433;DatabaseName=test
+      jdbc-url: jdbc:sqlserver://127.0.0.1:1433;DatabaseName=ykchr-12
       username: sa
       password: Aa6392577
       druid:

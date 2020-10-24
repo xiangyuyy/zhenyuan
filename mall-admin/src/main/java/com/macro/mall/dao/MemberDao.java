@@ -16,5 +16,5 @@ public interface MemberDao {
     /**
      * 获得人员信息
      */
-    List<Member> getMemberList(@Param("param") MemberListParam param);
+    List<Member> getMemberList(MemberListParam param);
 }

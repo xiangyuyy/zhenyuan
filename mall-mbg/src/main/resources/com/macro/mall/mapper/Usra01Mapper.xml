@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.mapper.Usra01Mapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.Usra01">
+    <id column="A0100" jdbcType="VARCHAR" property="a0100" />
+    <result column="B0110" jdbcType="VARCHAR" property="b0110" />
+    <result column="A0111" jdbcType="TIMESTAMP" property="a0111" />
+    <result column="A0141" jdbcType="TIMESTAMP" property="a0141" />
+    <result column="A0107" jdbcType="VARCHAR" property="a0107" />
+    <result column="A0177" jdbcType="VARCHAR" property="a0177" />
+    <result column="A0121" jdbcType="VARCHAR" property="a0121" />
+    <result column="A0114" jdbcType="VARCHAR" property="a0114" />
+    <result column="A0171" jdbcType="VARCHAR" property="a0171" />
+    <result column="A0101" jdbcType="VARCHAR" property="a0101" />
+    <result column="A0174" jdbcType="VARCHAR" property="a0174" />
+    <result column="A0112" jdbcType="INTEGER" property="a0112" />
+    <result column="A0103" jdbcType="VARCHAR" property="a0103" />
+    <result column="A0148" jdbcType="VARCHAR" property="a0148" />
+    <result column="A0183" jdbcType="VARCHAR" property="a0183" />
+    <result column="A0142" jdbcType="TIMESTAMP" property="a0142" />
+    <result column="A0146" jdbcType="VARCHAR" property="a0146" />
+    <result column="A0119" jdbcType="VARCHAR" property="a0119" />
+    <result column="A0130" jdbcType="VARCHAR" property="a0130" />
+    <result column="A0134" jdbcType="VARCHAR" property="a0134" />
+    <result column="A0144" jdbcType="VARCHAR" property="a0144" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="ModTime" jdbcType="TIMESTAMP" property="modtime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.Usra01">
+    <result column="A01AD" jdbcType="LONGVARCHAR" property="a01ad" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    A0100, B0110, A0111, A0141, A0107, A0177, A0121, A0114, A0171, A0101, A0174, A0112, 
+    A0103, A0148, A0183, A0142, A0146, A0119, A0130, A0134, A0144, CreateTime, ModTime
+  </sql>
+  <sql id="Blob_Column_List">
+    A01AD
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.macro.mall.model.Usra01Example" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from usra01
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.macro.mall.model.Usra01Example" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from usra01
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from usra01
+    where A0100 = #{a0100,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from usra01
+    where A0100 = #{a0100,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.Usra01Example">
+    delete from usra01
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.macro.mall.model.Usra01">
+    insert into usra01 (A0100, B0110, A0111, 
+      A0141, A0107, A0177, 
+      A0121, A0114, A0171, 
+      A0101, A0174, A0112, 
+      A0103, A0148, A0183, 
+      A0142, A0146, A0119, 
+      A0130, A0134, A0144, 
+      CreateTime, ModTime, A01AD
+      )
+    values (#{a0100,jdbcType=VARCHAR}, #{b0110,jdbcType=VARCHAR}, #{a0111,jdbcType=TIMESTAMP}, 
+      #{a0141,jdbcType=TIMESTAMP}, #{a0107,jdbcType=VARCHAR}, #{a0177,jdbcType=VARCHAR}, 
+      #{a0121,jdbcType=VARCHAR}, #{a0114,jdbcType=VARCHAR}, #{a0171,jdbcType=VARCHAR}, 
+      #{a0101,jdbcType=VARCHAR}, #{a0174,jdbcType=VARCHAR}, #{a0112,jdbcType=INTEGER}, 
+      #{a0103,jdbcType=VARCHAR}, #{a0148,jdbcType=VARCHAR}, #{a0183,jdbcType=VARCHAR}, 
+      #{a0142,jdbcType=TIMESTAMP}, #{a0146,jdbcType=VARCHAR}, #{a0119,jdbcType=VARCHAR}, 
+      #{a0130,jdbcType=VARCHAR}, #{a0134,jdbcType=VARCHAR}, #{a0144,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{modtime,jdbcType=TIMESTAMP}, #{a01ad,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.macro.mall.model.Usra01">
+    insert into usra01
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="a0100 != null">
+        A0100,
+      </if>
+      <if test="b0110 != null">
+        B0110,
+      </if>
+      <if test="a0111 != null">
+        A0111,
+      </if>
+      <if test="a0141 != null">
+        A0141,
+      </if>
+      <if test="a0107 != null">
+        A0107,
+      </if>
+      <if test="a0177 != null">
+        A0177,
+      </if>
+      <if test="a0121 != null">
+        A0121,
+      </if>
+      <if test="a0114 != null">
+        A0114,
+      </if>
+      <if test="a0171 != null">
+        A0171,
+      </if>
+      <if test="a0101 != null">
+        A0101,
+      </if>
+      <if test="a0174 != null">
+        A0174,
+      </if>
+      <if test="a0112 != null">
+        A0112,
+      </if>
+      <if test="a0103 != null">
+        A0103,
+      </if>
+      <if test="a0148 != null">
+        A0148,
+      </if>
+      <if test="a0183 != null">
+        A0183,
+      </if>
+      <if test="a0142 != null">
+        A0142,
+      </if>
+      <if test="a0146 != null">
+        A0146,
+      </if>
+      <if test="a0119 != null">
+        A0119,
+      </if>
+      <if test="a0130 != null">
+        A0130,
+      </if>
+      <if test="a0134 != null">
+        A0134,
+      </if>
+      <if test="a0144 != null">
+        A0144,
+      </if>
+      <if test="createtime != null">
+        CreateTime,
+      </if>
+      <if test="modtime != null">
+        ModTime,
+      </if>
+      <if test="a01ad != null">
+        A01AD,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="a0100 != null">
+        #{a0100,jdbcType=VARCHAR},
+      </if>
+      <if test="b0110 != null">
+        #{b0110,jdbcType=VARCHAR},
+      </if>
+      <if test="a0111 != null">
+        #{a0111,jdbcType=TIMESTAMP},
+      </if>
+      <if test="a0141 != null">
+        #{a0141,jdbcType=TIMESTAMP},
+      </if>
+      <if test="a0107 != null">
+        #{a0107,jdbcType=VARCHAR},
+      </if>
+      <if test="a0177 != null">
+        #{a0177,jdbcType=VARCHAR},
+      </if>
+      <if test="a0121 != null">
+        #{a0121,jdbcType=VARCHAR},
+      </if>
+      <if test="a0114 != null">
+        #{a0114,jdbcType=VARCHAR},
+      </if>
+      <if test="a0171 != null">
+        #{a0171,jdbcType=VARCHAR},
+      </if>
+      <if test="a0101 != null">
+        #{a0101,jdbcType=VARCHAR},
+      </if>
+      <if test="a0174 != null">
+        #{a0174,jdbcType=VARCHAR},
+      </if>
+      <if test="a0112 != null">
+        #{a0112,jdbcType=INTEGER},
+      </if>
+      <if test="a0103 != null">
+        #{a0103,jdbcType=VARCHAR},
+      </if>
+      <if test="a0148 != null">
+        #{a0148,jdbcType=VARCHAR},
+      </if>
+      <if test="a0183 != null">
+        #{a0183,jdbcType=VARCHAR},
+      </if>
+      <if test="a0142 != null">
+        #{a0142,jdbcType=TIMESTAMP},
+      </if>
+      <if test="a0146 != null">
+        #{a0146,jdbcType=VARCHAR},
+      </if>
+      <if test="a0119 != null">
+        #{a0119,jdbcType=VARCHAR},
+      </if>
+      <if test="a0130 != null">
+        #{a0130,jdbcType=VARCHAR},
+      </if>
+      <if test="a0134 != null">
+        #{a0134,jdbcType=VARCHAR},
+      </if>
+      <if test="a0144 != null">
+        #{a0144,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modtime != null">
+        #{modtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="a01ad != null">
+        #{a01ad,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.macro.mall.model.Usra01Example" resultType="java.lang.Long">
+    select count(*) from usra01
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update usra01
+    <set>
+      <if test="record.a0100 != null">
+        A0100 = #{record.a0100,jdbcType=VARCHAR},
+      </if>
+      <if test="record.b0110 != null">
+        B0110 = #{record.b0110,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0111 != null">
+        A0111 = #{record.a0111,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.a0141 != null">
+        A0141 = #{record.a0141,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.a0107 != null">
+        A0107 = #{record.a0107,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0177 != null">
+        A0177 = #{record.a0177,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0121 != null">
+        A0121 = #{record.a0121,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0114 != null">
+        A0114 = #{record.a0114,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0171 != null">
+        A0171 = #{record.a0171,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0101 != null">
+        A0101 = #{record.a0101,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0174 != null">
+        A0174 = #{record.a0174,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0112 != null">
+        A0112 = #{record.a0112,jdbcType=INTEGER},
+      </if>
+      <if test="record.a0103 != null">
+        A0103 = #{record.a0103,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0148 != null">
+        A0148 = #{record.a0148,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0183 != null">
+        A0183 = #{record.a0183,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0142 != null">
+        A0142 = #{record.a0142,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.a0146 != null">
+        A0146 = #{record.a0146,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0119 != null">
+        A0119 = #{record.a0119,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0130 != null">
+        A0130 = #{record.a0130,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0134 != null">
+        A0134 = #{record.a0134,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a0144 != null">
+        A0144 = #{record.a0144,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modtime != null">
+        ModTime = #{record.modtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.a01ad != null">
+        A01AD = #{record.a01ad,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update usra01
+    set A0100 = #{record.a0100,jdbcType=VARCHAR},
+      B0110 = #{record.b0110,jdbcType=VARCHAR},
+      A0111 = #{record.a0111,jdbcType=TIMESTAMP},
+      A0141 = #{record.a0141,jdbcType=TIMESTAMP},
+      A0107 = #{record.a0107,jdbcType=VARCHAR},
+      A0177 = #{record.a0177,jdbcType=VARCHAR},
+      A0121 = #{record.a0121,jdbcType=VARCHAR},
+      A0114 = #{record.a0114,jdbcType=VARCHAR},
+      A0171 = #{record.a0171,jdbcType=VARCHAR},
+      A0101 = #{record.a0101,jdbcType=VARCHAR},
+      A0174 = #{record.a0174,jdbcType=VARCHAR},
+      A0112 = #{record.a0112,jdbcType=INTEGER},
+      A0103 = #{record.a0103,jdbcType=VARCHAR},
+      A0148 = #{record.a0148,jdbcType=VARCHAR},
+      A0183 = #{record.a0183,jdbcType=VARCHAR},
+      A0142 = #{record.a0142,jdbcType=TIMESTAMP},
+      A0146 = #{record.a0146,jdbcType=VARCHAR},
+      A0119 = #{record.a0119,jdbcType=VARCHAR},
+      A0130 = #{record.a0130,jdbcType=VARCHAR},
+      A0134 = #{record.a0134,jdbcType=VARCHAR},
+      A0144 = #{record.a0144,jdbcType=VARCHAR},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      ModTime = #{record.modtime,jdbcType=TIMESTAMP},
+      A01AD = #{record.a01ad,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update usra01
+    set A0100 = #{record.a0100,jdbcType=VARCHAR},
+      B0110 = #{record.b0110,jdbcType=VARCHAR},
+      A0111 = #{record.a0111,jdbcType=TIMESTAMP},
+      A0141 = #{record.a0141,jdbcType=TIMESTAMP},
+      A0107 = #{record.a0107,jdbcType=VARCHAR},
+      A0177 = #{record.a0177,jdbcType=VARCHAR},
+      A0121 = #{record.a0121,jdbcType=VARCHAR},
+      A0114 = #{record.a0114,jdbcType=VARCHAR},
+      A0171 = #{record.a0171,jdbcType=VARCHAR},
+      A0101 = #{record.a0101,jdbcType=VARCHAR},
+      A0174 = #{record.a0174,jdbcType=VARCHAR},
+      A0112 = #{record.a0112,jdbcType=INTEGER},
+      A0103 = #{record.a0103,jdbcType=VARCHAR},
+      A0148 = #{record.a0148,jdbcType=VARCHAR},
+      A0183 = #{record.a0183,jdbcType=VARCHAR},
+      A0142 = #{record.a0142,jdbcType=TIMESTAMP},
+      A0146 = #{record.a0146,jdbcType=VARCHAR},
+      A0119 = #{record.a0119,jdbcType=VARCHAR},
+      A0130 = #{record.a0130,jdbcType=VARCHAR},
+      A0134 = #{record.a0134,jdbcType=VARCHAR},
+      A0144 = #{record.a0144,jdbcType=VARCHAR},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      ModTime = #{record.modtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.Usra01">
+    update usra01
+    <set>
+      <if test="b0110 != null">
+        B0110 = #{b0110,jdbcType=VARCHAR},
+      </if>
+      <if test="a0111 != null">
+        A0111 = #{a0111,jdbcType=TIMESTAMP},
+      </if>
+      <if test="a0141 != null">
+        A0141 = #{a0141,jdbcType=TIMESTAMP},
+      </if>
+      <if test="a0107 != null">
+        A0107 = #{a0107,jdbcType=VARCHAR},
+      </if>
+      <if test="a0177 != null">
+        A0177 = #{a0177,jdbcType=VARCHAR},
+      </if>
+      <if test="a0121 != null">
+        A0121 = #{a0121,jdbcType=VARCHAR},
+      </if>
+      <if test="a0114 != null">
+        A0114 = #{a0114,jdbcType=VARCHAR},
+      </if>
+      <if test="a0171 != null">
+        A0171 = #{a0171,jdbcType=VARCHAR},
+      </if>
+      <if test="a0101 != null">
+        A0101 = #{a0101,jdbcType=VARCHAR},
+      </if>
+      <if test="a0174 != null">
+        A0174 = #{a0174,jdbcType=VARCHAR},
+      </if>
+      <if test="a0112 != null">
+        A0112 = #{a0112,jdbcType=INTEGER},
+      </if>
+      <if test="a0103 != null">
+        A0103 = #{a0103,jdbcType=VARCHAR},
+      </if>
+      <if test="a0148 != null">
+        A0148 = #{a0148,jdbcType=VARCHAR},
+      </if>
+      <if test="a0183 != null">
+        A0183 = #{a0183,jdbcType=VARCHAR},
+      </if>
+      <if test="a0142 != null">
+        A0142 = #{a0142,jdbcType=TIMESTAMP},
+      </if>
+      <if test="a0146 != null">
+        A0146 = #{a0146,jdbcType=VARCHAR},
+      </if>
+      <if test="a0119 != null">
+        A0119 = #{a0119,jdbcType=VARCHAR},
+      </if>
+      <if test="a0130 != null">
+        A0130 = #{a0130,jdbcType=VARCHAR},
+      </if>
+      <if test="a0134 != null">
+        A0134 = #{a0134,jdbcType=VARCHAR},
+      </if>
+      <if test="a0144 != null">
+        A0144 = #{a0144,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modtime != null">
+        ModTime = #{modtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="a01ad != null">
+        A01AD = #{a01ad,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where A0100 = #{a0100,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.Usra01">
+    update usra01
+    set B0110 = #{b0110,jdbcType=VARCHAR},
+      A0111 = #{a0111,jdbcType=TIMESTAMP},
+      A0141 = #{a0141,jdbcType=TIMESTAMP},
+      A0107 = #{a0107,jdbcType=VARCHAR},
+      A0177 = #{a0177,jdbcType=VARCHAR},
+      A0121 = #{a0121,jdbcType=VARCHAR},
+      A0114 = #{a0114,jdbcType=VARCHAR},
+      A0171 = #{a0171,jdbcType=VARCHAR},
+      A0101 = #{a0101,jdbcType=VARCHAR},
+      A0174 = #{a0174,jdbcType=VARCHAR},
+      A0112 = #{a0112,jdbcType=INTEGER},
+      A0103 = #{a0103,jdbcType=VARCHAR},
+      A0148 = #{a0148,jdbcType=VARCHAR},
+      A0183 = #{a0183,jdbcType=VARCHAR},
+      A0142 = #{a0142,jdbcType=TIMESTAMP},
+      A0146 = #{a0146,jdbcType=VARCHAR},
+      A0119 = #{a0119,jdbcType=VARCHAR},
+      A0130 = #{a0130,jdbcType=VARCHAR},
+      A0134 = #{a0134,jdbcType=VARCHAR},
+      A0144 = #{a0144,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      ModTime = #{modtime,jdbcType=TIMESTAMP},
+      A01AD = #{a01ad,jdbcType=LONGVARCHAR}
+    where A0100 = #{a0100,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.Usra01">
+    update usra01
+    set B0110 = #{b0110,jdbcType=VARCHAR},
+      A0111 = #{a0111,jdbcType=TIMESTAMP},
+      A0141 = #{a0141,jdbcType=TIMESTAMP},
+      A0107 = #{a0107,jdbcType=VARCHAR},
+      A0177 = #{a0177,jdbcType=VARCHAR},
+      A0121 = #{a0121,jdbcType=VARCHAR},
+      A0114 = #{a0114,jdbcType=VARCHAR},
+      A0171 = #{a0171,jdbcType=VARCHAR},
+      A0101 = #{a0101,jdbcType=VARCHAR},
+      A0174 = #{a0174,jdbcType=VARCHAR},
+      A0112 = #{a0112,jdbcType=INTEGER},
+      A0103 = #{a0103,jdbcType=VARCHAR},
+      A0148 = #{a0148,jdbcType=VARCHAR},
+      A0183 = #{a0183,jdbcType=VARCHAR},
+      A0142 = #{a0142,jdbcType=TIMESTAMP},
+      A0146 = #{a0146,jdbcType=VARCHAR},
+      A0119 = #{a0119,jdbcType=VARCHAR},
+      A0130 = #{a0130,jdbcType=VARCHAR},
+      A0134 = #{a0134,jdbcType=VARCHAR},
+      A0144 = #{a0144,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      ModTime = #{modtime,jdbcType=TIMESTAMP}
+    where A0100 = #{a0100,jdbcType=VARCHAR}
+  </update>
+</mapper>

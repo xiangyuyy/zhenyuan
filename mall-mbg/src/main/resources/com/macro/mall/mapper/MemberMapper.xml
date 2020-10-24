@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.mapper.MemberMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.Member">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+    <result column="drug_shop_id" jdbcType="VARCHAR" property="drugShopId" />
+    <result column="drug_title_id" jdbcType="VARCHAR" property="drugTitleId" />
+    <result column="drug_org_id" jdbcType="VARCHAR" property="drugOrgId" />
+    <result column="drug_education_id" jdbcType="VARCHAR" property="drugEducationId" />
+    <result column="drug_major_id" jdbcType="VARCHAR" property="drugMajorId" />
+    <result column="drug_position_one_id" jdbcType="VARCHAR" property="drugPositionOneId" />
+    <result column="drug_position_two_id" jdbcType="VARCHAR" property="drugPositionTwoId" />
+    <result column="drug_position_three_id" jdbcType="VARCHAR" property="drugPositionThreeId" />
+    <result column="work_time" jdbcType="TIMESTAMP" property="workTime" />
+    <result column="health_status" jdbcType="INTEGER" property="healthStatus" />
+    <result column="education_status" jdbcType="INTEGER" property="educationStatus" />
+    <result column="train_status" jdbcType="INTEGER" property="trainStatus" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, relation_id, drug_shop_id, drug_title_id, drug_org_id, drug_education_id, drug_major_id, 
+    drug_position_one_id, drug_position_two_id, drug_position_three_id, work_time, health_status, 
+    education_status, train_status, create_time, modify_time
+  </sql>
+  <select id="selectByExample" parameterType="com.macro.mall.model.MemberExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from member
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.MemberExample">
+    delete from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.macro.mall.model.Member">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into member (relation_id, drug_shop_id, drug_title_id, 
+      drug_org_id, drug_education_id, drug_major_id, 
+      drug_position_one_id, drug_position_two_id, drug_position_three_id, 
+      work_time, health_status, education_status, 
+      train_status, create_time, modify_time
+      )
+    values (#{relationId,jdbcType=VARCHAR}, #{drugShopId,jdbcType=VARCHAR}, #{drugTitleId,jdbcType=VARCHAR}, 
+      #{drugOrgId,jdbcType=VARCHAR}, #{drugEducationId,jdbcType=VARCHAR}, #{drugMajorId,jdbcType=VARCHAR}, 
+      #{drugPositionOneId,jdbcType=VARCHAR}, #{drugPositionTwoId,jdbcType=VARCHAR}, #{drugPositionThreeId,jdbcType=VARCHAR}, 
+      #{workTime,jdbcType=TIMESTAMP}, #{healthStatus,jdbcType=INTEGER}, #{educationStatus,jdbcType=INTEGER}, 
+      #{trainStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.macro.mall.model.Member">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="relationId != null">
+        relation_id,
+      </if>
+      <if test="drugShopId != null">
+        drug_shop_id,
+      </if>
+      <if test="drugTitleId != null">
+        drug_title_id,
+      </if>
+      <if test="drugOrgId != null">
+        drug_org_id,
+      </if>
+      <if test="drugEducationId != null">
+        drug_education_id,
+      </if>
+      <if test="drugMajorId != null">
+        drug_major_id,
+      </if>
+      <if test="drugPositionOneId != null">
+        drug_position_one_id,
+      </if>
+      <if test="drugPositionTwoId != null">
+        drug_position_two_id,
+      </if>
+      <if test="drugPositionThreeId != null">
+        drug_position_three_id,
+      </if>
+      <if test="workTime != null">
+        work_time,
+      </if>
+      <if test="healthStatus != null">
+        health_status,
+      </if>
+      <if test="educationStatus != null">
+        education_status,
+      </if>
+      <if test="trainStatus != null">
+        train_status,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="relationId != null">
+        #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugShopId != null">
+        #{drugShopId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugTitleId != null">
+        #{drugTitleId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugOrgId != null">
+        #{drugOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugEducationId != null">
+        #{drugEducationId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugMajorId != null">
+        #{drugMajorId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugPositionOneId != null">
+        #{drugPositionOneId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugPositionTwoId != null">
+        #{drugPositionTwoId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugPositionThreeId != null">
+        #{drugPositionThreeId,jdbcType=VARCHAR},
+      </if>
+      <if test="workTime != null">
+        #{workTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="healthStatus != null">
+        #{healthStatus,jdbcType=INTEGER},
+      </if>
+      <if test="educationStatus != null">
+        #{educationStatus,jdbcType=INTEGER},
+      </if>
+      <if test="trainStatus != null">
+        #{trainStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.macro.mall.model.MemberExample" resultType="java.lang.Long">
+    select count(*) from member
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update member
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.relationId != null">
+        relation_id = #{record.relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drugShopId != null">
+        drug_shop_id = #{record.drugShopId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drugTitleId != null">
+        drug_title_id = #{record.drugTitleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drugOrgId != null">
+        drug_org_id = #{record.drugOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drugEducationId != null">
+        drug_education_id = #{record.drugEducationId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drugMajorId != null">
+        drug_major_id = #{record.drugMajorId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drugPositionOneId != null">
+        drug_position_one_id = #{record.drugPositionOneId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drugPositionTwoId != null">
+        drug_position_two_id = #{record.drugPositionTwoId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.drugPositionThreeId != null">
+        drug_position_three_id = #{record.drugPositionThreeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workTime != null">
+        work_time = #{record.workTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.healthStatus != null">
+        health_status = #{record.healthStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.educationStatus != null">
+        education_status = #{record.educationStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.trainStatus != null">
+        train_status = #{record.trainStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update member
+    set id = #{record.id,jdbcType=BIGINT},
+      relation_id = #{record.relationId,jdbcType=VARCHAR},
+      drug_shop_id = #{record.drugShopId,jdbcType=VARCHAR},
+      drug_title_id = #{record.drugTitleId,jdbcType=VARCHAR},
+      drug_org_id = #{record.drugOrgId,jdbcType=VARCHAR},
+      drug_education_id = #{record.drugEducationId,jdbcType=VARCHAR},
+      drug_major_id = #{record.drugMajorId,jdbcType=VARCHAR},
+      drug_position_one_id = #{record.drugPositionOneId,jdbcType=VARCHAR},
+      drug_position_two_id = #{record.drugPositionTwoId,jdbcType=VARCHAR},
+      drug_position_three_id = #{record.drugPositionThreeId,jdbcType=VARCHAR},
+      work_time = #{record.workTime,jdbcType=TIMESTAMP},
+      health_status = #{record.healthStatus,jdbcType=INTEGER},
+      education_status = #{record.educationStatus,jdbcType=INTEGER},
+      train_status = #{record.trainStatus,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.Member">
+    update member
+    <set>
+      <if test="relationId != null">
+        relation_id = #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugShopId != null">
+        drug_shop_id = #{drugShopId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugTitleId != null">
+        drug_title_id = #{drugTitleId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugOrgId != null">
+        drug_org_id = #{drugOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugEducationId != null">
+        drug_education_id = #{drugEducationId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugMajorId != null">
+        drug_major_id = #{drugMajorId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugPositionOneId != null">
+        drug_position_one_id = #{drugPositionOneId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugPositionTwoId != null">
+        drug_position_two_id = #{drugPositionTwoId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugPositionThreeId != null">
+        drug_position_three_id = #{drugPositionThreeId,jdbcType=VARCHAR},
+      </if>
+      <if test="workTime != null">
+        work_time = #{workTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="healthStatus != null">
+        health_status = #{healthStatus,jdbcType=INTEGER},
+      </if>
+      <if test="educationStatus != null">
+        education_status = #{educationStatus,jdbcType=INTEGER},
+      </if>
+      <if test="trainStatus != null">
+        train_status = #{trainStatus,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.Member">
+    update member
+    set relation_id = #{relationId,jdbcType=VARCHAR},
+      drug_shop_id = #{drugShopId,jdbcType=VARCHAR},
+      drug_title_id = #{drugTitleId,jdbcType=VARCHAR},
+      drug_org_id = #{drugOrgId,jdbcType=VARCHAR},
+      drug_education_id = #{drugEducationId,jdbcType=VARCHAR},
+      drug_major_id = #{drugMajorId,jdbcType=VARCHAR},
+      drug_position_one_id = #{drugPositionOneId,jdbcType=VARCHAR},
+      drug_position_two_id = #{drugPositionTwoId,jdbcType=VARCHAR},
+      drug_position_three_id = #{drugPositionThreeId,jdbcType=VARCHAR},
+      work_time = #{workTime,jdbcType=TIMESTAMP},
+      health_status = #{healthStatus,jdbcType=INTEGER},
+      education_status = #{educationStatus,jdbcType=INTEGER},
+      train_status = #{trainStatus,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

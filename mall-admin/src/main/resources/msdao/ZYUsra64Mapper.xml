@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.macro.mall.msdao.ZYUsra64Mapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.Usra64">
+    <id column="A0100" jdbcType="VARCHAR" property="a0100" />
+    <result column="a6405" jdbcType="VARCHAR" property="a6405" />
+    <result column="a6410" jdbcType="TIMESTAMP" property="a6410" />
+    <result column="a6416" jdbcType="TIMESTAMP" property="a6416" />
+    <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
+    <result column="ModTime" jdbcType="TIMESTAMP" property="modtime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.macro.mall.model.Usra64">
+    <result column="A6411" jdbcType="LONGVARCHAR" property="a6411" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    A0100, a6405, a6410, a6416, CreateTime, ModTime
+  </sql>
+  <sql id="Blob_Column_List">
+    A6411
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.macro.mall.model.Usra64Example" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from usra64
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.macro.mall.model.Usra64Example" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from usra64
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from usra64
+    where A0100 = #{a0100,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from usra64
+    where A0100 = #{a0100,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.Usra64Example">
+    delete from usra64
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.macro.mall.model.Usra64">
+    insert into usra64 (A0100, a6405, a6410, 
+      a6416, CreateTime, ModTime, 
+      A6411)
+    values (#{a0100,jdbcType=VARCHAR}, #{a6405,jdbcType=VARCHAR}, #{a6410,jdbcType=TIMESTAMP}, 
+      #{a6416,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}, #{modtime,jdbcType=TIMESTAMP}, 
+      #{a6411,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.macro.mall.model.Usra64">
+    insert into usra64
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="a0100 != null">
+        A0100,
+      </if>
+      <if test="a6405 != null">
+        a6405,
+      </if>
+      <if test="a6410 != null">
+        a6410,
+      </if>
+      <if test="a6416 != null">
+        a6416,
+      </if>
+      <if test="createtime != null">
+        CreateTime,
+      </if>
+      <if test="modtime != null">
+        ModTime,
+      </if>
+      <if test="a6411 != null">
+        A6411,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="a0100 != null">
+        #{a0100,jdbcType=VARCHAR},
+      </if>
+      <if test="a6405 != null">
+        #{a6405,jdbcType=VARCHAR},
+      </if>
+      <if test="a6410 != null">
+        #{a6410,jdbcType=TIMESTAMP},
+      </if>
+      <if test="a6416 != null">
+        #{a6416,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modtime != null">
+        #{modtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="a6411 != null">
+        #{a6411,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.macro.mall.model.Usra64Example" resultType="java.lang.Long">
+    select count(*) from usra64
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update usra64
+    <set>
+      <if test="record.a0100 != null">
+        A0100 = #{record.a0100,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a6405 != null">
+        a6405 = #{record.a6405,jdbcType=VARCHAR},
+      </if>
+      <if test="record.a6410 != null">
+        a6410 = #{record.a6410,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.a6416 != null">
+        a6416 = #{record.a6416,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createtime != null">
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modtime != null">
+        ModTime = #{record.modtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.a6411 != null">
+        A6411 = #{record.a6411,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update usra64
+    set A0100 = #{record.a0100,jdbcType=VARCHAR},
+      a6405 = #{record.a6405,jdbcType=VARCHAR},
+      a6410 = #{record.a6410,jdbcType=TIMESTAMP},
+      a6416 = #{record.a6416,jdbcType=TIMESTAMP},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      ModTime = #{record.modtime,jdbcType=TIMESTAMP},
+      A6411 = #{record.a6411,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update usra64
+    set A0100 = #{record.a0100,jdbcType=VARCHAR},
+      a6405 = #{record.a6405,jdbcType=VARCHAR},
+      a6410 = #{record.a6410,jdbcType=TIMESTAMP},
+      a6416 = #{record.a6416,jdbcType=TIMESTAMP},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      ModTime = #{record.modtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.Usra64">
+    update usra64
+    <set>
+      <if test="a6405 != null">
+        a6405 = #{a6405,jdbcType=VARCHAR},
+      </if>
+      <if test="a6410 != null">
+        a6410 = #{a6410,jdbcType=TIMESTAMP},
+      </if>
+      <if test="a6416 != null">
+        a6416 = #{a6416,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null">
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modtime != null">
+        ModTime = #{modtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="a6411 != null">
+        A6411 = #{a6411,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where A0100 = #{a0100,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.Usra64">
+    update usra64
+    set a6405 = #{a6405,jdbcType=VARCHAR},
+      a6410 = #{a6410,jdbcType=TIMESTAMP},
+      a6416 = #{a6416,jdbcType=TIMESTAMP},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      ModTime = #{modtime,jdbcType=TIMESTAMP},
+      A6411 = #{a6411,jdbcType=LONGVARCHAR}
+    where A0100 = #{a0100,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.Usra64">
+    update usra64
+    set a6405 = #{a6405,jdbcType=VARCHAR},
+      a6410 = #{a6410,jdbcType=TIMESTAMP},
+      a6416 = #{a6416,jdbcType=TIMESTAMP},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      ModTime = #{modtime,jdbcType=TIMESTAMP}
+    where A0100 = #{a0100,jdbcType=VARCHAR}
+  </update>
+</mapper>

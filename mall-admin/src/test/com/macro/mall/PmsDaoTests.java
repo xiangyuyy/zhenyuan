@@ -2,8 +2,10 @@ package com.macro.mall;
 
 
 import com.macro.mall.dto.MemberListParam;
+import com.macro.mall.model.Codeitem;
 import com.macro.mall.model.Member;
 import com.macro.mall.msservice.TestService;
+import com.macro.mall.msservice.ZYService;
 import com.macro.mall.service.MemberService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +25,10 @@ public class PmsDaoTests {
 
     @Autowired
     MemberService memberService;
+
+    @Autowired
+    ZYService zyService
+            ;
     private static final Logger LOGGER = LoggerFactory.getLogger(PmsDaoTests.class);
 
     @Test
@@ -35,6 +41,12 @@ public class PmsDaoTests {
     public void  testMember(){
         MemberListParam param  = new MemberListParam();
         List<Member> list = memberService.getMemberList(param);
+        LOGGER.info(list.toString());
+    }
+
+    @Test
+    public void  testzy(){
+        List<Codeitem> list = zyService.getAllCodeItem();
         LOGGER.info(list.toString());
     }
 }
