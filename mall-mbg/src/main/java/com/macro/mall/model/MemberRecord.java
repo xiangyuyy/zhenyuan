@@ -10,6 +10,9 @@ public class MemberRecord implements Serializable {
     @ApiModelProperty(value = "单号")
     private String reportId;
 
+    @ApiModelProperty(value = "关联1.0人员id")
+    private String relationId;
+
     @ApiModelProperty(value = "2.0人员id")
     private String memberId;
 
@@ -68,6 +71,14 @@ public class MemberRecord implements Serializable {
 
     public void setReportId(String reportId) {
         this.reportId = reportId;
+    }
+
+    public String getRelationI() {
+        return relationId;
+    }
+
+    public void setRelationId(String relationId) {
+        this.relationId = relationId;
     }
 
     public String getMemberId() {
@@ -191,6 +202,7 @@ public class MemberRecord implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", reportId=").append(reportId);
         sb.append(", memberId=").append(memberId);
+        sb.append(", relationId=").append(relationId);
         sb.append(", drugShopId=").append(drugShopId);
         sb.append(", drugTitleId=").append(drugTitleId);
         sb.append(", drugOrgId=").append(drugOrgId);

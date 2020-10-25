@@ -1,6 +1,7 @@
 package com.macro.mall;
 
 
+import com.macro.mall.dto.MemberListDto;
 import com.macro.mall.dto.MemberListParam;
 import com.macro.mall.model.*;
 import com.macro.mall.msservice.TestService;
@@ -47,7 +48,8 @@ public class PmsDaoTests {
         param.setName("陈伟");
         List<Member> list = memberService.getMemberList(param);
 
-        List<Member> list1 = memberService.getAllMemberList();
+        List<MemberListDto> list1 = memberService.MemberListToDto(list);
+        //List<Member> list1 = memberService.getAllMemberList();
         LOGGER.info(list.toString());
     }
 

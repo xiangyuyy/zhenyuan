@@ -45,12 +45,12 @@ public class BaseConst {
     public static final String MEMBER_YD = "YD";
 
     //药监上报职称
-    public static final String DRUG_SB = "SB";
+    public static final String DRUG_SBZC = "SBZC";
 
     //药监编制职称
-    public static final String DRUG_BZ = "BZ";
+    public static final String DRUG_BZZC = "BZZC";
 
     //药监岗位
-    public static final String DRUG_GW = "GW";
+    public static final String DRUG_DRGW = "DRGW";
 
 }

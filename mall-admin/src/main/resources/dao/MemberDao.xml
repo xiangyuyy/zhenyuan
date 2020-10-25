@@ -43,4 +43,22 @@
     <select id="getAllmajor" resultType="java.lang.String">
         SELECT DISTINCT(A0130) from UsrA01
     </select>
+
+    <select id="getAddReportMemberList" resultMap="BaseResultMap">
+        select m.* from member m LEFT JOIN usra01 u on m.relation_id = u.A0100
+        <where>
+            <if test="shopId != null and shopId !=''">
+                AND (u.B0110 = #{shopId} or m.drug_shop_id = #{shopId})
+            </if>
+            <if test="educationId != null">
+                AND u.a0134 = #{educationId}
+            </if>
+            <if test="drugPositionId != null">
+                AND (m.drug_position_one_id = #{drugPositionId} or m.drug_position_two_id = #{drugPositionId}
+                or m.drug_position_three_id = #{drugPositionId})
+            </if>
+            and m.id not in (SELECT r.member_id from drug_report_member r where r.report_id = #{reportId})
+        </where>
+        order by m.relation_id desc
+    </select>
 </mapper>

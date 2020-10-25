@@ -49,8 +49,9 @@ public class CodeItemServiceImpl implements CodeItemService {
     @Override
     public Codeitem getOneCodeitem(String codesetid, String codeitemid) {
         CodeitemExample codeitemExample = new CodeitemExample();
-        codeitemExample.createCriteria().andCodesetidEqualTo(codesetid);
-        codeitemExample.createCriteria().andCodeitemidEqualTo(codeitemid);
+        CodeitemExample.Criteria criteria = codeitemExample.createCriteria();
+        criteria.andCodesetidEqualTo(codesetid);
+        criteria.andCodeitemidEqualTo(codeitemid);
         List<Codeitem> list = codeitemMapper.selectByExample(codeitemExample);
         if (list.size() >=1){
             return list.get(0);

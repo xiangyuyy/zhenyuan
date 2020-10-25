@@ -13,6 +13,9 @@ public class DrugReportMember implements Serializable {
     @ApiModelProperty(value = "2.0人员id")
     private String memberId;
 
+    @ApiModelProperty(value = "关联1.0人员id")
+    private String relationId;
+
     @ApiModelProperty(value = "药监门店id")
     private String drugShopId;
 
@@ -67,6 +70,14 @@ public class DrugReportMember implements Serializable {
         this.reportId = reportId;
     }
 
+    public String getRelationId() {
+        return relationId;
+    }
+
+    public void setRelationId(String relationId) {
+        this.relationId = relationId;
+    }
+
     public String getMemberId() {
         return memberId;
     }
@@ -74,6 +85,7 @@ public class DrugReportMember implements Serializable {
     public void setMemberId(String memberId) {
         this.memberId = memberId;
     }
+
 
     public String getDrugShopId() {
         return drugShopId;

@@ -7,37 +7,24 @@ import java.util.Date;
 
 
 /**
- * 人员查询
+ * 药监新增人员查询
  * Created by macro on 2018/4/26.
  */
 @Data
-public class MemberListDto {
+public class AddReportMemberListDto {
 
     @ApiModelProperty(value = "人员id")
     private String id;
 
-    @ApiModelProperty(value = "药监门店")
+    @ApiModelProperty(value = "虚拟挂职药店")
     private String drugShopName;
 
     @ApiModelProperty(value = "门店")
     private String shopName;
 
-
-
     @ApiModelProperty(value = "姓名")
     private String name;
 
-    @ApiModelProperty(value = "身份证号码")
-    private String idCard;
-
-    @ApiModelProperty(value = "性别")
-    private String sex;
-
-    @ApiModelProperty(value = "出生年月")
-    private Date birthday;
-
-    @ApiModelProperty(value = "年龄")
-    private Integer age;
 
     @ApiModelProperty(value = "职称")
     private String title;
@@ -58,12 +45,6 @@ public class MemberListDto {
     @ApiModelProperty(value = "药监编制职称")
     private String drugOrg;
 
-    @ApiModelProperty(value = "药监学历")
-    private String drugEducation;
-
-    @ApiModelProperty(value = "药监专业")
-    private String drugMajor;
-
     @ApiModelProperty(value = "职务或岗位1")
     private String drugPositionOne;
 
@@ -72,17 +53,5 @@ public class MemberListDto {
 
     @ApiModelProperty(value = "职务或岗位3")
     private String drugPositionThree;
-
-    @ApiModelProperty(value = "参加专业工作时间")
-    private Date workTime;
-
-    @ApiModelProperty(value = "健康状况：0->不健康；1->健康")
-    private Integer healthStatus;
-
-    @ApiModelProperty(value = "是否继续教育：0->否；1->是")
-    private Integer educationStatus;
-
-    @ApiModelProperty(value = "是否参加培训：0->否；1->是")
-    private Integer trainStatus;
 
 }

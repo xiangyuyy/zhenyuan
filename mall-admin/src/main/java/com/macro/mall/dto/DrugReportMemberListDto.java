@@ -7,14 +7,17 @@ import java.util.Date;
 
 
 /**
- * 人员查询
+ * 药监申报录入表 查询
  * Created by macro on 2018/4/26.
  */
 @Data
-public class MemberListDto {
+public class DrugReportMemberListDto {
+
+    @ApiModelProperty(value = "id")
+    private Long id;
 
     @ApiModelProperty(value = "人员id")
-    private String id;
+    private String memberId;
 
     @ApiModelProperty(value = "药监门店")
     private String drugShopName;

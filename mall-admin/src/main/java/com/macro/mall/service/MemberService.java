@@ -1,10 +1,7 @@
 package com.macro.mall.service;
 
 import com.macro.mall.dao.MemberDao;
-import com.macro.mall.dto.MemberListParam;
-import com.macro.mall.dto.SelectDto;
-import com.macro.mall.dto.UmsAdminParam;
-import com.macro.mall.dto.UpdateAdminPasswordParam;
+import com.macro.mall.dto.*;
 import com.macro.mall.model.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,16 +23,28 @@ public interface MemberService {
      */
     List<Member> getAllMemberList();
 
+    Member getMember(Long id );
+
     List<Organization> getAllOrganizationList();
 
     List<SelectDto> getAllShopName();
 
     List<SelectDto> getAllmajor();
 
-    List<SelectDto> getAllPosition();
+    List<SelectDto> getAllDrugPosition();
 
-    List<MemberDao> changeToDto(List<Member> list);
+    List<SelectDto> getAllDrugTitle();
 
-    int updateMember(Member member);
+    List<SelectDto> getAllDrugOrg();
+
+    List<SelectDto> getItemSelectDtoByType(String type);
+
+    List<SelectDto> getMemberEducation(String relationId);
+
+    List<SelectDto> getMemberMajor(String relationId);
+
+    List<MemberListDto> MemberListToDto(List<Member> list);
+
+    int updateMember(UpdateMemberDto updateMemberDto);
 
 }
