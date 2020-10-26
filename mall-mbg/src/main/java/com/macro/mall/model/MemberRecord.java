@@ -73,7 +73,7 @@ public class MemberRecord implements Serializable {
         this.reportId = reportId;
     }
 
-    public String getRelationI() {
+    public String getRelationId() {
         return relationId;
     }
 
@@ -201,8 +201,8 @@ public class MemberRecord implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", reportId=").append(reportId);
-        sb.append(", memberId=").append(memberId);
         sb.append(", relationId=").append(relationId);
+        sb.append(", memberId=").append(memberId);
         sb.append(", drugShopId=").append(drugShopId);
         sb.append(", drugTitleId=").append(drugTitleId);
         sb.append(", drugOrgId=").append(drugOrgId);

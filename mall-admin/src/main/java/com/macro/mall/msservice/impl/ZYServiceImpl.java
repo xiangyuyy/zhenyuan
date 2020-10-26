@@ -54,6 +54,11 @@ public class ZYServiceImpl implements ZYService {
     }
 
     @Override
+    public List<Organization> getInintOrganization() {
+        return organizationMapper.getInintOrganization();
+    }
+
+    @Override
     public List<Organization> getAllOrganization() {
         OrganizationExample example = new OrganizationExample();
         return organizationMapper.selectByExample(example);
@@ -62,6 +67,12 @@ public class ZYServiceImpl implements ZYService {
     @Override
     public List<Usra01> getAllUsra01() {
         Usra01Example example = new Usra01Example();
+        return ZYUsra01Mapper.selectByExample(example);
+    }
+
+    public List<Usra01> getInintUsra01() {
+        Usra01Example example = new Usra01Example();
+        example.createCriteria().andB0110EqualTo("10208");
         return ZYUsra01Mapper.selectByExample(example);
     }
 

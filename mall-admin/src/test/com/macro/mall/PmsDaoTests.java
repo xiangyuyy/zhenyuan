@@ -68,16 +68,16 @@ public class PmsDaoTests {
 
     @Test
     public void  testInset(){
-        List<Codeitem> list = zyService.getAllCodeItem();
+      /*  List<Codeitem> list = zyService.getAllCodeItem();
         nzyService.insertAllCodeItem(list);
 
-        List<Codeitem> list1 = nzyService.getAllCodeItem();
+        List<Codeitem> list1 = nzyService.getAllCodeItem();*/
 
-        List<Organization> list2 = zyService.getAllOrganization();
+        List<Organization> list2 = zyService.getInintOrganization();
         nzyService.insertAllOrganization(list2);
         List<Organization> list3 = nzyService.getAllOrganization();
 
-        List<Usra01> list4 = zyService.getAllUsra01();
+        List<Usra01> list4 = zyService.getInintUsra01();
         nzyService.insertAllUsra01(list4);
 
         List<Usra01> list5 = nzyService.getAllUsra01();

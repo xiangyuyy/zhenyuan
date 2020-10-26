@@ -235,6 +235,76 @@ public class DrugReportMemberExample {
             return (Criteria) this;
         }
 
+        public Criteria andRelationIdIsNull() {
+            addCriterion("relation_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelationIdIsNotNull() {
+            addCriterion("relation_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelationIdEqualTo(String value) {
+            addCriterion("relation_id =", value, "relationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelationIdNotEqualTo(String value) {
+            addCriterion("relation_id <>", value, "relationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelationIdGreaterThan(String value) {
+            addCriterion("relation_id >", value, "relationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelationIdGreaterThanOrEqualTo(String value) {
+            addCriterion("relation_id >=", value, "relationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelationIdLessThan(String value) {
+            addCriterion("relation_id <", value, "relationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelationIdLessThanOrEqualTo(String value) {
+            addCriterion("relation_id <=", value, "relationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelationIdLike(String value) {
+            addCriterion("relation_id like", value, "relationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelationIdNotLike(String value) {
+            addCriterion("relation_id not like", value, "relationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelationIdIn(List<String> values) {
+            addCriterion("relation_id in", values, "relationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelationIdNotIn(List<String> values) {
+            addCriterion("relation_id not in", values, "relationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelationIdBetween(String value1, String value2) {
+            addCriterion("relation_id between", value1, value2, "relationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andRelationIdNotBetween(String value1, String value2) {
+            addCriterion("relation_id not between", value1, value2, "relationId");
+            return (Criteria) this;
+        }
+
         public Criteria andMemberIdIsNull() {
             addCriterion("member_id is null");
             return (Criteria) this;

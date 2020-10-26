@@ -245,6 +245,76 @@ public class Usra01Example {
             return (Criteria) this;
         }
 
+        public Criteria andA0192IsNull() {
+            addCriterion("A0192 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0192IsNotNull() {
+            addCriterion("A0192 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0192EqualTo(String value) {
+            addCriterion("A0192 =", value, "a0192");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0192NotEqualTo(String value) {
+            addCriterion("A0192 <>", value, "a0192");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0192GreaterThan(String value) {
+            addCriterion("A0192 >", value, "a0192");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0192GreaterThanOrEqualTo(String value) {
+            addCriterion("A0192 >=", value, "a0192");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0192LessThan(String value) {
+            addCriterion("A0192 <", value, "a0192");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0192LessThanOrEqualTo(String value) {
+            addCriterion("A0192 <=", value, "a0192");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0192Like(String value) {
+            addCriterion("A0192 like", value, "a0192");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0192NotLike(String value) {
+            addCriterion("A0192 not like", value, "a0192");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0192In(List<String> values) {
+            addCriterion("A0192 in", values, "a0192");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0192NotIn(List<String> values) {
+            addCriterion("A0192 not in", values, "a0192");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0192Between(String value1, String value2) {
+            addCriterion("A0192 between", value1, value2, "a0192");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0192NotBetween(String value1, String value2) {
+            addCriterion("A0192 not between", value1, value2, "a0192");
+            return (Criteria) this;
+        }
+
         public Criteria andA0111IsNull() {
             addCriterion("A0111 is null");
             return (Criteria) this;
@@ -1325,76 +1395,6 @@ public class Usra01Example {
             return (Criteria) this;
         }
 
-        public Criteria andA0130IsNull() {
-            addCriterion("A0130 is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andA0130IsNotNull() {
-            addCriterion("A0130 is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andA0130EqualTo(String value) {
-            addCriterion("A0130 =", value, "a0130");
-            return (Criteria) this;
-        }
-
-        public Criteria andA0130NotEqualTo(String value) {
-            addCriterion("A0130 <>", value, "a0130");
-            return (Criteria) this;
-        }
-
-        public Criteria andA0130GreaterThan(String value) {
-            addCriterion("A0130 >", value, "a0130");
-            return (Criteria) this;
-        }
-
-        public Criteria andA0130GreaterThanOrEqualTo(String value) {
-            addCriterion("A0130 >=", value, "a0130");
-            return (Criteria) this;
-        }
-
-        public Criteria andA0130LessThan(String value) {
-            addCriterion("A0130 <", value, "a0130");
-            return (Criteria) this;
-        }
-
-        public Criteria andA0130LessThanOrEqualTo(String value) {
-            addCriterion("A0130 <=", value, "a0130");
-            return (Criteria) this;
-        }
-
-        public Criteria andA0130Like(String value) {
-            addCriterion("A0130 like", value, "a0130");
-            return (Criteria) this;
-        }
-
-        public Criteria andA0130NotLike(String value) {
-            addCriterion("A0130 not like", value, "a0130");
-            return (Criteria) this;
-        }
-
-        public Criteria andA0130In(List<String> values) {
-            addCriterion("A0130 in", values, "a0130");
-            return (Criteria) this;
-        }
-
-        public Criteria andA0130NotIn(List<String> values) {
-            addCriterion("A0130 not in", values, "a0130");
-            return (Criteria) this;
-        }
-
-        public Criteria andA0130Between(String value1, String value2) {
-            addCriterion("A0130 between", value1, value2, "a0130");
-            return (Criteria) this;
-        }
-
-        public Criteria andA0130NotBetween(String value1, String value2) {
-            addCriterion("A0130 not between", value1, value2, "a0130");
-            return (Criteria) this;
-        }
-
         public Criteria andA0134IsNull() {
             addCriterion("A0134 is null");
             return (Criteria) this;
@@ -1462,6 +1462,76 @@ public class Usra01Example {
 
         public Criteria andA0134NotBetween(String value1, String value2) {
             addCriterion("A0134 not between", value1, value2, "a0134");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0130IsNull() {
+            addCriterion("A0130 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0130IsNotNull() {
+            addCriterion("A0130 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0130EqualTo(String value) {
+            addCriterion("A0130 =", value, "a0130");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0130NotEqualTo(String value) {
+            addCriterion("A0130 <>", value, "a0130");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0130GreaterThan(String value) {
+            addCriterion("A0130 >", value, "a0130");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0130GreaterThanOrEqualTo(String value) {
+            addCriterion("A0130 >=", value, "a0130");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0130LessThan(String value) {
+            addCriterion("A0130 <", value, "a0130");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0130LessThanOrEqualTo(String value) {
+            addCriterion("A0130 <=", value, "a0130");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0130Like(String value) {
+            addCriterion("A0130 like", value, "a0130");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0130NotLike(String value) {
+            addCriterion("A0130 not like", value, "a0130");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0130In(List<String> values) {
+            addCriterion("A0130 in", values, "a0130");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0130NotIn(List<String> values) {
+            addCriterion("A0130 not in", values, "a0130");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0130Between(String value1, String value2) {
+            addCriterion("A0130 between", value1, value2, "a0130");
+            return (Criteria) this;
+        }
+
+        public Criteria andA0130NotBetween(String value1, String value2) {
+            addCriterion("A0130 not between", value1, value2, "a0130");
             return (Criteria) this;
         }
 

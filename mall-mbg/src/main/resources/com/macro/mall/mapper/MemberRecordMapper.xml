@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.macro.mall.model.MemberRecord">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="report_id" jdbcType="VARCHAR" property="reportId" />
-    <result column="member_id" jdbcType="VARCHAR" property="memberId" />
     <result column="relation_id" jdbcType="VARCHAR" property="relationId" />
+    <result column="member_id" jdbcType="VARCHAR" property="memberId" />
     <result column="drug_shop_id" jdbcType="VARCHAR" property="drugShopId" />
     <result column="drug_title_id" jdbcType="VARCHAR" property="drugTitleId" />
     <result column="drug_org_id" jdbcType="VARCHAR" property="drugOrgId" />
@@ -79,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, report_id, member_id, relation_id,drug_shop_id, drug_title_id, drug_org_id, drug_education_id,
-    drug_major_id, drug_position_one_id, drug_position_two_id, drug_position_three_id, 
+    id, report_id, relation_id, member_id, drug_shop_id, drug_title_id, drug_org_id, 
+    drug_education_id, drug_major_id, drug_position_one_id, drug_position_two_id, drug_position_three_id, 
     work_time, change_reason, operator_id, create_time, modify_time
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.MemberRecordExample" resultMap="BaseResultMap">
@@ -117,18 +117,18 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into member_record (report_id, member_id,relation_id, drug_shop_id,
-      drug_title_id, drug_org_id, drug_education_id, 
-      drug_major_id, drug_position_one_id, drug_position_two_id, 
-      drug_position_three_id, work_time, change_reason, 
-      operator_id, create_time, modify_time
-      )
-    values (#{reportId,jdbcType=VARCHAR}, #{memberId,jdbcType=VARCHAR}, #{drugShopId,jdbcType=VARCHAR}, 
-      #{drugTitleId,jdbcType=VARCHAR}, #{drugOrgId,jdbcType=VARCHAR}, #{drugEducationId,jdbcType=VARCHAR}, 
-      #{drugMajorId,jdbcType=VARCHAR}, #{drugPositionOneId,jdbcType=VARCHAR}, #{drugPositionTwoId,jdbcType=VARCHAR}, 
-      #{drugPositionThreeId,jdbcType=VARCHAR}, #{workTime,jdbcType=TIMESTAMP}, #{changeReason,jdbcType=VARCHAR}, 
-      #{operatorId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
-      )
+    insert into member_record (report_id, relation_id, member_id, 
+      drug_shop_id, drug_title_id, drug_org_id, 
+      drug_education_id, drug_major_id, drug_position_one_id, 
+      drug_position_two_id, drug_position_three_id, 
+      work_time, change_reason, operator_id, 
+      create_time, modify_time)
+    values (#{reportId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, #{memberId,jdbcType=VARCHAR}, 
+      #{drugShopId,jdbcType=VARCHAR}, #{drugTitleId,jdbcType=VARCHAR}, #{drugOrgId,jdbcType=VARCHAR}, 
+      #{drugEducationId,jdbcType=VARCHAR}, #{drugMajorId,jdbcType=VARCHAR}, #{drugPositionOneId,jdbcType=VARCHAR}, 
+      #{drugPositionTwoId,jdbcType=VARCHAR}, #{drugPositionThreeId,jdbcType=VARCHAR}, 
+      #{workTime,jdbcType=TIMESTAMP}, #{changeReason,jdbcType=VARCHAR}, #{operatorId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.MemberRecord">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -139,11 +139,11 @@
       <if test="reportId != null">
         report_id,
       </if>
-      <if test="memberId != null">
-        member_id,
-      </if>
       <if test="relationId != null">
         relation_id,
+      </if>
+      <if test="memberId != null">
+        member_id,
       </if>
       <if test="drugShopId != null">
         drug_shop_id,
@@ -188,6 +188,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="reportId != null">
         #{reportId,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null">
+        #{relationId,jdbcType=VARCHAR},
       </if>
       <if test="memberId != null">
         #{memberId,jdbcType=VARCHAR},
@@ -248,13 +251,12 @@
       <if test="record.reportId != null">
         report_id = #{record.reportId,jdbcType=VARCHAR},
       </if>
-      <if test="record.memberId != null">
-        member_id = #{record.memberId,jdbcType=VARCHAR},
-      </if>
       <if test="record.relationId != null">
         relation_id = #{record.relationId,jdbcType=VARCHAR},
       </if>
-
+      <if test="record.memberId != null">
+        member_id = #{record.memberId,jdbcType=VARCHAR},
+      </if>
       <if test="record.drugShopId != null">
         drug_shop_id = #{record.drugShopId,jdbcType=VARCHAR},
       </if>
@@ -303,8 +305,8 @@
     update member_record
     set id = #{record.id,jdbcType=BIGINT},
       report_id = #{record.reportId,jdbcType=VARCHAR},
-      member_id = #{record.memberId,jdbcType=VARCHAR},
       relation_id = #{record.relationId,jdbcType=VARCHAR},
+      member_id = #{record.memberId,jdbcType=VARCHAR},
       drug_shop_id = #{record.drugShopId,jdbcType=VARCHAR},
       drug_title_id = #{record.drugTitleId,jdbcType=VARCHAR},
       drug_org_id = #{record.drugOrgId,jdbcType=VARCHAR},
@@ -328,11 +330,11 @@
       <if test="reportId != null">
         report_id = #{reportId,jdbcType=VARCHAR},
       </if>
-      <if test="memberId != null">
-        member_id = #{memberId,jdbcType=VARCHAR},
-      </if>
       <if test="relationId != null">
         relation_id = #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberId != null">
+        member_id = #{memberId,jdbcType=VARCHAR},
       </if>
       <if test="drugShopId != null">
         drug_shop_id = #{drugShopId,jdbcType=VARCHAR},
@@ -379,8 +381,8 @@
   <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.MemberRecord">
     update member_record
     set report_id = #{reportId,jdbcType=VARCHAR},
-      member_id = #{memberId,jdbcType=VARCHAR},
       relation_id = #{relationId,jdbcType=VARCHAR},
+      member_id = #{memberId,jdbcType=VARCHAR},
       drug_shop_id = #{drugShopId,jdbcType=VARCHAR},
       drug_title_id = #{drugTitleId,jdbcType=VARCHAR},
       drug_org_id = #{drugOrgId,jdbcType=VARCHAR},

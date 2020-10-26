@@ -11,6 +11,9 @@ public class Usra01 implements Serializable {
     @ApiModelProperty(value = "组织机构id")
     private String b0110;
 
+    @ApiModelProperty(value = "组织机构门店id")
+    private String a0192;
+
     @ApiModelProperty(value = "出生日期")
     private Date a0111;
 
@@ -59,11 +62,11 @@ public class Usra01 implements Serializable {
     @ApiModelProperty(value = "现住址")
     private String a0119;
 
-    @ApiModelProperty(value = "专业")
-    private String a0130;
-
     @ApiModelProperty(value = "最高学历AM")
     private String a0134;
+
+    @ApiModelProperty(value = "专业")
+    private String a0130;
 
     @ApiModelProperty(value = "人员编码")
     private String a0144;
@@ -93,6 +96,14 @@ public class Usra01 implements Serializable {
 
     public void setB0110(String b0110) {
         this.b0110 = b0110;
+    }
+
+    public String getA0192() {
+        return a0192;
+    }
+
+    public void setA0192(String a0192) {
+        this.a0192 = a0192;
     }
 
     public Date getA0111() {
@@ -223,20 +234,20 @@ public class Usra01 implements Serializable {
         this.a0119 = a0119;
     }
 
-    public String getA0130() {
-        return a0130;
-    }
-
-    public void setA0130(String a0130) {
-        this.a0130 = a0130;
-    }
-
     public String getA0134() {
         return a0134;
     }
 
     public void setA0134(String a0134) {
         this.a0134 = a0134;
+    }
+
+    public String getA0130() {
+        return a0130;
+    }
+
+    public void setA0130(String a0130) {
+        this.a0130 = a0130;
     }
 
     public String getA0144() {
@@ -279,6 +290,7 @@ public class Usra01 implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", a0100=").append(a0100);
         sb.append(", b0110=").append(b0110);
+        sb.append(", a0192=").append(a0192);
         sb.append(", a0111=").append(a0111);
         sb.append(", a0141=").append(a0141);
         sb.append(", a0107=").append(a0107);
@@ -295,8 +307,8 @@ public class Usra01 implements Serializable {
         sb.append(", a0142=").append(a0142);
         sb.append(", a0146=").append(a0146);
         sb.append(", a0119=").append(a0119);
-        sb.append(", a0130=").append(a0130);
         sb.append(", a0134=").append(a0134);
+        sb.append(", a0130=").append(a0130);
         sb.append(", a0144=").append(a0144);
         sb.append(", createtime=").append(createtime);
         sb.append(", modtime=").append(modtime);

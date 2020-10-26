@@ -4,6 +4,7 @@ import com.macro.mall.bo.BaseConst;
 import com.macro.mall.dto.MemberListParam;
 import com.macro.mall.dto.SelectDto;
 import com.macro.mall.model.*;
+import com.macro.mall.msdao.ZYOrganizationMapper;
 import com.macro.mall.msservice.TestService;
 import com.macro.mall.msservice.ZYService;
 import com.macro.mall.service.CodeItemService;
@@ -34,6 +35,9 @@ public class MapperTest {
     @Autowired
     DrugReportService drugReportService;
 
+    @Autowired
+    ZYOrganizationMapper zyOrganizationMapper;
+
 
     @Autowired
     ZYService zyService;
@@ -52,10 +56,11 @@ public class MapperTest {
 
     @Test
     public void  testsql1(){
-        List<SelectDto> list = memberService.getAllDrugTitle();
+   /*     List<SelectDto> list = memberService.getAllDrugTitle();
         Long a = new Long(1000000000);
-        Member s = memberService.getMember(a);
-        LOGGER.info(list.toString());
+        Member s = memberService.getMember(a);*/
+        List<Organization> list1 = zyOrganizationMapper.getInintOrganization();
+        LOGGER.info(list1.toString());
     }
 
     @Test

@@ -13,7 +13,11 @@ public interface ZYService {
 
     List<Codeitem> getAllCodeItem();
 
+    List<Organization> getInintOrganization();
+
     List<Organization> getAllOrganization();
+
+    List<Usra01> getInintUsra01();
 
     List<Usra01> getAllUsra01();
 

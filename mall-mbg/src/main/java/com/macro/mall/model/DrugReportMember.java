@@ -10,11 +10,11 @@ public class DrugReportMember implements Serializable {
     @ApiModelProperty(value = "单号")
     private String reportId;
 
-    @ApiModelProperty(value = "2.0人员id")
-    private String memberId;
-
     @ApiModelProperty(value = "关联1.0人员id")
     private String relationId;
+
+    @ApiModelProperty(value = "2.0人员id")
+    private String memberId;
 
     @ApiModelProperty(value = "药监门店id")
     private String drugShopId;
@@ -85,7 +85,6 @@ public class DrugReportMember implements Serializable {
     public void setMemberId(String memberId) {
         this.memberId = memberId;
     }
-
 
     public String getDrugShopId() {
         return drugShopId;
@@ -191,6 +190,7 @@ public class DrugReportMember implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", reportId=").append(reportId);
+        sb.append(", relationId=").append(relationId);
         sb.append(", memberId=").append(memberId);
         sb.append(", drugShopId=").append(drugShopId);
         sb.append(", drugTitleId=").append(drugTitleId);

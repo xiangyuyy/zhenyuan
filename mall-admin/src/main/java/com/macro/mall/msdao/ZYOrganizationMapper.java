@@ -28,4 +28,6 @@ public interface ZYOrganizationMapper {
     int updateByPrimaryKeySelective(Organization record);
 
     int updateByPrimaryKey(Organization record);
+
+    List<Organization> getInintOrganization();
 }
