@@ -1,6 +1,8 @@
 package com.macro.mall.service.impl;
 
 
+import com.github.pagehelper.PageHelper;
+import com.macro.mall.bo.AdminUserDetails;
 import com.macro.mall.bo.BaseConst;
 import com.macro.mall.dao.MemberDao;
 import com.macro.mall.dto.*;
@@ -13,6 +15,10 @@ import io.jsonwebtoken.lang.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -64,14 +70,14 @@ public class DrugReportServiceImpl implements DrugReportService {
     @Override
     public List<Member> getAddDrugReportMemberList(AddReportMemberListParam param) {
         PageUtil.init(param);
-        //PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
         return memberDao.getAddReportMemberList(param);
     }
 
     @Override
     public List<DrugReportMember> getDrugReportMemberList(DrugReportMemberListParam param) {
         PageUtil.init(param);
-        //PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
         DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
         DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
         criteria.andReportIdEqualTo(param.getReportId());
@@ -124,10 +130,14 @@ public class DrugReportServiceImpl implements DrugReportService {
                 dto.setDrugEducation(codeitem.getCodeitemdesc());
             }
 
-            Codeitem codeitemMajor = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI,x.getDrugMajorId());
+            //待确认
+
+           /*      Codeitem codeitemMajor = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI,x.getDrugMajorId());
             if (codeitemMajor != null){//药监专业
                 dto.setDrugMajor(codeitemMajor.getCodeitemdesc());
             }
+*/
+            dto.setDrugMajor(x.getDrugMajorId());
 
             Codeitem drugPositionOne = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW,x.getDrugPositionOneId());
             if (drugPositionOne != null){//岗位1
@@ -201,10 +211,14 @@ public class DrugReportServiceImpl implements DrugReportService {
                 dto.setDrugEducation(codeitem.getCodeitemdesc());
             }
 
-            Codeitem codeitemMajor = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI,x.getDrugMajorId());
+            //待确认
+
+      /*      Codeitem codeitemMajor = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI,x.getDrugMajorId());
             if (codeitemMajor != null){//药监专业
                 dto.setDrugMajor(codeitemMajor.getCodeitemdesc());
             }
+*/
+            dto.setDrugMajor(x.getDrugMajorId());
 
             Codeitem drugPositionOne = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW,x.getDrugPositionOneId());
             if (drugPositionOne != null){//岗位1
@@ -282,7 +296,7 @@ public class DrugReportServiceImpl implements DrugReportService {
             result.add(dto);
         });
 
-        return null;
+        return result;
     }
 
     @Override
@@ -299,9 +313,11 @@ public class DrugReportServiceImpl implements DrugReportService {
         if (organization != null){
             dto.setShopName(organization.getCodeitemdesc());
         }
-        UmsAdmin umsAdmin = umsAdminMapper.selectByPrimaryKey(new Long(drugReport.getOperatorId()));
-        if (umsAdmin != null){
-            dto.setOperatorName(umsAdmin.getUsername());
+        if (!StringUtils.isEmpty(drugReport.getOperatorId())) {
+            UmsAdmin umsAdmin = umsAdminMapper.selectByPrimaryKey(new Long(drugReport.getOperatorId()));
+            if (umsAdmin != null) {
+                dto.setOperatorName(umsAdmin.getUsername());
+            }
         }
         return dto;
     }
@@ -382,23 +398,24 @@ public class DrugReportServiceImpl implements DrugReportService {
     }
 
     @Override
-    public int addDrugReportMember(String reportId, String shopId, List<String> memberIds, String operatorId, Date reportTime) {
-        DrugReport drugReport = drugReportMapper.selectByPrimaryKey(reportId);
+    public int addDrugReportMember(AddReportMemberDto dto) {
+        DrugReport drugReport = drugReportMapper.selectByPrimaryKey(dto.getReportId());
         if (drugReport == null) {
             drugReport = new DrugReport();
-            drugReport.setId(reportId);
+            drugReport.setId(dto.getReportId());
+            drugReport.setShopId(dto.getShopId());
             drugReport.setCheckStatus(-1);
-            drugReport.setOperatorId(operatorId);
-            drugReport.setReportTime(reportTime);
+/*          drugReport.setOperatorId(operatorId);
+            drugReport.setReportTime(reportTime);*/
             int i = drugReportMapper.insertSelective(drugReport);
             if (i == 0) {
                 return -1;
             }
         }
-        for (String x : memberIds) {
+        for (String x : dto.getMemberIds()) {
             DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
             DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
-            criteria.andReportIdEqualTo(reportId);
+            criteria.andReportIdEqualTo(dto.getReportId());
             criteria.andMemberIdEqualTo(x);
             List<DrugReportMember> list = drugReportMemberMapper.selectByExample(drugReportMemberExample);
             if (list.size() == 0) {
@@ -419,7 +436,7 @@ public class DrugReportServiceImpl implements DrugReportService {
                     drugReportMember.setMemberId(x);
                     drugReportMember.setRelationId(member.getRelationId());
          /*           drugReportMember.setWorkTime(member.getWorkTime());*/
-                    drugReportMember.setReportId(reportId);
+                    drugReportMember.setReportId(dto.getReportId());
                     drugReportMemberMapper.insertSelective(drugReportMember);
                 }
             } else {
@@ -449,7 +466,7 @@ public class DrugReportServiceImpl implements DrugReportService {
     }
 
     @Override
-    public int sureDrugReport(String reportId, Date reportTime, String operatorId) {
+    public int sureDrugReport(String reportId, Date reportTime) {
         DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
         DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
         criteria.andReportIdEqualTo(reportId);
@@ -459,7 +476,7 @@ public class DrugReportServiceImpl implements DrugReportService {
         }
         DrugReport drugReport = drugReportMapper.selectByPrimaryKey(reportId);
         drugReport.setReportTime(reportTime);
-        drugReport.setOperatorId(operatorId);
+        drugReport.setOperatorId(getCurrentAdminUser().getUmsAdmin().getId().toString());
         drugReport.setCheckStatus(0);
         return drugReportMapper.updateByPrimaryKeySelective(drugReport);
     }
@@ -468,6 +485,8 @@ public class DrugReportServiceImpl implements DrugReportService {
     public int passDrugReport(String reportId) {
         DrugReport drugReport = drugReportMapper.selectByPrimaryKey(reportId);
         drugReport.setCheckStatus(1);
+        //操作人
+        drugReport.setOperatorId(getCurrentAdminUser().getUmsAdmin().getId().toString());
         drugReportMapper.updateByPrimaryKeySelective(drugReport);
         //保存记录
         DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
@@ -523,5 +542,18 @@ public class DrugReportServiceImpl implements DrugReportService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public AdminUserDetails getCurrentAdminUser() {
+        SecurityContext ctx = SecurityContextHolder.getContext();
+        Authentication auth = ctx.getAuthentication();
+        AdminUserDetails userDetails = (AdminUserDetails) auth.getPrincipal();
+        return userDetails;
+    }
+
+    @Override
+    public DrugReportMember getDrugReportMember(String id) {
+        return drugReportMemberMapper.selectByPrimaryKey(new Long(id));
     }
 }

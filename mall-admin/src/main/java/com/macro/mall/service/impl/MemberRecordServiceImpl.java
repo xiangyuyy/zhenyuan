@@ -10,6 +10,7 @@ import com.macro.mall.dto.UpdateMemberRecordDto;
 import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
 import com.macro.mall.service.CodeItemService;
+import com.macro.mall.service.DrugReportService;
 import com.macro.mall.service.MemberRecordService;
 import com.macro.mall.service.MemberService;
 import com.macro.mall.util.PageUtil;
@@ -42,6 +43,8 @@ public class MemberRecordServiceImpl implements MemberRecordService {
     @Autowired
     private DrugReportMapper drugReportMapper;
 
+    @Autowired
+    private DrugReportService drugReportService;
 
     @Override
     public int updateMemberRecord(UpdateMemberRecordDto updateMemberRecordDto) {
@@ -66,7 +69,8 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         memberRecord.setMemberId(updateMemberRecordDto.getMemberId());
         memberRecord.setRelationId(member.getRelationId());
         memberRecord.setReportId(updateMemberRecordDto.getReportId());
-        memberRecord.setOperatorId("待定");
+
+        memberRecord.setOperatorId(drugReportService.getCurrentAdminUser().getUmsAdmin().getId().toString());
 
         memberRecord.setDrugEducationId(updateMemberRecordDto.getDrugEducationId());
         memberRecord.setWorkTime(updateMemberRecordDto.getWorkTime());
@@ -77,12 +81,38 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         memberRecord.setDrugTitleId(updateMemberRecordDto.getDrugTitleId());
         memberRecord.setDrugShopId(updateMemberRecordDto.getDrugShopId());
         memberRecord.setDrugOrgId(updateMemberRecordDto.getDrugOrgId());
+        memberRecord.setChangeReason(updateMemberRecordDto.getChangeReason());
 
         memberRecordMapper.insertSelective(memberRecord);
 
         //修改审核状态
         DrugReport drugReport = drugReportMapper.selectByPrimaryKey(updateMemberRecordDto.getReportId());
         drugReport.setCheckStatus(1);
+        //操作人
+        drugReport.setOperatorId(drugReportService.getCurrentAdminUser().getUmsAdmin().getId().toString());
         return  drugReportMapper.updateByPrimaryKeySelective(drugReport);
+    }
+
+    @Override
+    public UpdateMemberRecordDto getDrugMemberRecordDto(String id) {
+        DrugReportMember  model = drugReportService.getDrugReportMember(id);
+        if (model == null){
+            return null;
+        }
+
+        UpdateMemberRecordDto member = new UpdateMemberRecordDto();
+        member.setReportId(model.getReportId());
+        member.setMemberId(model.getMemberId());
+
+        member.setDrugEducationId(model.getDrugEducationId());
+        member.setWorkTime(model.getWorkTime());
+        member.setDrugMajorId(model.getDrugMajorId());
+        member.setDrugPositionOneId(model.getDrugPositionOneId());
+        member.setDrugPositionTwoId(model.getDrugPositionTwoId());
+        member.setDrugPositionThreeId(model.getDrugPositionThreeId());
+        member.setDrugTitleId(model.getDrugTitleId());
+        member.setDrugShopId(model.getDrugShopId());
+        member.setDrugOrgId(model.getDrugOrgId());
+        return member;
     }
 }

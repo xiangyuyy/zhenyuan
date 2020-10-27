@@ -16,7 +16,7 @@ public class UpdateMemberRecordDto {
     @ApiModelProperty(value = "单号")
     private String reportId;
 
-    @ApiModelProperty(value = "2.0人员id")
+    @ApiModelProperty(value = "人员id")
     private String memberId;
 
     @ApiModelProperty(value = "药监门店id")

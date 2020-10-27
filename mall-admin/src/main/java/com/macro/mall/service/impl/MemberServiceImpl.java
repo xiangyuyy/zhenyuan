@@ -192,13 +192,22 @@ public class MemberServiceImpl implements MemberService {
         usra04Example.createCriteria().andA0100EqualTo(relationId);
         List<Usra04> list = usra04Mapper.selectByExample(usra04Example);
         list.stream().forEach(x -> {
-            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI, x.getA0410());
+
+            //待确认
+/*            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI, x.getA0410());
             if (codeitem != null) {//专业
                 SelectDto selectDto = new SelectDto();
                 selectDto.setValue(codeitem.getCodeitemid());
                 selectDto.setLabel(codeitem.getCodeitemdesc());
                 dtoList.add(selectDto);
-            }
+            }*/
+
+            SelectDto selectDto = new SelectDto();
+            selectDto.setValue(x.getA0444());
+            selectDto.setLabel(x.getA0444());
+            dtoList.add(selectDto);
+
+
         });
         return dtoList;
     }
@@ -246,10 +255,14 @@ public class MemberServiceImpl implements MemberService {
                 dto.setDrugEducation(codeitem.getCodeitemdesc());
             }
 
-            Codeitem codeitemMajor = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI, x.getDrugMajorId());
-            if (codeitemMajor != null) {//药监专业
+            //待确认
+
+              /*      Codeitem codeitemMajor = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI,x.getDrugMajorId());
+            if (codeitemMajor != null){//药监专业
                 dto.setDrugMajor(codeitemMajor.getCodeitemdesc());
             }
+*/
+            dto.setDrugMajor(x.getDrugMajorId());
 
             Codeitem drugPositionOne = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionOneId());
             if (drugPositionOne != null) {//岗位1

@@ -17,15 +17,15 @@ public class DrugReportListParam extends  ListParam{
     @ApiModelProperty(value = "门店id")
     private String shopId;
 
-    @ApiModelProperty(value = "审核状态：-1->待确定;0->待审核；1->审核通过")
+    @ApiModelProperty(value = "审核状态：-1->待确定（前段不需要）;0->待审核；1->审核通过")
     private Integer checkStatus;
 
     @ApiModelProperty(value = "操作人id")
     private String operatorId;
 
-    @ApiModelProperty(value = "部门申报建立时间开始")
+    @ApiModelProperty(value = "部门申报建立  日期开始")
     private Date reportTimeBegin;
 
-    @ApiModelProperty(value = "部门申报建立时间结束")
+    @ApiModelProperty(value = "部门申报建立  日期结束")
     private Date reportTimeEnd;
 }

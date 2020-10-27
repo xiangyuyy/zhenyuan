@@ -1,5 +1,6 @@
 package com.macro.mall.service;
 
+import com.macro.mall.bo.AdminUserDetails;
 import com.macro.mall.dto.*;
 import com.macro.mall.model.*;
 
@@ -26,7 +27,6 @@ public interface DrugReportService {
 
     List<DrugReportMemberListDto> drugChangeReportMemberListToDto(List<DrugReportMember> list);
 
-
     //药监控制台
     List<DrugReport> getDrugReportList(DrugReportListParam param);
 
@@ -34,13 +34,13 @@ public interface DrugReportService {
 
     DrugReportListDto getDrugReportDto(String id);
 
-    int  addDrugReportMember(String id,String shopId,List<String> memberIds,String operatorIds,Date reportTime);
+    int addDrugReportMember(AddReportMemberDto dto);
 
     int deleteDrugReportMember(String id);
 
     Boolean deleteAllDrugReportMember(String id);
 
-    int sureDrugReport(String reportId, Date reportTime, String operatorId);
+    int sureDrugReport(String reportId, Date reportTime);
 
     int passDrugReport(String reportId);
 
@@ -49,5 +49,9 @@ public interface DrugReportService {
     int addOrUpdateDrugCount(DrugCount drugCount);
 
     Boolean isCanAddReport(String shopId);
+
+    AdminUserDetails getCurrentAdminUser();
+
+    DrugReportMember getDrugReportMember(String id);
 
 }

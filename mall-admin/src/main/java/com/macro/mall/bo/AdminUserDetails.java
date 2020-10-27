@@ -15,6 +15,14 @@ import java.util.stream.Collectors;
  * Created by macro on 2018/4/26.
  */
 public class AdminUserDetails implements UserDetails {
+    public UmsAdmin getUmsAdmin() {
+        return umsAdmin;
+    }
+
+    public void setUmsAdmin(UmsAdmin umsAdmin) {
+        this.umsAdmin = umsAdmin;
+    }
+
     private UmsAdmin umsAdmin;
     private List<UmsResource> resourceList;
     public AdminUserDetails(UmsAdmin umsAdmin,List<UmsResource> resourceList) {

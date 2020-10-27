@@ -1,12 +1,14 @@
 package com.macro.mall.util;
 
+import com.macro.mall.model.DrugCount;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DrugCountUtil {
-    public static Map getResult(int subjection, int chineseMedicine, int longRange, BigDecimal area) {
-        HashMap<String, Integer> map = new HashMap<String, Integer>();
+    public static DrugCount getResult(int subjection, int chineseMedicine, int longRange, BigDecimal area) {
+        DrugCount drugCount = new DrugCount();
         int praPharmacist = 0;//执业药师
         int praChinesePharmacist = 0;//执业中药师
         int pharmacist = 0;//药师
@@ -160,11 +162,16 @@ public class DrugCountUtil {
                 }
             }
         }
+        drugCount.setArea(area);
+        drugCount.setChineseMedicine(chineseMedicine);
+        drugCount.setLongRange(longRange);
+        drugCount.setSubjection(subjection);
 
-        map.put("praPharmacist",praPharmacist);
-        map.put("praChinesePharmacist",praChinesePharmacist);
-        map.put("pharmacist",pharmacist);
-        map.put("mechanic",mechanic);
-        return map;
+        drugCount.setPharmacist(pharmacist);
+        drugCount.setPraPharmacist(praPharmacist);
+        drugCount.setPraChinesePharmacist(praChinesePharmacist);
+        drugCount.setMechanic(mechanic);
+
+        return drugCount;
     }
 }

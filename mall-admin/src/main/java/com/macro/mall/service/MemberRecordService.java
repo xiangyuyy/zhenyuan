@@ -17,4 +17,6 @@ import java.util.List;
 public interface MemberRecordService {
 
     int updateMemberRecord(UpdateMemberRecordDto updateMemberRecordDto);
+
+    UpdateMemberRecordDto getDrugMemberRecordDto(String id);
 }

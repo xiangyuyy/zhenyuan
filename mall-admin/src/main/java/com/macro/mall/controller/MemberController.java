@@ -11,6 +11,7 @@ import com.macro.mall.service.UmsMenuService;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -57,9 +58,12 @@ public class MemberController {
 
 
     @ApiOperation("修改指定人员信息")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult update(@PathVariable String id, @RequestBody UpdateMemberDto updateMemberDto) {
+    public CommonResult update(@RequestBody UpdateMemberDto updateMemberDto) {
+        if (StringUtils.isEmpty(updateMemberDto.getId())){
+            CommonResult.failed("Id不能为空");
+        }
         int count = memberService.updateMember(updateMemberDto);
         if (count == -1){
             return CommonResult.failed("没有找到定人员信息");
