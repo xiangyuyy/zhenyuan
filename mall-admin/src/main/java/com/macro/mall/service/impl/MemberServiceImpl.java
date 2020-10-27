@@ -4,10 +4,7 @@ package com.macro.mall.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.macro.mall.bo.BaseConst;
 import com.macro.mall.dao.MemberDao;
-import com.macro.mall.dto.MemberListDto;
-import com.macro.mall.dto.MemberListParam;
-import com.macro.mall.dto.SelectDto;
-import com.macro.mall.dto.UpdateMemberDto;
+import com.macro.mall.dto.*;
 import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
 import com.macro.mall.service.CodeItemService;
@@ -56,7 +53,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<Member> getMemberList(MemberListParam param) {
         PageUtil.init(param);
-        //PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
         return memberDao.getMemberList(param);
     }
 
@@ -64,6 +61,17 @@ public class MemberServiceImpl implements MemberService {
     public List<Member> getAllMemberList() {
         MemberExample memberExample = new MemberExample();
         return memberMapper.selectByExample(memberExample);
+    }
+
+    @Override
+    public List<DepartmentDto> getAllDepartment() {
+        List<Organization> list = getAllOrganizationList();
+        List<DepartmentDto> result = new ArrayList<>();
+        list.stream().forEach(x -> {
+            DepartmentDto dto = new DepartmentDto(x.getCodeitemid(), x.getCodeitemdesc(), x.getParentid());
+            result.add(dto);
+        });
+        return getThree(result,"102");
     }
 
     @Override
@@ -86,7 +94,7 @@ public class MemberServiceImpl implements MemberService {
     public List<SelectDto> getAllmajor() {
         List<String> list = memberDao.getAllmajor();
         List<SelectDto> dtoList = new ArrayList<>();
-        list.stream().forEach(x->{
+        list.stream().forEach(x -> {
             SelectDto selectDto = new SelectDto();
             selectDto.setValue(x);
             selectDto.setLabel(x);
@@ -114,7 +122,7 @@ public class MemberServiceImpl implements MemberService {
     public List<SelectDto> getItemSelectDtoByType(String type) {
         List<Codeitem> list = codeItemService.getCodeitemBySetId(type);
         List<SelectDto> dtoList = new ArrayList<>();
-        list.stream().forEach(x->{
+        list.stream().forEach(x -> {
             SelectDto selectDto = new SelectDto();
             selectDto.setValue(x.getCodeitemid());
             selectDto.setLabel(x.getCodeitemdesc());
@@ -129,9 +137,9 @@ public class MemberServiceImpl implements MemberService {
         Usra04Example usra04Example = new Usra04Example();
         usra04Example.createCriteria().andA0100EqualTo(relationId);
         List<Usra04> list = usra04Mapper.selectByExample(usra04Example);
-        list.stream().forEach(x->{
-            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM,x.getA0405());
-            if (codeitem != null){//最高学历
+        list.stream().forEach(x -> {
+            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, x.getA0405());
+            if (codeitem != null) {//最高学历
                 SelectDto selectDto = new SelectDto();
                 selectDto.setValue(codeitem.getCodeitemid());
                 selectDto.setLabel(codeitem.getCodeitemdesc());
@@ -147,9 +155,9 @@ public class MemberServiceImpl implements MemberService {
         Usra04Example usra04Example = new Usra04Example();
         usra04Example.createCriteria().andA0100EqualTo(relationId);
         List<Usra04> list = usra04Mapper.selectByExample(usra04Example);
-        list.stream().forEach(x->{
-            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI,x.getA0410());
-            if (codeitem != null){//专业
+        list.stream().forEach(x -> {
+            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI, x.getA0410());
+            if (codeitem != null) {//专业
                 SelectDto selectDto = new SelectDto();
                 selectDto.setValue(codeitem.getCodeitemid());
                 selectDto.setLabel(codeitem.getCodeitemdesc());
@@ -162,28 +170,28 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<MemberListDto> MemberListToDto(List<Member> list) {
         List<MemberListDto> daoList = new ArrayList<>();
-        list.stream().forEach(x->{
-            MemberListDto dto =  new MemberListDto();
+        list.stream().forEach(x -> {
+            MemberListDto dto = new MemberListDto();
             dto.setId(x.getId().toString());
             Usra01 usra01 = usra01Mapper.selectByPrimaryKey(x.getRelationId());
-            if(usra01 != null){
+            if (usra01 != null) {
                 dto.setAge(usra01.getA0112());
                 dto.setBirthday(usra01.getA0111());
                 dto.setMajor(usra01.getA0130());
-                Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM,usra01.getA0134());
-                if (codeitem != null){//最高学历
+                Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, usra01.getA0134());
+                if (codeitem != null) {//最高学历
                     dto.setEducation(codeitem.getCodeitemdesc());
                 }
                 dto.setIdCard(usra01.getA0177());
                 dto.setTitle("待定");
                 dto.setTitleTime(null);
                 dto.setName(usra01.getA0101());
-                Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX,usra01.getA0107());
-                if (codeitemSex != null){
+                Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX, usra01.getA0107());
+                if (codeitemSex != null) {
                     dto.setSex(codeitemSex.getCodeitemdesc());
                 }
                 Organization organization = organizationMapper.selectByPrimaryKey(usra01.getA0192());
-                if (organization != null){
+                if (organization != null) {
                     dto.setShopName(organization.getCodeitemdesc());
                 }
             }
@@ -193,40 +201,40 @@ public class MemberServiceImpl implements MemberService {
             dto.setTrainStatus(x.getTrainStatus());
             dto.setHealthStatus(x.getHealthStatus());
             Organization organization = organizationMapper.selectByPrimaryKey(x.getDrugShopId());
-            if (organization != null){
+            if (organization != null) {
                 dto.setDrugShopName(organization.getCodeitemdesc());
             }
 
-            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM,x.getDrugEducationId());
-            if (codeitem != null){//药监学历
+            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, x.getDrugEducationId());
+            if (codeitem != null) {//药监学历
                 dto.setDrugEducation(codeitem.getCodeitemdesc());
             }
 
-            Codeitem codeitemMajor = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI,x.getDrugMajorId());
-            if (codeitemMajor != null){//药监专业
+            Codeitem codeitemMajor = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI, x.getDrugMajorId());
+            if (codeitemMajor != null) {//药监专业
                 dto.setDrugMajor(codeitemMajor.getCodeitemdesc());
             }
 
-            Codeitem drugPositionOne = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW,x.getDrugPositionOneId());
-            if (drugPositionOne != null){//岗位1
+            Codeitem drugPositionOne = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionOneId());
+            if (drugPositionOne != null) {//岗位1
                 dto.setDrugPositionOne(drugPositionOne.getCodeitemdesc());
             }
-            Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW,x.getDrugPositionTwoId());
-            if (drugPositionTwo != null){//岗位2
+            Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionTwoId());
+            if (drugPositionTwo != null) {//岗位2
                 dto.setDrugPositionTwo(drugPositionTwo.getCodeitemdesc());
             }
-            Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW,x.getDrugPositionThreeId());
-            if (drugPositionThree != null){//岗位3
+            Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionThreeId());
+            if (drugPositionThree != null) {//岗位3
                 dto.setDrugPositionThree(drugPositionThree.getCodeitemdesc());
             }
 
-            Codeitem drugOrg = codeItemService.getOneCodeitem(BaseConst.DRUG_BZZC,x.getDrugOrgId());
-            if (drugOrg != null){//药监编制职称
+            Codeitem drugOrg = codeItemService.getOneCodeitem(BaseConst.DRUG_BZZC, x.getDrugOrgId());
+            if (drugOrg != null) {//药监编制职称
                 dto.setDrugOrg(drugOrg.getCodeitemdesc());
             }
 
-            Codeitem drugTitle = codeItemService.getOneCodeitem(BaseConst.DRUG_SBZC,x.getDrugTitleId());
-            if (drugTitle != null){//药监上报职称
+            Codeitem drugTitle = codeItemService.getOneCodeitem(BaseConst.DRUG_SBZC, x.getDrugTitleId());
+            if (drugTitle != null) {//药监上报职称
                 dto.setDrugTitle(drugTitle.getCodeitemdesc());
             }
             daoList.add(dto);
@@ -238,7 +246,7 @@ public class MemberServiceImpl implements MemberService {
     public int updateMember(UpdateMemberDto updateMemberDto) {
 
         Member member = memberMapper.selectByPrimaryKey(new Long(updateMemberDto.getId()));
-        if (member == null){
+        if (member == null) {
             return -1;
         }
         member.setDrugEducationId(updateMemberDto.getDrugEducationId());
@@ -251,5 +259,24 @@ public class MemberServiceImpl implements MemberService {
         member.setDrugShopId(updateMemberDto.getDrugShopId());
         member.setDrugOrgId(updateMemberDto.getDrugOrgId());
         return memberMapper.updateByPrimaryKeySelective(member);
+    }
+
+    private static List<DepartmentDto> getThree(List<DepartmentDto> list,String parentId){
+        //获取所有子节点
+        List<DepartmentDto> childTreeList = getChildTree(list,parentId);
+        for (DepartmentDto dept:childTreeList) {
+            dept.setChildren(getThree(list,dept.getId()));
+        }
+        return childTreeList;
+    }
+
+    private static List<DepartmentDto> getChildTree(List<DepartmentDto> list,String id){
+        List<DepartmentDto> childTree = new ArrayList<>();
+        for (DepartmentDto dept:list) {
+            if(dept.getParentId().equals(id)){
+                childTree.add(dept);
+            }
+        }
+        return childTree;
     }
 }

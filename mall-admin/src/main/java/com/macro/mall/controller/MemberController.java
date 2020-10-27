@@ -2,6 +2,7 @@ package com.macro.mall.controller;
 
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
+import com.macro.mall.dto.DepartmentDto;
 import com.macro.mall.dto.MemberListDto;
 import com.macro.mall.dto.MemberListParam;
 import com.macro.mall.dto.UmsMenuNode;
@@ -28,6 +29,14 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
+
+    @ApiOperation("组织机构")
+    @RequestMapping(value = "/getAllDepartment", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<DepartmentDto>> list() {
+        List<DepartmentDto> result = memberService.getAllDepartment();
+        return CommonResult.success(result);
+    }
 
     @ApiOperation("人员管理列表")
     @RequestMapping(value = "/getMemberList", method = RequestMethod.GET)

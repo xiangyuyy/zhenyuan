@@ -1,4 +1,3 @@
-/*
 package com.macro.mall.security.config;
 
 import com.macro.mall.security.component.*;
@@ -18,12 +17,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/*
 
-*/
-/**
- * 对SpringSecurity的配置的扩展，支持自定义白名单资源路径和查询用户逻辑
- * Created by macro on 2019/11/5.
- *//*
+ 对SpringSecurity的配置的扩展，支持自定义白名单资源路径和查询用户逻辑
+ Created by macro on 2019/11/5.*/
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -128,4 +125,3 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 }
-*/

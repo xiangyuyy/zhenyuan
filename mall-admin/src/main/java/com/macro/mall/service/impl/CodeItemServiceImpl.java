@@ -1,17 +1,12 @@
 package com.macro.mall.service.impl;
 
 
-import com.macro.mall.dao.MemberDao;
-import com.macro.mall.dto.MemberListParam;
 import com.macro.mall.mapper.CodeitemMapper;
-import com.macro.mall.mapper.MemberMapper;
 import com.macro.mall.model.Codeitem;
 import com.macro.mall.model.CodeitemExample;
-import com.macro.mall.model.Member;
-import com.macro.mall.model.MemberExample;
 import com.macro.mall.service.CodeItemService;
-import com.macro.mall.service.MemberService;
-import com.macro.mall.util.PageUtil;
+import com.macro.mall.util.HelpUtil;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,9 +48,36 @@ public class CodeItemServiceImpl implements CodeItemService {
         criteria.andCodesetidEqualTo(codesetid);
         criteria.andCodeitemidEqualTo(codeitemid);
         List<Codeitem> list = codeitemMapper.selectByExample(codeitemExample);
-        if (list.size() >=1){
+        if (list.size() >= 1) {
             return list.get(0);
         }
         return null;
+    }
+
+    @Override
+    public Boolean addOrUpdateItem(String codesetid, String codeitemid, String codeitemdesc) {
+        if (StringUtils.isEmpty(codeitemid)) {
+            Codeitem codeitem1 = new Codeitem();
+            codeitem1.setCodesetid(codesetid);
+            codeitem1.setCodeitemid(String.valueOf(HelpUtil.getReportNum()));
+            codeitem1.setCodeitemdesc(codeitemdesc);
+            int i = codeitemMapper.insertSelective(codeitem1);
+            if (i <= 0) {
+                return false;
+            }
+            return true;
+        }
+        Codeitem codeitem = getOneCodeitem(codesetid, codeitemid);
+        if (codeitem == null){
+            return false;
+        }
+        codeitem.setCodeitemdesc(codeitemdesc);
+        CodeitemExample codeitemExample = new CodeitemExample();
+        codeitemExample.createCriteria().andCodeitemidEqualTo(codeitemid);
+        int i = codeitemMapper.updateByExampleSelective(codeitem,codeitemExample);
+        if (i <= 0) {
+            return false;
+        }
+        return true;
     }
 }

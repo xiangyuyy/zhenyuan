@@ -43,9 +43,9 @@ public class PmsDaoTests {
     @Test
     public void  testMember(){
         MemberListParam param  = new MemberListParam();
-        param.setMajor("药学");
+ /*       param.setMajor("药学");
         param.setShopId("10301");
-        param.setName("陈伟");
+        param.setName("陈伟");*/
         List<Member> list = memberService.getMemberList(param);
 
         List<MemberListDto> list1 = memberService.MemberListToDto(list);
@@ -68,12 +68,12 @@ public class PmsDaoTests {
 
     @Test
     public void  testInset(){
-      /*  List<Codeitem> list = zyService.getAllCodeItem();
+        List<Codeitem> list = zyService.getAllCodeItem();
         nzyService.insertAllCodeItem(list);
 
-        List<Codeitem> list1 = nzyService.getAllCodeItem();*/
+        List<Codeitem> list1 = nzyService.getAllCodeItem();
 
-        List<Organization> list2 = zyService.getInintOrganization();
+      /*  List<Organization> list2 = zyService.getInintOrganization();
         nzyService.insertAllOrganization(list2);
         List<Organization> list3 = nzyService.getAllOrganization();
 
@@ -81,9 +81,9 @@ public class PmsDaoTests {
         nzyService.insertAllUsra01(list4);
 
         List<Usra01> list5 = nzyService.getAllUsra01();
-        List<Member> list6 = memberService.getAllMemberList();
+        List<Member> list6 = memberService.getAllMemberList();*/
 
 
-        LOGGER.info(list5.toString());
+        LOGGER.info("1212");
     }
 }

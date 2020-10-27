@@ -1,6 +1,9 @@
 package com.macro.mall;
 
+import cn.hutool.json.JSONUtil;
+import com.alibaba.druid.support.json.JSONParser;
 import com.macro.mall.bo.BaseConst;
+import com.macro.mall.dto.DepartmentDto;
 import com.macro.mall.dto.MemberListParam;
 import com.macro.mall.dto.SelectDto;
 import com.macro.mall.model.*;
@@ -18,6 +21,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import springfox.documentation.spring.web.json.Json;
+import springfox.documentation.spring.web.json.JsonSerializer;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -47,6 +52,25 @@ public class MapperTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(MapperTest.class);
 
     @Test
+    public void  testItem(){
+        List<Codeitem> list = codeItemService.getAllCodeitem();
+/*        codeItemService.addOrUpdateItem(BaseConst.DRUG_DRGW,null,"岗位1");
+        codeItemService.addOrUpdateItem(BaseConst.DRUG_DRGW,null,"岗位2");
+        codeItemService.addOrUpdateItem(BaseConst.DRUG_DRGW,null,"岗位3");
+
+        codeItemService.addOrUpdateItem(BaseConst.DRUG_BZZC,null,"药监编制职称1");
+        codeItemService.addOrUpdateItem(BaseConst.DRUG_BZZC,null,"药监编制职称2");
+        codeItemService.addOrUpdateItem(BaseConst.DRUG_BZZC,null,"药监编制职称3");
+
+        codeItemService.addOrUpdateItem(BaseConst.DRUG_SBZC,null,"药监上报职称1");
+        codeItemService.addOrUpdateItem(BaseConst.DRUG_SBZC,null,"药监上报职称2");
+        codeItemService.addOrUpdateItem(BaseConst.DRUG_SBZC,null,"药监上报职称3");*/
+        codeItemService.addOrUpdateItem(BaseConst.DRUG_SBZC,"1603771870894","药监上报职称33");
+
+        LOGGER.info(list.toString());
+    }
+
+    @Test
     public void  testsql(){
         List<Codeitem> list = codeItemService.getAllCodeitem();
         List<Codeitem> list1 = codeItemService.getCodeitemBySetId(BaseConst.MEMBER_AX);
@@ -60,7 +84,9 @@ public class MapperTest {
         Long a = new Long(1000000000);
         Member s = memberService.getMember(a);*/
         List<Organization> list1 = zyOrganizationMapper.getInintOrganization();
-        LOGGER.info(list1.toString());
+        List<DepartmentDto> list2 = memberService.getAllDepartment();
+
+        LOGGER.info(JSONUtil.parseArray(list2).toString());
     }
 
     @Test

@@ -1,4 +1,3 @@
-/*
 package com.macro.mall.security.component;
 
 import com.macro.mall.security.util.JwtTokenUtil;
@@ -19,12 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-*/
 /**
  * JWT登录授权过滤器
  * Created by macro on 2018/4/26.
- *//*
-
+ */
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthenticationTokenFilter.class);
     @Autowired
@@ -58,4 +55,3 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         chain.doFilter(request, response);
     }
 }
-*/

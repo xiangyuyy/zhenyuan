@@ -23,6 +23,8 @@ public interface MemberService {
      */
     List<Member> getAllMemberList();
 
+    List<DepartmentDto> getAllDepartment();
+
     Member getMember(Long id );
 
     List<Organization> getAllOrganizationList();

@@ -26,5 +26,7 @@ public interface CodeItemService {
      */
     Codeitem getOneCodeitem(String codesetid,String codeitemid);
 
+    Boolean addOrUpdateItem(String codesetid, String codeitemid, String codeitemdesc);
+
 
 }
