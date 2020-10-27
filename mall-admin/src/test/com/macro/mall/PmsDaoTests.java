@@ -68,10 +68,10 @@ public class PmsDaoTests {
 
     @Test
     public void  testInset(){
-        List<Codeitem> list = zyService.getAllCodeItem();
+      /*  List<Codeitem> list = zyService.getAllCodeItem();
         nzyService.insertAllCodeItem(list);
 
-        List<Codeitem> list1 = nzyService.getAllCodeItem();
+        List<Codeitem> list1 = nzyService.getAllCodeItem();*/
 
       /*  List<Organization> list2 = zyService.getInintOrganization();
         nzyService.insertAllOrganization(list2);
@@ -82,6 +82,9 @@ public class PmsDaoTests {
 
         List<Usra01> list5 = nzyService.getAllUsra01();
         List<Member> list6 = memberService.getAllMemberList();*/
+
+      /*  List<Usra04> list7 = zyService.getAllUsra04();
+        nzyService.insertAllUsra04(list7);*/
 
 
         LOGGER.info("1212");

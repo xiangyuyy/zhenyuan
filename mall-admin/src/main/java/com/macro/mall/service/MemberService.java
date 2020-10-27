@@ -25,7 +25,9 @@ public interface MemberService {
 
     List<DepartmentDto> getAllDepartment();
 
-    Member getMember(Long id );
+    Member getMember(String id );
+
+    UpdateMemberDto getUpdateMember(String id );
 
     List<Organization> getAllOrganizationList();
 
@@ -41,9 +43,9 @@ public interface MemberService {
 
     List<SelectDto> getItemSelectDtoByType(String type);
 
-    List<SelectDto> getMemberEducation(String relationId);
+    List<SelectDto> getMemberEducation(String id);
 
-    List<SelectDto> getMemberMajor(String relationId);
+    List<SelectDto> getMemberMajor(String id);
 
     List<MemberListDto> MemberListToDto(List<Member> list);
 

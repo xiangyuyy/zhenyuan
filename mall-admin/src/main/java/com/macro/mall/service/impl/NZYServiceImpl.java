@@ -149,6 +149,7 @@ public class NZYServiceImpl implements NZYService {
         return true;
     }
 
+    @Transactional
     @Override
     public Boolean insertAllUsra04(List<Usra04> list) {
         try {
@@ -161,6 +162,7 @@ public class NZYServiceImpl implements NZYService {
         return true;
     }
 
+    @Transactional
     @Override
     public Boolean insertAllUsra22(List<Usra22> list) {
         try {
@@ -197,6 +199,7 @@ public class NZYServiceImpl implements NZYService {
         return true;
     }
 
+    @Transactional
     @Override
     public Boolean insertAllUsra66(List<Usra66> list) {
         try {
@@ -209,6 +212,7 @@ public class NZYServiceImpl implements NZYService {
         return true;
     }
 
+    @Transactional
     @Override
     public Boolean insertAllUsra71(List<Usra71> list) {
         try {

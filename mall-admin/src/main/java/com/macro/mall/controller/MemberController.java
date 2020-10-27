@@ -2,14 +2,13 @@ package com.macro.mall.controller;
 
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
-import com.macro.mall.dto.DepartmentDto;
-import com.macro.mall.dto.MemberListDto;
-import com.macro.mall.dto.MemberListParam;
-import com.macro.mall.dto.UmsMenuNode;
+import com.macro.mall.dto.*;
 import com.macro.mall.model.Member;
 import com.macro.mall.model.UmsMenu;
+import com.macro.mall.model.UmsRole;
 import com.macro.mall.service.MemberService;
 import com.macro.mall.service.UmsMenuService;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +42,79 @@ public class MemberController {
     @ResponseBody
     public CommonResult<CommonPage<MemberListDto>> list(MemberListParam param) {
         List<Member> list = memberService.getMemberList(param);
-        List<MemberListDto> result = memberService.MemberListToDto(list);
-        return CommonResult.success(CommonPage.restPage(result));
+        CommonPage commonPage = CommonPage.restPage(list);
+        commonPage.setList(memberService.MemberListToDto(list));
+        return CommonResult.success(commonPage);
     }
 
+    @ApiOperation("获取指定人员信息")
+    @RequestMapping(value = "/member/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<UpdateMemberDto> getUpdateMember(@PathVariable String id) {
+        UpdateMemberDto dto = memberService.getUpdateMember(id);
+        return CommonResult.success(dto);
+    }
+
+
+    @ApiOperation("修改指定人员信息")
+    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult update(@PathVariable String id, @RequestBody UpdateMemberDto updateMemberDto) {
+        int count = memberService.updateMember(updateMemberDto);
+        if (count == -1){
+            return CommonResult.failed("没有找到定人员信息");
+        }
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
+    @ApiOperation("获取人员搜索中的门店(人员修改的药监门店)下拉框取值")
+    @RequestMapping(value = "/getShopSelect", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SelectDto>> getShopSelect() {
+        List<SelectDto> dto = memberService.getAllShopName();
+        return CommonResult.success(dto);
+    }
+
+    @ApiOperation("获取人员搜索中专业的下拉框取值")
+    @RequestMapping(value = "/getMajorSelect", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SelectDto>> getAllmajor() {
+        List<SelectDto> dto = memberService.getAllmajor();
+        return CommonResult.success(dto);
+    }
+
+    @ApiOperation("获取人员修改中药监上报职称下拉框取值")
+    @RequestMapping(value = "/getDrugTitleSelect", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SelectDto>> getAllDrugTitle() {
+        List<SelectDto> dto = memberService.getAllDrugTitle();
+        return CommonResult.success(dto);
+    }
+
+    @ApiOperation("获取人员修改中药监编制职称下拉框取值")
+    @RequestMapping(value = "/getDrugOrgSelect", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SelectDto>> getAllDrugOrg() {
+        List<SelectDto> dto = memberService.getAllDrugOrg();
+        return CommonResult.success(dto);
+    }
+
+    @ApiOperation("获取人员修改中药监学历下拉框取值")
+    @RequestMapping(value = "/getMemberEducation/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SelectDto>> getAllmajor(@PathVariable String id) {
+        List<SelectDto> dto = memberService.getMemberEducation(id);
+        return CommonResult.success(dto);
+    }
+
+    @ApiOperation("获取人员修改中药监专业下拉框取值")
+    @RequestMapping(value = "/getMemberMajor/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SelectDto>> getMemberMajor(@PathVariable String id) {
+        List<SelectDto> dto = memberService.getMemberMajor(id);
+        return CommonResult.success(dto);
+    }
 }

@@ -75,9 +75,30 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member getMember(Long id) {
-        return memberMapper.selectByPrimaryKey(id);
+    public Member getMember(String id) {
+        return memberMapper.selectByPrimaryKey(new Long(id));
     }
+
+    @Override
+    public UpdateMemberDto getUpdateMember(String id) {
+        Member model  = getMember(id);
+        if (model == null){
+            return null;
+        }
+        UpdateMemberDto member = new UpdateMemberDto();
+        member.setId(model.getId().toString());
+        member.setDrugEducationId(model.getDrugEducationId());
+        member.setWorkTime(model.getWorkTime());
+        member.setDrugMajorId(model.getDrugMajorId());
+        member.setDrugPositionOneId(model.getDrugPositionOneId());
+        member.setDrugPositionTwoId(model.getDrugPositionTwoId());
+        member.setDrugPositionThreeId(model.getDrugPositionThreeId());
+        member.setDrugTitleId(model.getDrugTitleId());
+        member.setDrugShopId(model.getDrugShopId());
+        member.setDrugOrgId(model.getDrugOrgId());
+        return member;
+    }
+
 
     @Override
     public List<Organization> getAllOrganizationList() {
@@ -87,7 +108,20 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<SelectDto> getAllShopName() {
-        return null;
+        List<Organization> list = getAllOrganizationList();
+        List<SelectDto> dtoList = new ArrayList<>();
+        list.stream().forEach(x->{
+            if (x.getCodeitemid().length() >= 9) {
+                if (x.getCodeitemid().substring(0, 9).equals("102080202") || x.getCodeitemid().substring(0, 9).equals("102080203")
+                        || x.getCodeitemid().substring(0, 9).equals("102080201")) {
+                    SelectDto selectDto = new SelectDto();
+                    selectDto.setValue(x.getCodeitemid());
+                    selectDto.setLabel(x.getCodeitemdesc());
+                    dtoList.add(selectDto);
+                }
+            }
+        });
+        return dtoList;
     }
 
     @Override
@@ -132,7 +166,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<SelectDto> getMemberEducation(String relationId) {
+    public List<SelectDto> getMemberEducation(String id) {
+        String relationId = getMember(id).getRelationId();
         List<SelectDto> dtoList = new ArrayList<>();
         Usra04Example usra04Example = new Usra04Example();
         usra04Example.createCriteria().andA0100EqualTo(relationId);
@@ -150,7 +185,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<SelectDto> getMemberMajor(String relationId) {
+    public List<SelectDto> getMemberMajor(String id) {
+        String relationId = getMember(id).getRelationId();
         List<SelectDto> dtoList = new ArrayList<>();
         Usra04Example usra04Example = new Usra04Example();
         usra04Example.createCriteria().andA0100EqualTo(relationId);
