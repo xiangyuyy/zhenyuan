@@ -1,9 +1,6 @@
 package com.macro.mall.service;
 
-import com.macro.mall.dto.MemberListDto;
-import com.macro.mall.dto.MemberListParam;
-import com.macro.mall.dto.SelectDto;
-import com.macro.mall.dto.UpdateMemberRecordDto;
+import com.macro.mall.dto.*;
 import com.macro.mall.model.Member;
 import com.macro.mall.model.MemberRecord;
 import com.macro.mall.model.Organization;
@@ -19,4 +16,10 @@ public interface MemberRecordService {
     int updateMemberRecord(UpdateMemberRecordDto updateMemberRecordDto);
 
     UpdateMemberRecordDto getDrugMemberRecordDto(String id);
+
+    //变更历史
+    List<MemberRecord> getMemberRecordList(MemberRecordListParam param);
+
+    List<MemberRecordListDto> memberRecordListToDto(List<MemberRecord> list);
+
 }

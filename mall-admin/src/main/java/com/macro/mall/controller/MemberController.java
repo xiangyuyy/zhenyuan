@@ -114,6 +114,14 @@ public class MemberController {
         return CommonResult.success(dto);
     }
 
+    @ApiOperation("获取人员修改中岗位（搜索中的职务）下拉框取值")
+    @RequestMapping(value = "/getDrugPosition", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SelectDto>> getDrugPosition() {
+        List<SelectDto> dto = memberService.getAllDrugPosition();
+        return CommonResult.success(dto);
+    }
+
     @ApiOperation("获取人员修改中药监专业下拉框取值")
     @RequestMapping(value = "/getMemberMajor/{id}", method = RequestMethod.GET)
     @ResponseBody

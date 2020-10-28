@@ -49,6 +49,8 @@ public interface MemberService {
 
     List<MemberListDto> MemberListToDto(List<Member> list);
 
+    MemberListDto  getMemberToDto(String id);
+
     int updateMember(UpdateMemberDto updateMemberDto);
 
 }

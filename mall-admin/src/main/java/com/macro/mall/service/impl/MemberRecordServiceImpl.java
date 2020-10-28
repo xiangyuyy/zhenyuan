@@ -1,12 +1,10 @@
 package com.macro.mall.service.impl;
 
 
+import com.github.pagehelper.PageHelper;
 import com.macro.mall.bo.BaseConst;
 import com.macro.mall.dao.MemberDao;
-import com.macro.mall.dto.MemberListDto;
-import com.macro.mall.dto.MemberListParam;
-import com.macro.mall.dto.SelectDto;
-import com.macro.mall.dto.UpdateMemberRecordDto;
+import com.macro.mall.dto.*;
 import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
 import com.macro.mall.service.CodeItemService;
@@ -45,6 +43,18 @@ public class MemberRecordServiceImpl implements MemberRecordService {
 
     @Autowired
     private DrugReportService drugReportService;
+
+    @Autowired
+    private CodeitemMapper codeitemMapper;
+
+    @Autowired
+    private CodeItemService codeItemService;
+
+    @Autowired
+    private Usra01Mapper usra01Mapper;
+
+    @Autowired
+    private OrganizationMapper organizationMapper;
 
     @Override
     public int updateMemberRecord(UpdateMemberRecordDto updateMemberRecordDto) {
@@ -114,5 +124,107 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         member.setDrugShopId(model.getDrugShopId());
         member.setDrugOrgId(model.getDrugOrgId());
         return member;
+    }
+
+    @Override
+    public List<MemberRecord> getMemberRecordList(MemberRecordListParam param) {
+        PageUtil.init(param);
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        MemberRecordExample memberRecordExample = new MemberRecordExample();
+        MemberRecordExample.Criteria criteria = memberRecordExample.createCriteria();
+        criteria.andMemberIdEqualTo(param.getMemberId());
+        if (param.getCreateTimeBegin() != null){
+            criteria.andCreateTimeGreaterThanOrEqualTo(param.getCreateTimeBegin());
+        }
+        if (param.getCreateTimeEnd() != null){
+            criteria.andCreateTimeLessThanOrEqualTo(param.getCreateTimeEnd());
+        }
+        return memberRecordMapper.selectByExample(memberRecordExample);
+    }
+
+    @Override
+    public List<MemberRecordListDto> memberRecordListToDto(List<MemberRecord> list) {
+        List<MemberRecordListDto> daoList = new ArrayList<>();
+        list.stream().forEach(x->{
+            MemberRecordListDto dto =  new MemberRecordListDto();
+            dto.setId(x.getId());
+            dto.setMemberId(x.getMemberId());
+            //取记录表中的数据。
+            Usra01 usra01 = usra01Mapper.selectByPrimaryKey(x.getRelationId());
+            if(usra01 != null){
+                dto.setAge(usra01.getA0112());
+                dto.setBirthday(usra01.getA0111());
+                dto.setMajor(usra01.getA0130());
+                Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM,usra01.getA0134());
+                if (codeitem != null){//最高学历
+                    dto.setEducation(codeitem.getCodeitemdesc());
+                }
+                dto.setIdCard(usra01.getA0177());
+                dto.setTitle("待定");
+                dto.setTitleTime(null);
+                dto.setName(usra01.getA0101());
+                Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX,usra01.getA0107());
+                if (codeitemSex != null){
+                    dto.setSex(codeitemSex.getCodeitemdesc());
+                }
+                Organization organization = organizationMapper.selectByPrimaryKey(usra01.getA0192());
+                if (organization != null){
+                    dto.setShopName(organization.getCodeitemdesc());
+                }
+            }
+
+            dto.setWorkTime(x.getWorkTime());
+            dto.setEducationStatus(1);
+            dto.setTrainStatus(1);
+            dto.setHealthStatus(1);
+            Organization organization = organizationMapper.selectByPrimaryKey(x.getDrugShopId());
+            if (organization != null){
+                dto.setDrugShopName(organization.getCodeitemdesc());
+            }
+
+            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM,x.getDrugEducationId());
+            if (codeitem != null){//药监学历
+                dto.setDrugEducation(codeitem.getCodeitemdesc());
+            }
+
+            //待确认
+
+      /*      Codeitem codeitemMajor = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI,x.getDrugMajorId());
+            if (codeitemMajor != null){//药监专业
+                dto.setDrugMajor(codeitemMajor.getCodeitemdesc());
+            }
+*/
+            dto.setDrugMajor(x.getDrugMajorId());
+
+            Codeitem drugPositionOne = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW,x.getDrugPositionOneId());
+            if (drugPositionOne != null){//岗位1
+                dto.setDrugPositionOne(drugPositionOne.getCodeitemdesc());
+            }
+            Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW,x.getDrugPositionTwoId());
+            if (drugPositionTwo != null){//岗位2
+                dto.setDrugPositionTwo(drugPositionTwo.getCodeitemdesc());
+            }
+            Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW,x.getDrugPositionThreeId());
+            if (drugPositionThree != null){//岗位3
+                dto.setDrugPositionThree(drugPositionThree.getCodeitemdesc());
+            }
+
+            Codeitem drugOrg = codeItemService.getOneCodeitem(BaseConst.DRUG_BZZC,x.getDrugOrgId());
+            if (drugOrg != null){//药监编制职称
+                dto.setDrugOrg(drugOrg.getCodeitemdesc());
+            }
+
+            Codeitem drugTitle = codeItemService.getOneCodeitem(BaseConst.DRUG_SBZC,x.getDrugTitleId());
+            if (drugTitle != null){//药监上报职称
+                dto.setDrugTitle(drugTitle.getCodeitemdesc());
+            }
+
+            // 变更特殊
+            dto.setChangeReason(x.getChangeReason());
+            dto.setCreateTime(x.getCreateTime());
+            dto.setReportId(x.getReportId());
+            daoList.add(dto);
+        });
+        return daoList;
     }
 }

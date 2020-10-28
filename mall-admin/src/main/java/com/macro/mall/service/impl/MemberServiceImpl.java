@@ -71,7 +71,7 @@ public class MemberServiceImpl implements MemberService {
             DepartmentDto dto = new DepartmentDto(x.getCodeitemid(), x.getCodeitemdesc(), x.getParentid());
             result.add(dto);
         });
-        return getThree(result,"102");
+        return getThree(result, "102");
     }
 
     @Override
@@ -81,8 +81,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public UpdateMemberDto getUpdateMember(String id) {
-        Member model  = getMember(id);
-        if (model == null){
+        Member model = getMember(id);
+        if (model == null) {
             return null;
         }
         UpdateMemberDto member = new UpdateMemberDto();
@@ -110,7 +110,7 @@ public class MemberServiceImpl implements MemberService {
     public List<SelectDto> getAllShopName() {
         List<Organization> list = getAllOrganizationList();
         List<SelectDto> dtoList = new ArrayList<>();
-        list.stream().forEach(x->{
+        list.stream().forEach(x -> {
             if (x.getCodeitemid().length() >= 9) {
                 if (x.getCodeitemid().substring(0, 9).equals("102080202") || x.getCodeitemid().substring(0, 9).equals("102080203")
                         || x.getCodeitemid().substring(0, 9).equals("102080201")) {
@@ -216,79 +216,89 @@ public class MemberServiceImpl implements MemberService {
     public List<MemberListDto> MemberListToDto(List<Member> list) {
         List<MemberListDto> daoList = new ArrayList<>();
         list.stream().forEach(x -> {
-            MemberListDto dto = new MemberListDto();
-            dto.setId(x.getId().toString());
-            Usra01 usra01 = usra01Mapper.selectByPrimaryKey(x.getRelationId());
-            if (usra01 != null) {
-                dto.setAge(usra01.getA0112());
-                dto.setBirthday(usra01.getA0111());
-                dto.setMajor(usra01.getA0130());
-                Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, usra01.getA0134());
-                if (codeitem != null) {//最高学历
-                    dto.setEducation(codeitem.getCodeitemdesc());
-                }
-                dto.setIdCard(usra01.getA0177());
-                dto.setTitle("待定");
-                dto.setTitleTime(null);
-                dto.setName(usra01.getA0101());
-                Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX, usra01.getA0107());
-                if (codeitemSex != null) {
-                    dto.setSex(codeitemSex.getCodeitemdesc());
-                }
-                Organization organization = organizationMapper.selectByPrimaryKey(usra01.getA0192());
-                if (organization != null) {
-                    dto.setShopName(organization.getCodeitemdesc());
-                }
-            }
+            MemberListDto dto = doToDto(x);
+            daoList.add(dto);
+        });
+        return daoList;
+    }
 
-            dto.setWorkTime(x.getWorkTime());
-            dto.setEducationStatus(x.getEducationStatus());
-            dto.setTrainStatus(x.getTrainStatus());
-            dto.setHealthStatus(x.getHealthStatus());
-            Organization organization = organizationMapper.selectByPrimaryKey(x.getDrugShopId());
+    @Override
+    public MemberListDto getMemberToDto(String id) {
+        return doToDto(getMember(id));
+    }
+
+    private MemberListDto doToDto(Member x) {
+        MemberListDto dto = new MemberListDto();
+        dto.setId(x.getId().toString());
+        Usra01 usra01 = usra01Mapper.selectByPrimaryKey(x.getRelationId());
+        if (usra01 != null) {
+            dto.setAge(usra01.getA0112());
+            dto.setBirthday(usra01.getA0111());
+            dto.setMajor(usra01.getA0130());
+            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, usra01.getA0134());
+            if (codeitem != null) {//最高学历
+                dto.setEducation(codeitem.getCodeitemdesc());
+            }
+            dto.setIdCard(usra01.getA0177());
+            dto.setTitle("待定");
+            dto.setTitleTime(null);
+            dto.setName(usra01.getA0101());
+            Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX, usra01.getA0107());
+            if (codeitemSex != null) {
+                dto.setSex(codeitemSex.getCodeitemdesc());
+            }
+            Organization organization = organizationMapper.selectByPrimaryKey(usra01.getA0192());
             if (organization != null) {
-                dto.setDrugShopName(organization.getCodeitemdesc());
+                dto.setShopName(organization.getCodeitemdesc());
             }
+        }
 
-            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, x.getDrugEducationId());
-            if (codeitem != null) {//药监学历
-                dto.setDrugEducation(codeitem.getCodeitemdesc());
-            }
+        dto.setWorkTime(x.getWorkTime());
+        dto.setEducationStatus(x.getEducationStatus());
+        dto.setTrainStatus(x.getTrainStatus());
+        dto.setHealthStatus(x.getHealthStatus());
+        Organization organization = organizationMapper.selectByPrimaryKey(x.getDrugShopId());
+        if (organization != null) {
+            dto.setDrugShopName(organization.getCodeitemdesc());
+        }
 
-            //待确认
+        Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, x.getDrugEducationId());
+        if (codeitem != null) {//药监学历
+            dto.setDrugEducation(codeitem.getCodeitemdesc());
+        }
+
+        //待确认
 
               /*      Codeitem codeitemMajor = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI,x.getDrugMajorId());
             if (codeitemMajor != null){//药监专业
                 dto.setDrugMajor(codeitemMajor.getCodeitemdesc());
             }
 */
-            dto.setDrugMajor(x.getDrugMajorId());
+        dto.setDrugMajor(x.getDrugMajorId());
 
-            Codeitem drugPositionOne = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionOneId());
-            if (drugPositionOne != null) {//岗位1
-                dto.setDrugPositionOne(drugPositionOne.getCodeitemdesc());
-            }
-            Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionTwoId());
-            if (drugPositionTwo != null) {//岗位2
-                dto.setDrugPositionTwo(drugPositionTwo.getCodeitemdesc());
-            }
-            Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionThreeId());
-            if (drugPositionThree != null) {//岗位3
-                dto.setDrugPositionThree(drugPositionThree.getCodeitemdesc());
-            }
+        Codeitem drugPositionOne = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionOneId());
+        if (drugPositionOne != null) {//岗位1
+            dto.setDrugPositionOne(drugPositionOne.getCodeitemdesc());
+        }
+        Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionTwoId());
+        if (drugPositionTwo != null) {//岗位2
+            dto.setDrugPositionTwo(drugPositionTwo.getCodeitemdesc());
+        }
+        Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionThreeId());
+        if (drugPositionThree != null) {//岗位3
+            dto.setDrugPositionThree(drugPositionThree.getCodeitemdesc());
+        }
 
-            Codeitem drugOrg = codeItemService.getOneCodeitem(BaseConst.DRUG_BZZC, x.getDrugOrgId());
-            if (drugOrg != null) {//药监编制职称
-                dto.setDrugOrg(drugOrg.getCodeitemdesc());
-            }
+        Codeitem drugOrg = codeItemService.getOneCodeitem(BaseConst.DRUG_BZZC, x.getDrugOrgId());
+        if (drugOrg != null) {//药监编制职称
+            dto.setDrugOrg(drugOrg.getCodeitemdesc());
+        }
 
-            Codeitem drugTitle = codeItemService.getOneCodeitem(BaseConst.DRUG_SBZC, x.getDrugTitleId());
-            if (drugTitle != null) {//药监上报职称
-                dto.setDrugTitle(drugTitle.getCodeitemdesc());
-            }
-            daoList.add(dto);
-        });
-        return daoList;
+        Codeitem drugTitle = codeItemService.getOneCodeitem(BaseConst.DRUG_SBZC, x.getDrugTitleId());
+        if (drugTitle != null) {//药监上报职称
+            dto.setDrugTitle(drugTitle.getCodeitemdesc());
+        }
+        return dto;
     }
 
     @Override
@@ -310,19 +320,19 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.updateByPrimaryKeySelective(member);
     }
 
-    private static List<DepartmentDto> getThree(List<DepartmentDto> list,String parentId){
+    private static List<DepartmentDto> getThree(List<DepartmentDto> list, String parentId) {
         //获取所有子节点
-        List<DepartmentDto> childTreeList = getChildTree(list,parentId);
-        for (DepartmentDto dept:childTreeList) {
-            dept.setChildren(getThree(list,dept.getId()));
+        List<DepartmentDto> childTreeList = getChildTree(list, parentId);
+        for (DepartmentDto dept : childTreeList) {
+            dept.setChildren(getThree(list, dept.getId()));
         }
         return childTreeList;
     }
 
-    private static List<DepartmentDto> getChildTree(List<DepartmentDto> list,String id){
+    private static List<DepartmentDto> getChildTree(List<DepartmentDto> list, String id) {
         List<DepartmentDto> childTree = new ArrayList<>();
-        for (DepartmentDto dept:list) {
-            if(dept.getParentId().equals(id)){
+        for (DepartmentDto dept : list) {
+            if (dept.getParentId().equals(id)) {
                 childTree.add(dept);
             }
         }

@@ -4,6 +4,7 @@ import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.*;
 import com.macro.mall.model.Member;
+import com.macro.mall.model.MemberRecord;
 import com.macro.mall.service.DrugReportService;
 import com.macro.mall.service.MemberRecordService;
 import com.macro.mall.service.MemberService;
@@ -33,5 +34,24 @@ public class DataReportController {
 
     @Autowired
     private MemberRecordService memberRecordService;
+
+
+    @ApiOperation("人员变更历史列表")
+    @RequestMapping(value = "/getMemberRecordList", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<MemberRecordListDto>> list(MemberRecordListParam param) {
+        List<MemberRecord> list = memberRecordService.getMemberRecordList(param);
+        CommonPage commonPage = CommonPage.restPage(list);
+        commonPage.setList(memberRecordService.memberRecordListToDto(list));
+        return CommonResult.success(commonPage);
+    }
+
+    @ApiOperation("人员变更历史列表头部信息")
+    @RequestMapping(value = "/member/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<MemberListDto> getUpdateMember(@PathVariable String id) {
+        MemberListDto dto = memberService.getMemberToDto(id);
+        return CommonResult.success(dto);
+    }
 
 }
