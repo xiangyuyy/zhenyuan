@@ -47,6 +47,10 @@ public class ZYServiceImpl implements ZYService {
     @Autowired
     private ZYUsra71Mapper ZYUsra71Mapper;
 
+    @Autowired
+    private ZYVZhichengMapper zyvZhichengMapper;
+
+
     @Override
     public List<Codeitem> getAllCodeItem() {
         CodeitemExample example = new CodeitemExample();
@@ -62,6 +66,17 @@ public class ZYServiceImpl implements ZYService {
     public List<Organization> getAllOrganization() {
         OrganizationExample example = new OrganizationExample();
         return organizationMapper.selectByExample(example);
+    }
+
+    @Override
+    public List<VZhicheng> getAllVZhicheng() {
+        VZhichengExample vZhichengExample = new VZhichengExample();
+        return zyvZhichengMapper.selectByExample(vZhichengExample);
+    }
+
+    @Override
+    public List<VZhicheng> getInintVZhicheng() {
+        return null;
     }
 
     @Override

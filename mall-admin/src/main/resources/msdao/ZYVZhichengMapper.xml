@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.macro.mall.mapper.Usra04Mapper">
-  <resultMap id="BaseResultMap" type="com.macro.mall.model.Usra04">
-    <result column="A0100" jdbcType="VARCHAR" property="a0100" />
-    <result column="A0449" jdbcType="VARCHAR" property="a0449" />
-    <result column="A0405" jdbcType="VARCHAR" property="a0405" />
-    <result column="A0444" jdbcType="VARCHAR" property="a0444" />
-    <result column="A0435" jdbcType="VARCHAR" property="a0435" />
-    <result column="A04AC" jdbcType="VARCHAR" property="a04ac" />
-    <result column="A0410" jdbcType="VARCHAR" property="a0410" />
-    <result column="A04AD" jdbcType="VARCHAR" property="a04ad" />
+<mapper namespace="com.macro.mall.msdao.ZYVZhichengMapper">
+  <resultMap id="BaseResultMap" type="com.macro.mall.model.VZhicheng">
+    <result column="gh" jdbcType="VARCHAR" property="gh" />
+    <result column="zcjb" jdbcType="VARCHAR" property="zcjb" />
+    <result column="zcsj" jdbcType="TIMESTAMP" property="zcsj" />
+    <result column="zcbh" jdbcType="VARCHAR" property="zcbh" />
+    <result column="kprq" jdbcType="TIMESTAMP" property="kprq" />
     <result column="CreateTime" jdbcType="TIMESTAMP" property="createtime" />
     <result column="ModTime" jdbcType="TIMESTAMP" property="modtime" />
   </resultMap>
@@ -72,15 +69,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    A0100, A0449, A0405, A0444, A0435, A04AC, A0410, A04AD, CreateTime, ModTime
+    gh, zcjb, zcsj, zcbh, kprq
   </sql>
-  <select id="selectByExample" parameterType="com.macro.mall.model.Usra04Example" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.macro.mall.model.VZhichengExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from usra04
+    from v_zhicheng
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,48 +85,37 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.macro.mall.model.Usra04Example">
-    delete from usra04
+  <delete id="deleteByExample" parameterType="com.macro.mall.model.VZhichengExample">
+    delete from v_zhicheng
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.macro.mall.model.Usra04">
-    insert into usra04 (A0100, A0449, A0405, 
-      A0444, A0435, A04AC, 
-      A0410, A04AD, CreateTime, 
-      ModTime)
-    values (#{a0100,jdbcType=VARCHAR}, #{a0449,jdbcType=VARCHAR}, #{a0405,jdbcType=VARCHAR}, 
-      #{a0444,jdbcType=VARCHAR}, #{a0435,jdbcType=VARCHAR}, #{a04ac,jdbcType=VARCHAR}, 
-      #{a0410,jdbcType=VARCHAR}, #{a04ad,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{modtime,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.macro.mall.model.VZhicheng">
+    insert into v_zhicheng (gh, zcjb, zcsj,
+    zcbh, kprq, CreateTime,
+    ModTime)
+    values (#{gh,jdbcType=VARCHAR}, #{zcjb,jdbcType=VARCHAR}, #{zcsj,jdbcType=TIMESTAMP},
+    #{zcbh,jdbcType=VARCHAR}, #{kprq,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP},
+    #{modtime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.macro.mall.model.Usra04">
-    insert into usra04
+  <insert id="insertSelective" parameterType="com.macro.mall.model.VZhicheng">
+    insert into v_zhicheng
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="a0100 != null">
-        A0100,
+      <if test="gh != null">
+        gh,
       </if>
-      <if test="a0449 != null">
-        A0449,
+      <if test="zcjb != null">
+        zcjb,
       </if>
-      <if test="a0405 != null">
-        A0405,
+      <if test="zcsj != null">
+        zcsj,
       </if>
-      <if test="a0444 != null">
-        A0444,
+      <if test="zcbh != null">
+        zcbh,
       </if>
-      <if test="a0435 != null">
-        A0435,
-      </if>
-      <if test="a04ac != null">
-        A04AC,
-      </if>
-      <if test="a0410 != null">
-        A0410,
-      </if>
-      <if test="a04ad != null">
-        A04AD,
+      <if test="kprq != null">
+        kprq,
       </if>
       <if test="createtime != null">
         CreateTime,
@@ -139,29 +125,20 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="a0100 != null">
-        #{a0100,jdbcType=VARCHAR},
+      <if test="gh != null">
+        #{gh,jdbcType=VARCHAR},
       </if>
-      <if test="a0449 != null">
-        #{a0449,jdbcType=VARCHAR},
+      <if test="zcjb != null">
+        #{zcjb,jdbcType=VARCHAR},
       </if>
-      <if test="a0405 != null">
-        #{a0405,jdbcType=VARCHAR},
+      <if test="zcsj != null">
+        #{zcsj,jdbcType=TIMESTAMP},
       </if>
-      <if test="a0444 != null">
-        #{a0444,jdbcType=VARCHAR},
+      <if test="zcbh != null">
+        #{zcbh,jdbcType=VARCHAR},
       </if>
-      <if test="a0435 != null">
-        #{a0435,jdbcType=VARCHAR},
-      </if>
-      <if test="a04ac != null">
-        #{a04ac,jdbcType=VARCHAR},
-      </if>
-      <if test="a0410 != null">
-        #{a0410,jdbcType=VARCHAR},
-      </if>
-      <if test="a04ad != null">
-        #{a04ad,jdbcType=VARCHAR},
+      <if test="kprq != null">
+        #{kprq,jdbcType=TIMESTAMP},
       </if>
       <if test="createtime != null">
         #{createtime,jdbcType=TIMESTAMP},
@@ -171,38 +148,29 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.macro.mall.model.Usra04Example" resultType="java.lang.Long">
-    select count(*) from usra04
+  <select id="countByExample" parameterType="com.macro.mall.model.VZhichengExample" resultType="java.lang.Long">
+    select count(*) from v_zhicheng
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update usra04
+    update v_zhicheng
     <set>
-      <if test="record.a0100 != null">
-        A0100 = #{record.a0100,jdbcType=VARCHAR},
+      <if test="record.gh != null">
+        gh = #{record.gh,jdbcType=VARCHAR},
       </if>
-      <if test="record.a0449 != null">
-        A0449 = #{record.a0449,jdbcType=VARCHAR},
+      <if test="record.zcjb != null">
+        zcjb = #{record.zcjb,jdbcType=VARCHAR},
       </if>
-      <if test="record.a0405 != null">
-        A0405 = #{record.a0405,jdbcType=VARCHAR},
+      <if test="record.zcsj != null">
+        zcsj = #{record.zcsj,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.a0444 != null">
-        A0444 = #{record.a0444,jdbcType=VARCHAR},
+      <if test="record.zcbh != null">
+        zcbh = #{record.zcbh,jdbcType=VARCHAR},
       </if>
-      <if test="record.a0435 != null">
-        A0435 = #{record.a0435,jdbcType=VARCHAR},
-      </if>
-      <if test="record.a04ac != null">
-        A04AC = #{record.a04ac,jdbcType=VARCHAR},
-      </if>
-      <if test="record.a0410 != null">
-        A0410 = #{record.a0410,jdbcType=VARCHAR},
-      </if>
-      <if test="record.a04ad != null">
-        A04AD = #{record.a04ad,jdbcType=VARCHAR},
+      <if test="record.kprq != null">
+        kprq = #{record.kprq,jdbcType=TIMESTAMP},
       </if>
       <if test="record.createtime != null">
         CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
@@ -216,17 +184,14 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update usra04
-    set A0100 = #{record.a0100,jdbcType=VARCHAR},
-      A0449 = #{record.a0449,jdbcType=VARCHAR},
-      A0405 = #{record.a0405,jdbcType=VARCHAR},
-      A0444 = #{record.a0444,jdbcType=VARCHAR},
-      A0435 = #{record.a0435,jdbcType=VARCHAR},
-      A04AC = #{record.a04ac,jdbcType=VARCHAR},
-      A0410 = #{record.a0410,jdbcType=VARCHAR},
-      A04AD = #{record.a04ad,jdbcType=VARCHAR},
-      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
-      ModTime = #{record.modtime,jdbcType=TIMESTAMP}
+    update v_zhicheng
+    set gh = #{record.gh,jdbcType=VARCHAR},
+    zcjb = #{record.zcjb,jdbcType=VARCHAR},
+    zcsj = #{record.zcsj,jdbcType=TIMESTAMP},
+    zcbh = #{record.zcbh,jdbcType=VARCHAR},
+    kprq = #{record.kprq,jdbcType=TIMESTAMP},
+    CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+    ModTime = #{record.modtime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>

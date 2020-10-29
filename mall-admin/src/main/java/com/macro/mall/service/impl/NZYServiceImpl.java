@@ -49,6 +49,9 @@ public class NZYServiceImpl implements NZYService {
     private Usra71Mapper usra71Mapper;
 
     @Autowired
+    private VZhichengMapper vZhichengMapper;
+
+    @Autowired
     private MemberMapper memberMapper;
 
     @Override
@@ -103,6 +106,12 @@ public class NZYServiceImpl implements NZYService {
     public List<Usra71> getAllUsra71() {
         Usra71Example example = new Usra71Example();
         return usra71Mapper.selectByExample(example);
+    }
+
+    @Override
+    public List<VZhicheng> getAllVZhicheng() {
+        VZhichengExample example = new VZhichengExample();
+        return vZhichengMapper.selectByExample(example);
     }
 
     @Transactional
@@ -220,6 +229,19 @@ public class NZYServiceImpl implements NZYService {
         }
         catch (Exception ex){
             LOGGER.error("insertAllUsra71" + ex.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    @Transactional
+    @Override
+    public Boolean insertAllVZhicheng(List<VZhicheng> list) {
+        try {
+            list.parallelStream().forEach(x->vZhichengMapper.insertSelective(x));
+        }
+        catch (Exception ex){
+            LOGGER.error("insertAllVZhicheng" + ex.getMessage());
             return false;
         }
         return true;

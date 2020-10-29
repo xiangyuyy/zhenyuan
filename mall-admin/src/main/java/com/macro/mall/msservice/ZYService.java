@@ -17,6 +17,10 @@ public interface ZYService {
 
     List<Organization> getAllOrganization();
 
+    List<VZhicheng> getAllVZhicheng();
+
+    List<VZhicheng> getInintVZhicheng();
+
     List<Usra01> getInintUsra01();
 
     List<Usra01> getAllUsra01();

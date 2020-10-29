@@ -86,6 +86,10 @@ public class PmsDaoTests {
       /*  List<Usra04> list7 = zyService.getAllUsra04();
         nzyService.insertAllUsra04(list7);*/
 
+     /*    List<VZhicheng> list = zyService.getAllVZhicheng();
+        nzyService.insertAllVZhicheng(list);
+
+        List<VZhicheng> list1 = nzyService.getAllVZhicheng();*/
 
         LOGGER.info("1212");
     }

@@ -28,6 +28,8 @@ public interface NZYService {
 
     List<Usra71> getAllUsra71();
 
+    List<VZhicheng> getAllVZhicheng();
+
     Boolean insertAllCodeItem(List<Codeitem> list);
 
     Boolean insertAllOrganization(List<Organization> list);
@@ -45,5 +47,7 @@ public interface NZYService {
     Boolean insertAllUsra66(List<Usra66> list);
 
     Boolean insertAllUsra71(List<Usra71> list);
+
+    Boolean insertAllVZhicheng(List<VZhicheng> list);
 
 }
