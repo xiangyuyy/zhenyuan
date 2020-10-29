@@ -8,6 +8,7 @@ import com.macro.mall.msservice.TestService;
 import com.macro.mall.msservice.ZYService;
 import com.macro.mall.service.MemberService;
 import com.macro.mall.service.NZYService;
+import com.macro.mall.util.StringPinYinCodeUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -62,7 +63,9 @@ public class PmsDaoTests {
         List<Usra22> list4 = zyService.getAllUsra22();
         List<Usra64> list5 = zyService.getAllUsra64();
         List<Usra65> list6 = zyService.getAllUsra65();
+        List<Usra65> list61 = zyService.getAllUsra65();
         List<Usra71> list7 = zyService.getAllUsra71();
+        List<VZhicheng> list71 = zyService.getAllVZhicheng();
         LOGGER.info(list.toString());
     }
 
@@ -90,7 +93,11 @@ public class PmsDaoTests {
         nzyService.insertAllVZhicheng(list);
 
         List<VZhicheng> list1 = nzyService.getAllVZhicheng();*/
+        //String code = StringPinYinCodeUtil.getPinYinHeadChar("转化的字符串").toUpperCase();
+        //List<Usra01> list10 =  zyService.getUpdateUsra01();
 
+       // nzyService.updateUsra04(zyService.getAllUsra04());
+        nzyService.updataALL();
         LOGGER.info("1212");
     }
 }

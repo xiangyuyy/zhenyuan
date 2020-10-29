@@ -15,6 +15,8 @@ public interface ZYService {
 
     List<Organization> getInintOrganization();
 
+    List<Organization> getUpdateOrganization();
+
     List<Organization> getAllOrganization();
 
     List<VZhicheng> getAllVZhicheng();
@@ -24,6 +26,8 @@ public interface ZYService {
     List<Usra01> getInintUsra01();
 
     List<Usra01> getAllUsra01();
+
+    List<Usra01> getUpdateUsra01();
 
     List<Usra04> getAllUsra04();
 
@@ -36,4 +40,5 @@ public interface ZYService {
     List<Usra66> getAllUsra66();
 
     List<Usra71> getAllUsra71();
+
 }

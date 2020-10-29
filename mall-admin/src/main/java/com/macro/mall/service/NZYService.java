@@ -50,4 +50,27 @@ public interface NZYService {
 
     Boolean insertAllVZhicheng(List<VZhicheng> list);
 
+
+    Boolean updateOrganization(List<Organization> list);
+
+    Boolean updateUsra01(List<Usra01> list);
+
+    Boolean updateUsra04(List<Usra04> list);
+
+    Boolean updateUsra22(List<Usra22> list);
+
+    Boolean updateUsra64(List<Usra64> list);
+
+    Boolean updateUsra65(List<Usra65> list);
+
+    Boolean updateUsra66(List<Usra66> list);
+
+    Boolean updateUsra71(List<Usra71> list);
+
+    Boolean updateVZhicheng(List<VZhicheng> list);
+
+    Boolean updataALL();
+
+    Boolean inintALL();
+
 }

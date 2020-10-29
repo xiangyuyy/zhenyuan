@@ -8,7 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //import com.macro.mall.service.UmsAdminCacheService;
 
@@ -63,6 +65,11 @@ public class ZYServiceImpl implements ZYService {
     }
 
     @Override
+    public List<Organization> getUpdateOrganization() {
+        return getInintOrganization();
+    }
+
+    @Override
     public List<Organization> getAllOrganization() {
         OrganizationExample example = new OrganizationExample();
         return organizationMapper.selectByExample(example);
@@ -76,13 +83,21 @@ public class ZYServiceImpl implements ZYService {
 
     @Override
     public List<VZhicheng> getInintVZhicheng() {
-        return null;
+        return getAllVZhicheng();
     }
 
     @Override
     public List<Usra01> getAllUsra01() {
         Usra01Example example = new Usra01Example();
         return ZYUsra01Mapper.selectByExample(example);
+    }
+
+    @Override
+    public List<Usra01> getUpdateUsra01() {
+        List<Usra01> list = getAllUsra01();
+        Date yesterday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24);
+        Date tomarror = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24);
+        return list.stream().filter(x->x.getModtime().before(tomarror) && x.getModtime().after(yesterday)).collect(Collectors.toList());
     }
 
     public List<Usra01> getInintUsra01() {

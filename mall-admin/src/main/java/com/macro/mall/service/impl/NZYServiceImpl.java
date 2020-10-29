@@ -2,6 +2,7 @@ package com.macro.mall.service.impl;
 
 import com.macro.mall.model.*;
 import com.macro.mall.mapper.*;
+import com.macro.mall.msservice.ZYService;
 import com.macro.mall.service.NZYService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +54,9 @@ public class NZYServiceImpl implements NZYService {
 
     @Autowired
     private MemberMapper memberMapper;
+
+    @Autowired
+    private ZYService zyService;
 
     @Override
     public List<Codeitem> getAllCodeItem() {
@@ -118,9 +122,8 @@ public class NZYServiceImpl implements NZYService {
     @Override
     public Boolean insertAllCodeItem(List<Codeitem> list) {
         try {
-            list.parallelStream().forEach(x->codeitemMapper.insertSelective(x));
-        }
-        catch (Exception ex){
+            list.parallelStream().forEach(x -> codeitemMapper.insertSelective(x));
+        } catch (Exception ex) {
             LOGGER.error("insertAllCodeItem" + ex.getMessage());
             return false;
         }
@@ -131,9 +134,8 @@ public class NZYServiceImpl implements NZYService {
     @Override
     public Boolean insertAllOrganization(List<Organization> list) {
         try {
-            list.parallelStream().forEach(x->organizationMapper.insertSelective(x));
-        }
-        catch (Exception ex){
+            list.parallelStream().forEach(x -> organizationMapper.insertSelective(x));
+        } catch (Exception ex) {
             LOGGER.error("insertAllOrganization" + ex.getMessage());
             return false;
         }
@@ -144,14 +146,13 @@ public class NZYServiceImpl implements NZYService {
     @Override
     public Boolean insertAllUsra01(List<Usra01> list) {
         try {
-            list.parallelStream().forEach(x->usra01Mapper.insertSelective(x));
-            list.parallelStream().forEach(x->{
-               Member member = new Member();
-               member.setRelationId(x.getA0100());
-               memberMapper.insertSelective(member);
+            list.parallelStream().forEach(x -> usra01Mapper.insertSelective(x));
+            list.parallelStream().forEach(x -> {
+                Member member = new Member();
+                member.setRelationId(x.getA0100());
+                memberMapper.insertSelective(member);
             });
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             LOGGER.error("insertAllUsra01" + ex.getMessage());
             return false;
         }
@@ -162,9 +163,8 @@ public class NZYServiceImpl implements NZYService {
     @Override
     public Boolean insertAllUsra04(List<Usra04> list) {
         try {
-            list.parallelStream().forEach(x->usra04Mapper.insertSelective(x));
-        }
-        catch (Exception ex){
+            list.parallelStream().forEach(x -> usra04Mapper.insertSelective(x));
+        } catch (Exception ex) {
             LOGGER.error("insertAllUsra04" + ex.getMessage());
             return false;
         }
@@ -175,9 +175,8 @@ public class NZYServiceImpl implements NZYService {
     @Override
     public Boolean insertAllUsra22(List<Usra22> list) {
         try {
-            list.parallelStream().forEach(x->usra22Mapper.insertSelective(x));
-        }
-        catch (Exception ex){
+            list.parallelStream().forEach(x -> usra22Mapper.insertSelective(x));
+        } catch (Exception ex) {
             LOGGER.error("insertAllUsra22" + ex.getMessage());
             return false;
         }
@@ -187,9 +186,8 @@ public class NZYServiceImpl implements NZYService {
     @Override
     public Boolean insertAllUsra64(List<Usra64> list) {
         try {
-            list.parallelStream().forEach(x->usra64Mapper.insertSelective(x));
-        }
-        catch (Exception ex){
+            list.parallelStream().forEach(x -> usra64Mapper.insertSelective(x));
+        } catch (Exception ex) {
             LOGGER.error("insertAllUsra64" + ex.getMessage());
             return false;
         }
@@ -199,9 +197,8 @@ public class NZYServiceImpl implements NZYService {
     @Override
     public Boolean insertAllUsra65(List<Usra65> list) {
         try {
-            list.parallelStream().forEach(x->usra65Mapper.insertSelective(x));
-        }
-        catch (Exception ex){
+            list.parallelStream().forEach(x -> usra65Mapper.insertSelective(x));
+        } catch (Exception ex) {
             LOGGER.error("usra65Mapper" + ex.getMessage());
             return false;
         }
@@ -212,9 +209,8 @@ public class NZYServiceImpl implements NZYService {
     @Override
     public Boolean insertAllUsra66(List<Usra66> list) {
         try {
-            list.parallelStream().forEach(x->usra66Mapper.insertSelective(x));
-        }
-        catch (Exception ex){
+            list.parallelStream().forEach(x -> usra66Mapper.insertSelective(x));
+        } catch (Exception ex) {
             LOGGER.error("insertAllUsra66" + ex.getMessage());
             return false;
         }
@@ -225,9 +221,8 @@ public class NZYServiceImpl implements NZYService {
     @Override
     public Boolean insertAllUsra71(List<Usra71> list) {
         try {
-            list.parallelStream().forEach(x->usra71Mapper.insertSelective(x));
-        }
-        catch (Exception ex){
+            list.parallelStream().forEach(x -> usra71Mapper.insertSelective(x));
+        } catch (Exception ex) {
             LOGGER.error("insertAllUsra71" + ex.getMessage());
             return false;
         }
@@ -238,10 +233,154 @@ public class NZYServiceImpl implements NZYService {
     @Override
     public Boolean insertAllVZhicheng(List<VZhicheng> list) {
         try {
-            list.parallelStream().forEach(x->vZhichengMapper.insertSelective(x));
-        }
-        catch (Exception ex){
+            list.parallelStream().forEach(x -> vZhichengMapper.insertSelective(x));
+        } catch (Exception ex) {
             LOGGER.error("insertAllVZhicheng" + ex.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    @Transactional
+    @Override
+    public Boolean updateOrganization(List<Organization> list) {
+        list.parallelStream().forEach(x -> {
+            Organization organization = organizationMapper.selectByPrimaryKey(x.getCodeitemid());
+            if (organization == null) {
+                organizationMapper.insertSelective(organization);
+            } else {
+                organizationMapper.updateByPrimaryKeySelective(organization);
+            }
+
+        });
+        return true;
+    }
+
+    @Transactional
+    @Override
+    public Boolean updateUsra01(List<Usra01> list) {
+        list.parallelStream().forEach(x -> {
+            Usra01 usra01 = usra01Mapper.selectByPrimaryKey(x.getA0100());
+            if (usra01 == null) {
+                usra01Mapper.insertSelective(usra01);
+            } else {
+                usra01Mapper.updateByPrimaryKeySelective(usra01);
+            }
+
+        });
+        return true;
+
+    }
+
+    @Transactional
+    @Override
+    public Boolean updateUsra04(List<Usra04> list) {
+        usra04Mapper.deleteByExample(new Usra04Example());
+        insertAllUsra04(list);
+
+/*        list.parallelStream().forEach(x->{
+            Usra04Example usra04Example = new Usra04Example();
+            Usra04Example.Criteria criteria = usra04Example.createCriteria();
+            criteria.andA0100EqualTo(x.getA0100());
+            criteria.andA0449EqualTo(x.getA0449());
+            criteria.andA0405EqualTo(x.getA0405());
+            criteria.andA0444EqualTo(x.getA0444());
+            criteria.andA0435EqualTo(x.getA0435());
+
+            List<Usra04> result = usra04Mapper.selectByExample(usra04Example);
+            if (result.size() == 0 ){
+                usra04Mapper.insertSelective(x);
+            }
+            else {
+                usra04Mapper.updateByExampleSelective(x,usra04Example);
+            }
+        });*/
+        return true;
+    }
+
+    @Transactional
+    @Override
+    public Boolean updateUsra22(List<Usra22> list) {
+        usra22Mapper.deleteByExample(new Usra22Example());
+        insertAllUsra22(list);
+        return true;
+    }
+
+    @Transactional
+    @Override
+    public Boolean updateUsra64(List<Usra64> list) {
+        usra64Mapper.deleteByExample(new Usra64Example());
+        insertAllUsra64(list);
+        return true;
+    }
+
+    @Transactional
+    @Override
+    public Boolean updateUsra65(List<Usra65> list) {
+        usra65Mapper.deleteByExample(new Usra65Example());
+        insertAllUsra65(list);
+        return true;
+    }
+
+    @Transactional
+    @Override
+    public Boolean updateUsra66(List<Usra66> list) {
+        usra66Mapper.deleteByExample(new Usra66Example());
+        insertAllUsra66(list);
+        return true;
+    }
+
+    @Transactional
+    @Override
+    public Boolean updateUsra71(List<Usra71> list) {
+        usra71Mapper.deleteByExample(new Usra71Example());
+        insertAllUsra71(list);
+        return true;
+    }
+
+    @Transactional
+    @Override
+    public Boolean updateVZhicheng(List<VZhicheng> list) {
+        vZhichengMapper.deleteByExample(new VZhichengExample());
+        insertAllVZhicheng(list);
+        return true;
+    }
+
+    @Override
+    public Boolean updataALL() {
+        try {
+            updateOrganization(zyService.getUpdateOrganization());
+            updateUsra01(zyService.getInintUsra01());
+            updateUsra04(zyService.getAllUsra04());
+            updateUsra22(zyService.getAllUsra22());
+            updateUsra64(zyService.getAllUsra64());
+            updateUsra65(zyService.getAllUsra65());
+            updateUsra66(zyService.getAllUsra66());
+            updateUsra71(zyService.getAllUsra71());
+            updateVZhicheng(zyService.getAllVZhicheng());
+        } catch (Exception ex) {
+            LOGGER.error("updataALL" + ex.getMessage() + ex.getStackTrace());
+            return false;
+        }
+        return true;
+    }
+
+
+    @Override
+    public Boolean inintALL() {
+        try {
+            insertAllOrganization(zyService.getInintOrganization());
+            insertAllUsra01(zyService.getInintUsra01());
+
+            updateUsra04(zyService.getAllUsra04());
+            updateUsra22(zyService.getAllUsra22());
+            updateUsra64(zyService.getAllUsra64());
+            updateUsra65(zyService.getAllUsra65());
+            updateUsra66(zyService.getAllUsra66());
+            updateUsra71(zyService.getAllUsra71());
+            updateVZhicheng(zyService.getAllVZhicheng());
+        } catch (Exception ex) {
+            LOGGER.error("inintALL" + ex.getMessage() + ex.getStackTrace());
             return false;
         }
         return true;

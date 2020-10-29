@@ -38,6 +38,14 @@ public class MemberController {
         return CommonResult.success(result);
     }
 
+    @ApiOperation("获取指定分类信息")
+    @RequestMapping(value = "/getCodeItem/{key}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<CodeItemDto>> getCodeItem(@PathVariable String key) {
+        List<CodeItemDto> dto = memberService.getCodeItemDtoByKey(key);
+        return CommonResult.success(dto);
+    }
+
     @ApiOperation("人员管理列表")
     @RequestMapping(value = "/getMemberList", method = RequestMethod.GET)
     @ResponseBody

@@ -10,6 +10,7 @@ import com.macro.mall.model.*;
 import com.macro.mall.service.CodeItemService;
 import com.macro.mall.service.MemberService;
 import com.macro.mall.util.PageUtil;
+import com.macro.mall.util.StringPinYinCodeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -350,6 +351,23 @@ public class MemberServiceImpl implements MemberService {
         member.setDrugShopId(updateMemberDto.getDrugShopId());
         member.setDrugOrgId(updateMemberDto.getDrugOrgId());
         return memberMapper.updateByPrimaryKeySelective(member);
+    }
+
+    @Override
+    public List<CodeItemDto> getCodeItemDtoByKey(String key) {
+        List<Codeitem> list = codeItemService.getCodeitemBySetId(key);
+        List<CodeItemDto> daoList = new ArrayList<>();
+        list.stream().forEach(x -> {
+            CodeItemDto dto = new CodeItemDto();
+            dto.setCodeitemid(x.getCodeitemid());
+            dto.setCodeitemdesc(x.getCodeitemdesc());
+            dto.setCodesetid(x.getCodesetid());
+            if (!StringUtils.isEmpty(x.getCodeitemdesc())){
+                dto.setCodesetid(StringPinYinCodeUtil.getPinYinHeadChar(x.getCodeitemdesc().toUpperCase()));
+            }
+            daoList.add(dto);
+        });
+        return daoList;
     }
 
     private static List<DepartmentDto> getThree(List<DepartmentDto> list, String parentId) {
