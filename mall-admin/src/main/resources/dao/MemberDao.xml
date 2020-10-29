@@ -32,6 +32,9 @@
             <if test="major != null">
                 AND u.a0130 = #{major}
             </if>
+            <if test="titleId != null">
+                AND m.relation_id in (SELECT v.gh from v_zhicheng v where v.zcjb=#{titleId})
+            </if>
             <if test="drugPositionId != null">
                 AND (m.drug_position_one_id = #{drugPositionId} or m.drug_position_two_id = #{drugPositionId}
                 or m.drug_position_three_id = #{drugPositionId})
@@ -42,6 +45,10 @@
 
     <select id="getAllmajor" resultType="java.lang.String">
         SELECT DISTINCT(A0130) from UsrA01
+    </select>
+
+    <select id="getAllTitle" resultType="java.lang.String">
+        SELECT DISTINCT(zcjb) from v_zhicheng
     </select>
 
     <select id="getAddReportMemberList" resultMap="BaseResultMap">

@@ -49,6 +49,10 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private DrugCountMapper drugCountMapper;
 
+    @Autowired
+    private VZhichengMapper vZhichengMapperMapper;
+
+
 
     @Override
     public List<Member> getMemberList(MemberListParam param) {
@@ -138,6 +142,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<SelectDto> getAllTitle() {
+        List<String> list = memberDao.getAllTitle();
+        List<SelectDto> dtoList = new ArrayList<>();
+        list.stream().forEach(x -> {
+            SelectDto selectDto = new SelectDto();
+            selectDto.setValue(x);
+            selectDto.setLabel(x);
+            dtoList.add(selectDto);
+        });
+        return dtoList;
+    }
+
+    @Override
     public List<SelectDto> getAllDrugPosition() {
         return getItemSelectDtoByType(BaseConst.DRUG_DRGW);
     }
@@ -213,6 +230,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<VZhicheng> getMemberVZhichengr(String id) {
+        VZhichengExample vZhichengExample = new VZhichengExample();
+        vZhichengExample.createCriteria().andGhEqualTo(id);
+        List<VZhicheng> list = vZhichengMapperMapper.selectByExample(vZhichengExample);
+        return list;
+    }
+
+    @Override
     public List<MemberListDto> MemberListToDto(List<Member> list) {
         List<MemberListDto> daoList = new ArrayList<>();
         list.stream().forEach(x -> {
@@ -240,7 +265,14 @@ public class MemberServiceImpl implements MemberService {
                 dto.setEducation(codeitem.getCodeitemdesc());
             }
             dto.setIdCard(usra01.getA0177());
-            dto.setTitle("待定");
+            //dto.setTitle("待定");
+            List<VZhicheng> vZhichengList  = getMemberVZhichengr(x.getRelationId());
+            String title = "";
+            for (VZhicheng y:vZhichengList) {
+                title += y.getZcjb()+ "/" + y.getZcsj().toString()+"<br>";
+            }
+            dto.setTitle(title);
+
             dto.setTitleTime(null);
             dto.setName(usra01.getA0101());
             Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX, usra01.getA0107());

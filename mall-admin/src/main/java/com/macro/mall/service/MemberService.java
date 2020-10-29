@@ -35,6 +35,8 @@ public interface MemberService {
 
     List<SelectDto> getAllmajor();
 
+    List<SelectDto> getAllTitle();
+
     List<SelectDto> getAllDrugPosition();
 
     List<SelectDto> getAllDrugTitle();
@@ -46,6 +48,9 @@ public interface MemberService {
     List<SelectDto> getMemberEducation(String id);
 
     List<SelectDto> getMemberMajor(String id);
+
+    List<VZhicheng> getMemberVZhichengr(String id);
+
 
     List<MemberListDto> MemberListToDto(List<Member> list);
 

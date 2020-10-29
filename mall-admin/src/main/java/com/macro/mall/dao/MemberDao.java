@@ -26,6 +26,12 @@ public interface MemberDao {
      */
     List<String> getAllmajor();
 
+
+    /**
+     * 查询获得人员的职称
+     */
+    List<String> getAllTitle();
+
     /**
      * 查询药监新增列表人员信息
      */

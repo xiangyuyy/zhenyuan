@@ -90,6 +90,14 @@ public class MemberController {
         return CommonResult.success(dto);
     }
 
+    @ApiOperation("获取人员搜索中职称的下拉框取值")
+    @RequestMapping(value = "/getAllTitle", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SelectDto>> getAllTitle() {
+        List<SelectDto> dto = memberService.getAllTitle();
+        return CommonResult.success(dto);
+    }
+
     @ApiOperation("获取人员修改中药监上报职称下拉框取值")
     @RequestMapping(value = "/getDrugTitleSelect", method = RequestMethod.GET)
     @ResponseBody
