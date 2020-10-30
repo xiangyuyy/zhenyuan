@@ -52,13 +52,21 @@ public class DrugReportController {
     @ApiOperation("获得药监计算数据")
     @RequestMapping(value = "/getDrugCount", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult getDrugCount(@RequestBody DrugCount drugCount) {
+    public CommonResult<DrugCount> getDrugCount(@RequestBody DrugCount drugCount) {
         if (drugCount.getArea() == null){
             CommonResult.failed("经营面积不能为空");
         }
         DrugCount result = DrugCountUtil.getResult(drugCount.getSubjection(),drugCount.getChineseMedicine(),drugCount.getLongRange(),drugCount.getArea());
         return CommonResult.success(result);
     }
+
+    @ApiOperation("根据shopId获得药监计算工具展示数据")
+    @RequestMapping(value = "/getShopDrugCount/{shopId}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<DrugCount> getShopDrugCount(@PathVariable String shopId) {
+        return CommonResult.success(drugReportService.getDrugCountByShopId(shopId));
+    }
+
 
     @ApiOperation("确定药监计算数据")
     @RequestMapping(value = "/sureDrugCount", method = RequestMethod.POST)
