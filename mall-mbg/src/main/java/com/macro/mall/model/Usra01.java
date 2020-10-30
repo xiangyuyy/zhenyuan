@@ -12,7 +12,7 @@ public class Usra01 implements Serializable {
     private String b0110;
 
     @ApiModelProperty(value = "组织机构门店id")
-    private String a0192;
+    private String e0122;
 
     @ApiModelProperty(value = "出生日期")
     private Date a0111;
@@ -98,12 +98,12 @@ public class Usra01 implements Serializable {
         this.b0110 = b0110;
     }
 
-    public String getA0192() {
-        return a0192;
+    public String getE0122() {
+        return e0122;
     }
 
-    public void setA0192(String a0192) {
-        this.a0192 = a0192;
+    public void setE0122(String e0122) {
+        this.e0122 = e0122;
     }
 
     public Date getA0111() {
@@ -290,7 +290,7 @@ public class Usra01 implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", a0100=").append(a0100);
         sb.append(", b0110=").append(b0110);
-        sb.append(", a0192=").append(a0192);
+        sb.append(", e0122=").append(e0122);
         sb.append(", a0111=").append(a0111);
         sb.append(", a0141=").append(a0141);
         sb.append(", a0107=").append(a0107);

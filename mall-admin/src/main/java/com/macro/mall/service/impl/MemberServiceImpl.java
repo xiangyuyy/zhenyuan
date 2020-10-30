@@ -299,7 +299,7 @@ public class MemberServiceImpl implements MemberService {
             if (codeitemSex != null) {
                 dto.setSex(codeitemSex.getCodeitemdesc());
             }
-            Organization organization = organizationMapper.selectByPrimaryKey(usra01.getA0192());
+            Organization organization = organizationMapper.selectByPrimaryKey(usra01.getE0122());
             if (organization != null) {
                 dto.setShopName(organization.getCodeitemdesc());
             }

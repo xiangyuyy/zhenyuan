@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.macro.mall.mapper.Usra65Mapper">
   <resultMap id="BaseResultMap" type="com.macro.mall.model.Usra65">
-    <id column="A0100" jdbcType="VARCHAR" property="a0100" />
+    <result column="A0100" jdbcType="VARCHAR" property="a0100" />
     <result column="a6501" jdbcType="VARCHAR" property="a6501" />
     <result column="a6502" jdbcType="VARCHAR" property="a6502" />
     <result column="a6503" jdbcType="TIMESTAMP" property="a6503" />
@@ -108,18 +108,6 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from usra65
-    where A0100 = #{a0100,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from usra65
-    where A0100 = #{a0100,jdbcType=VARCHAR}
-  </delete>
   <delete id="deleteByExample" parameterType="com.macro.mall.model.Usra65Example">
     delete from usra65
     <if test="_parameter != null">
@@ -266,58 +254,5 @@
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.macro.mall.model.Usra65">
-    update usra65
-    <set>
-      <if test="a6501 != null">
-        a6501 = #{a6501,jdbcType=VARCHAR},
-      </if>
-      <if test="a6502 != null">
-        a6502 = #{a6502,jdbcType=VARCHAR},
-      </if>
-      <if test="a6503 != null">
-        a6503 = #{a6503,jdbcType=TIMESTAMP},
-      </if>
-      <if test="a6504 != null">
-        A6504 = #{a6504,jdbcType=TIMESTAMP},
-      </if>
-      <if test="a6507 != null">
-        A6507 = #{a6507,jdbcType=VARCHAR},
-      </if>
-      <if test="createtime != null">
-        CreateTime = #{createtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modtime != null">
-        ModTime = #{modtime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="a6506 != null">
-        A6506 = #{a6506,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where A0100 = #{a0100,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.Usra65">
-    update usra65
-    set a6501 = #{a6501,jdbcType=VARCHAR},
-      a6502 = #{a6502,jdbcType=VARCHAR},
-      a6503 = #{a6503,jdbcType=TIMESTAMP},
-      A6504 = #{a6504,jdbcType=TIMESTAMP},
-      A6507 = #{a6507,jdbcType=VARCHAR},
-      CreateTime = #{createtime,jdbcType=TIMESTAMP},
-      ModTime = #{modtime,jdbcType=TIMESTAMP},
-      A6506 = #{a6506,jdbcType=LONGVARCHAR}
-    where A0100 = #{a0100,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.Usra65">
-    update usra65
-    set a6501 = #{a6501,jdbcType=VARCHAR},
-      a6502 = #{a6502,jdbcType=VARCHAR},
-      a6503 = #{a6503,jdbcType=TIMESTAMP},
-      A6504 = #{a6504,jdbcType=TIMESTAMP},
-      A6507 = #{a6507,jdbcType=VARCHAR},
-      CreateTime = #{createtime,jdbcType=TIMESTAMP},
-      ModTime = #{modtime,jdbcType=TIMESTAMP}
-    where A0100 = #{a0100,jdbcType=VARCHAR}
   </update>
 </mapper>

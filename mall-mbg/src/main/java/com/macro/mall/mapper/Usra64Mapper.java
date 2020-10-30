@@ -10,8 +10,6 @@ public interface Usra64Mapper {
 
     int deleteByExample(Usra64Example example);
 
-    int deleteByPrimaryKey(String a0100);
-
     int insert(Usra64 record);
 
     int insertSelective(Usra64 record);
@@ -20,17 +18,9 @@ public interface Usra64Mapper {
 
     List<Usra64> selectByExample(Usra64Example example);
 
-    Usra64 selectByPrimaryKey(String a0100);
-
     int updateByExampleSelective(@Param("record") Usra64 record, @Param("example") Usra64Example example);
 
     int updateByExampleWithBLOBs(@Param("record") Usra64 record, @Param("example") Usra64Example example);
 
     int updateByExample(@Param("record") Usra64 record, @Param("example") Usra64Example example);
-
-    int updateByPrimaryKeySelective(Usra64 record);
-
-    int updateByPrimaryKeyWithBLOBs(Usra64 record);
-
-    int updateByPrimaryKey(Usra64 record);
 }

@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.macro.mall.model.Usra01">
     <id column="A0100" jdbcType="VARCHAR" property="a0100" />
     <result column="B0110" jdbcType="VARCHAR" property="b0110" />
-    <result column="A0192" jdbcType="VARCHAR" property="a0192" />
+    <result column="E0122" jdbcType="VARCHAR" property="e0122" />
     <result column="A0111" jdbcType="TIMESTAMP" property="a0111" />
     <result column="A0141" jdbcType="TIMESTAMP" property="a0141" />
     <result column="A0107" jdbcType="VARCHAR" property="a0107" />
@@ -89,7 +89,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    A0100, B0110, A0192, A0111, A0141, A0107, A0177, A0121, A0114, A0171, A0101, A0174,
+    A0100, B0110, E0122, A0111, A0141, A0107, A0177, A0121, A0114, A0171, A0101, A0174,
     A0112, A0103, A0148, A0183, A0142, A0146, A0119, A0134, A0130, A0144, CreateTime,
     ModTime
   </sql>
@@ -145,7 +145,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.macro.mall.model.Usra01">
-    insert into usra01 (A0100, B0110, A0192,
+    insert into usra01 (A0100, B0110, E0122,
     A0111, A0141, A0107,
     A0177, A0121, A0114,
     A0171, A0101, A0174,
@@ -154,7 +154,7 @@
     A0119, A0134, A0130,
     A0144, CreateTime, ModTime,
     A01AD)
-    values (#{a0100,jdbcType=VARCHAR}, #{b0110,jdbcType=VARCHAR}, #{a0192,jdbcType=VARCHAR},
+    values (#{a0100,jdbcType=VARCHAR}, #{b0110,jdbcType=VARCHAR}, #{e0122,jdbcType=VARCHAR},
     #{a0111,jdbcType=TIMESTAMP}, #{a0141,jdbcType=TIMESTAMP}, #{a0107,jdbcType=VARCHAR},
     #{a0177,jdbcType=VARCHAR}, #{a0121,jdbcType=VARCHAR}, #{a0114,jdbcType=VARCHAR},
     #{a0171,jdbcType=VARCHAR}, #{a0101,jdbcType=VARCHAR}, #{a0174,jdbcType=VARCHAR},
@@ -173,8 +173,8 @@
       <if test="b0110 != null">
         B0110,
       </if>
-      <if test="a0192 != null">
-        A0192,
+      <if test="e0122 != null">
+        E0122,
       </if>
       <if test="a0111 != null">
         A0111,
@@ -250,8 +250,8 @@
       <if test="b0110 != null">
         #{b0110,jdbcType=VARCHAR},
       </if>
-      <if test="a0192 != null">
-        #{a0192,jdbcType=VARCHAR},
+      <if test="e0122 != null">
+        #{e0122,jdbcType=VARCHAR},
       </if>
       <if test="a0111 != null">
         #{a0111,jdbcType=TIMESTAMP},
@@ -336,8 +336,8 @@
       <if test="record.b0110 != null">
         B0110 = #{record.b0110,jdbcType=VARCHAR},
       </if>
-      <if test="record.a0192 != null">
-        A0192 = #{record.a0192,jdbcType=VARCHAR},
+      <if test="record.e0122 != null">
+        E0122 = #{record.e0122,jdbcType=VARCHAR},
       </if>
       <if test="record.a0111 != null">
         A0111 = #{record.a0111,jdbcType=TIMESTAMP},
@@ -414,7 +414,7 @@
     update usra01
     set A0100 = #{record.a0100,jdbcType=VARCHAR},
     B0110 = #{record.b0110,jdbcType=VARCHAR},
-    A0192 = #{record.a0192,jdbcType=VARCHAR},
+    E0122 = #{record.e0122,jdbcType=VARCHAR},
     A0111 = #{record.a0111,jdbcType=TIMESTAMP},
     A0141 = #{record.a0141,jdbcType=TIMESTAMP},
     A0107 = #{record.a0107,jdbcType=VARCHAR},
@@ -445,7 +445,7 @@
     update usra01
     set A0100 = #{record.a0100,jdbcType=VARCHAR},
     B0110 = #{record.b0110,jdbcType=VARCHAR},
-    A0192 = #{record.a0192,jdbcType=VARCHAR},
+    E0122 = #{record.e0122,jdbcType=VARCHAR},
     A0111 = #{record.a0111,jdbcType=TIMESTAMP},
     A0141 = #{record.a0141,jdbcType=TIMESTAMP},
     A0107 = #{record.a0107,jdbcType=VARCHAR},
@@ -477,8 +477,8 @@
       <if test="b0110 != null">
         B0110 = #{b0110,jdbcType=VARCHAR},
       </if>
-      <if test="a0192 != null">
-        A0192 = #{a0192,jdbcType=VARCHAR},
+      <if test="e0122 != null">
+        E0122 = #{e0122,jdbcType=VARCHAR},
       </if>
       <if test="a0111 != null">
         A0111 = #{a0111,jdbcType=TIMESTAMP},
@@ -552,7 +552,7 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.macro.mall.model.Usra01">
     update usra01
     set B0110 = #{b0110,jdbcType=VARCHAR},
-    A0192 = #{a0192,jdbcType=VARCHAR},
+    E0122 = #{e0122,jdbcType=VARCHAR},
     A0111 = #{a0111,jdbcType=TIMESTAMP},
     A0141 = #{a0141,jdbcType=TIMESTAMP},
     A0107 = #{a0107,jdbcType=VARCHAR},
@@ -580,7 +580,7 @@
   <update id="updateByPrimaryKey" parameterType="com.macro.mall.model.Usra01">
     update usra01
     set B0110 = #{b0110,jdbcType=VARCHAR},
-    A0192 = #{a0192,jdbcType=VARCHAR},
+    E0122 = #{e0122,jdbcType=VARCHAR},
     A0111 = #{a0111,jdbcType=TIMESTAMP},
     A0141 = #{a0141,jdbcType=TIMESTAMP},
     A0107 = #{a0107,jdbcType=VARCHAR},

@@ -245,73 +245,73 @@ public class Usra01Example {
             return (Criteria) this;
         }
 
-        public Criteria andA0192IsNull() {
-            addCriterion("A0192 is null");
+        public Criteria andE0122IsNull() {
+            addCriterion("E0122 is null");
             return (Criteria) this;
         }
 
-        public Criteria andA0192IsNotNull() {
-            addCriterion("A0192 is not null");
+        public Criteria andE0122IsNotNull() {
+            addCriterion("E0122 is not null");
             return (Criteria) this;
         }
 
-        public Criteria andA0192EqualTo(String value) {
-            addCriterion("A0192 =", value, "a0192");
+        public Criteria andE0122EqualTo(String value) {
+            addCriterion("E0122 =", value, "e0122");
             return (Criteria) this;
         }
 
-        public Criteria andA0192NotEqualTo(String value) {
-            addCriterion("A0192 <>", value, "a0192");
+        public Criteria andE0122NotEqualTo(String value) {
+            addCriterion("E0122 <>", value, "e0122");
             return (Criteria) this;
         }
 
-        public Criteria andA0192GreaterThan(String value) {
-            addCriterion("A0192 >", value, "a0192");
+        public Criteria andE0122GreaterThan(String value) {
+            addCriterion("E0122 >", value, "e0122");
             return (Criteria) this;
         }
 
-        public Criteria andA0192GreaterThanOrEqualTo(String value) {
-            addCriterion("A0192 >=", value, "a0192");
+        public Criteria andE0122GreaterThanOrEqualTo(String value) {
+            addCriterion("E0122 >=", value, "e0122");
             return (Criteria) this;
         }
 
-        public Criteria andA0192LessThan(String value) {
-            addCriterion("A0192 <", value, "a0192");
+        public Criteria andE0122LessThan(String value) {
+            addCriterion("E0122 <", value, "e0122");
             return (Criteria) this;
         }
 
-        public Criteria andA0192LessThanOrEqualTo(String value) {
-            addCriterion("A0192 <=", value, "a0192");
+        public Criteria andE0122LessThanOrEqualTo(String value) {
+            addCriterion("E0122 <=", value, "e0122");
             return (Criteria) this;
         }
 
-        public Criteria andA0192Like(String value) {
-            addCriterion("A0192 like", value, "a0192");
+        public Criteria andE0122Like(String value) {
+            addCriterion("E0122 like", value, "e0122");
             return (Criteria) this;
         }
 
-        public Criteria andA0192NotLike(String value) {
-            addCriterion("A0192 not like", value, "a0192");
+        public Criteria andE0122NotLike(String value) {
+            addCriterion("E0122 not like", value, "e0122");
             return (Criteria) this;
         }
 
-        public Criteria andA0192In(List<String> values) {
-            addCriterion("A0192 in", values, "a0192");
+        public Criteria andE0122In(List<String> values) {
+            addCriterion("E0122 in", values, "e0122");
             return (Criteria) this;
         }
 
-        public Criteria andA0192NotIn(List<String> values) {
-            addCriterion("A0192 not in", values, "a0192");
+        public Criteria andE0122NotIn(List<String> values) {
+            addCriterion("E0122 not in", values, "e0122");
             return (Criteria) this;
         }
 
-        public Criteria andA0192Between(String value1, String value2) {
-            addCriterion("A0192 between", value1, value2, "a0192");
+        public Criteria andE0122Between(String value1, String value2) {
+            addCriterion("E0122 between", value1, value2, "e0122");
             return (Criteria) this;
         }
 
-        public Criteria andA0192NotBetween(String value1, String value2) {
-            addCriterion("A0192 not between", value1, value2, "a0192");
+        public Criteria andE0122NotBetween(String value1, String value2) {
+            addCriterion("E0122 not between", value1, value2, "e0122");
             return (Criteria) this;
         }
 

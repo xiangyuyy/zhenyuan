@@ -24,7 +24,7 @@
         select m.* from member m LEFT JOIN usra01 u on m.relation_id = u.A0100
         <where>
             <if test="shopId != null and shopId !=''">
-                AND u.A0192 = #{shopId}
+                AND u.E0122 = #{shopId}
             </if>
             <if test="name != null">
                 AND u.A0101 LIKE CONCAT('%',#{name},'%')
@@ -55,7 +55,7 @@
         select m.* from member m LEFT JOIN usra01 u on m.relation_id = u.A0100
         <where>
             <if test="shopId != null and shopId !=''">
-                AND (u.A0192 = #{shopId} or m.drug_shop_id = #{shopId})
+                AND (u.E0122 = #{shopId} or m.drug_shop_id = #{shopId})
             </if>
             <if test="educationId != null">
                 AND u.a0134 = #{educationId}
