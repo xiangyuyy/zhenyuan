@@ -475,6 +475,9 @@ public class DrugReportServiceImpl implements DrugReportService {
             return -1; //没有内容不能确认
         }
         DrugReport drugReport = drugReportMapper.selectByPrimaryKey(reportId);
+        if (getDrugCountByShopId(drugReport.getShopId()) == null){
+            return -2; //没有药监数据不能确认
+        }
         drugReport.setReportTime(reportTime);
         drugReport.setOperatorId(getCurrentAdminUser().getUmsAdmin().getId().toString());
         drugReport.setCheckStatus(0);

@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.macro.mall.bo.BaseConst;
 import com.macro.mall.dao.MemberDao;
 import com.macro.mall.dto.*;
+import com.macro.mall.dto.memberInfor.*;
 import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
 import com.macro.mall.service.CodeItemService;
@@ -40,6 +41,24 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private Usra01Mapper usra01Mapper;
+
+    @Autowired
+    private Usra22Mapper usra22Mapper;
+
+    @Autowired
+    private Usra64Mapper usra64Mapper;
+
+    @Autowired
+    private Usra65Mapper usra65Mapper;
+
+    @Autowired
+    private Usra66Mapper usra66Mapper;
+
+    @Autowired
+    private Usra71Mapper usra71Mapper;
+
+    @Autowired
+    private VZhichengMapper vZhichengMapper;
 
     @Autowired
     private Usra04Mapper usra04Mapper;
@@ -368,6 +387,142 @@ public class MemberServiceImpl implements MemberService {
             daoList.add(dto);
         });
         return daoList;
+    }
+
+    @Override
+    public MemberInforDto getMemberInforDto(String id) {
+        Member member = memberMapper.selectByPrimaryKey(new Long(id));
+        if (member == null){
+            return null;
+        }
+        MemberInforDto memberInforDto = new MemberInforDto();
+        Usra01 usra01 = usra01Mapper.selectByPrimaryKey(member.getRelationId());
+        if (usra01 == null){
+            return null;
+        }
+        MemberBaseInforDto memberBaseInforDto = new MemberBaseInforDto();
+
+        memberBaseInforDto.setName(usra01.getA0101());
+
+        Organization organization = organizationMapper.selectByPrimaryKey(usra01.getB0110());
+        if (organization != null) {
+            memberBaseInforDto.setCompany(organization.getCodeitemdesc());
+        }
+        memberBaseInforDto.setBirthday(usra01.getA0111());
+        memberBaseInforDto.setWorkTime(usra01.getA0141());
+        Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX,usra01.getA0107());
+        if (codeitemSex != null){
+            memberBaseInforDto.setSex(codeitemSex.getCodeitemdesc());
+        }
+        memberBaseInforDto.setIdCard(usra01.getA0177());
+
+        Codeitem codeitemMz = codeItemService.getOneCodeitem(BaseConst.MEMBER_AE,usra01.getA0121());
+        if (codeitemMz != null){
+            memberBaseInforDto.setMingzu(codeitemMz.getCodeitemdesc());
+        }
+
+        Codeitem codeitemJg = codeItemService.getOneCodeitem(BaseConst.MEMBER_AB,usra01.getA0114());
+        if (codeitemJg != null){
+            memberBaseInforDto.setNativePlace(codeitemJg.getCodeitemdesc());
+        }
+
+        Codeitem codeitemHh = codeItemService.getOneCodeitem(BaseConst.MEMBER_HP,usra01.getA0114());
+        if (codeitemHh != null){
+            memberBaseInforDto.setHousehold(codeitemHh.getCodeitemdesc());
+        }
+        memberBaseInforDto.setAdress(usra01.getA0171());
+        memberBaseInforDto.setAge(usra01.getA0112());
+        memberBaseInforDto.setPyjm(StringPinYinCodeUtil.getPinYinHeadChar(usra01.getA0101()).toUpperCase());
+        memberBaseInforDto.setMobile(usra01.getA0148());
+        Codeitem codeitemLb = codeItemService.getOneCodeitem(BaseConst.MEMBER_XL,usra01.getA0183());
+        if (codeitemLb != null){
+            memberBaseInforDto.setPkind(codeitemLb.getCodeitemdesc());
+        }
+        memberBaseInforDto.setWorkTime(usra01.getA0142());
+        memberBaseInforDto.setEmail(usra01.getA0146());
+        memberBaseInforDto.setPnum(usra01.getA0144());
+        Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, usra01.getA0134());
+        if (codeitem != null) {//最高学历
+            memberBaseInforDto.setEducation(codeitem.getCodeitemdesc());
+        }
+        memberBaseInforDto.setNowAdress(usra01.getA0119());
+        memberBaseInforDto.setMark(usra01.getA01ad());
+
+        memberInforDto.setMemberBaseInforDto(memberBaseInforDto);
+
+        List<MemberEducationInforDto> memberEducationInforDtoList = new ArrayList<>();
+        Usra04Example usra04Example = new Usra04Example();
+        usra04Example.createCriteria().andA0100EqualTo(member.getRelationId());
+        List<Usra04> usra04List = usra04Mapper.selectByExample(usra04Example);
+        usra04List.stream().forEach(x->{
+            MemberEducationInforDto memberEducationInforDto = new MemberEducationInforDto();
+            memberEducationInforDto.setDecs(x.getA0444());
+            memberEducationInforDto.setSchool(x.getA0435());
+            memberEducationInforDto.setIsManager(x.getA04ac().equals("1")?"是":"否");
+            memberEducationInforDto.setIsHigh(x.getA04ad().equals("1")?"是":"否");
+
+            Codeitem codeitemDC = codeItemService.getOneCodeitem(BaseConst.MEMBER_DC, x.getA0449());
+            if (codeitemDC != null) {
+                memberEducationInforDto.setKind(codeitemDC.getCodeitemdesc());
+            }
+
+            Codeitem codeitemAM = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, x.getA0405());
+            if (codeitemAM != null) {
+                memberEducationInforDto.setEducation(codeitemAM.getCodeitemdesc());
+            }
+
+            Codeitem codeitemAI = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI, x.getA0405());
+            if (codeitemAI != null) {
+                memberEducationInforDto.setMajor(codeitemAI.getCodeitemdesc());
+            }
+            memberEducationInforDtoList.add(memberEducationInforDto);
+        });
+        memberInforDto.setMemberEducationInforDtoList(memberEducationInforDtoList);
+
+        List<MemberPoliticsInforDto> memberPoliticsInforDtos = new ArrayList<>();
+        Usra22Example usra22Example = new Usra22Example();
+        usra22Example.createCriteria().andA0100EqualTo(member.getRelationId());
+        List<Usra22> usr22List = usra22Mapper.selectByExample(usra22Example);
+        usr22List.stream().forEach(x->{
+            MemberPoliticsInforDto memberPoliticsInforDto = new MemberPoliticsInforDto();
+            memberPoliticsInforDto.setTime(x.getA2210());
+
+            Codeitem codeitemAT = codeItemService.getOneCodeitem(BaseConst.MEMBER_AT, x.getA2205());
+            if (codeitemAT != null) {
+                memberPoliticsInforDto.setPolitics(codeitemAT.getCodeitemdesc());
+            }
+
+            Codeitem codeitemCA = codeItemService.getOneCodeitem(BaseConst.MEMBER_CA, x.getA2230());
+            if (codeitemCA != null) {
+                memberPoliticsInforDto.setStatus(codeitemCA.getCodeitemdesc());
+            }
+            memberPoliticsInforDtos.add(memberPoliticsInforDto);
+        });
+
+        memberInforDto.setMemberPoliticsInforDtoList(memberPoliticsInforDtos);
+
+        List<MemberRetireWorkInforDto> memberRetireWorkInforDtos = new ArrayList<>();
+        Usra64Example usra64Example = new Usra64Example();
+        usra64Example.createCriteria().andA0100EqualTo(member.getRelationId());
+        List<Usra64> usr64List = usra64Mapper.selectByExample(usra64Example);
+        usr64List.stream().forEach(x->{
+            MemberRetireWorkInforDto memberRetireWorkInforDto = new MemberRetireWorkInforDto();
+            memberRetireWorkInforDto.setRetireTime(x.getA6410());
+            memberRetireWorkInforDto.setDealTime(x.getA6416());
+            memberRetireWorkInforDto.setMark(x.getA6411());
+
+            Codeitem codeitemHD = codeItemService.getOneCodeitem(BaseConst.MEMBER_HD, x.getA6405());
+            if (codeitemHD != null) {
+                memberRetireWorkInforDto.setKind(codeitemHD.getCodeitemdesc());
+            }
+
+            memberRetireWorkInforDtos.add(memberRetireWorkInforDto);
+        });
+        memberInforDto.setMemberRetireWorkInforDtoList(memberRetireWorkInforDtos);
+
+        //66
+
+        return null;
     }
 
     private static List<DepartmentDto> getThree(List<DepartmentDto> list, String parentId) {

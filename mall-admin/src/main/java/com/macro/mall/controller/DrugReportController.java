@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -57,6 +58,7 @@ public class DrugReportController {
             CommonResult.failed("经营面积不能为空");
         }
         DrugCount result = DrugCountUtil.getResult(drugCount.getSubjection(),drugCount.getChineseMedicine(),drugCount.getLongRange(),drugCount.getArea());
+        result.setShopId(drugCount.getShopId());
         return CommonResult.success(result);
     }
 
@@ -131,7 +133,10 @@ public class DrugReportController {
     @RequestMapping(value = "/getDrugReportMemberList", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<DrugReportMemberListDto>> getDrugReportMemberList(DrugReportMemberListParam param) {
-        List<DrugReportMember> list = drugReportService.getDrugReportMemberList(param);
+        List<DrugReportMember> list = new ArrayList<>();
+        if(!StringUtils.isEmpty(param.getReportId())){
+            list = drugReportService.getDrugReportMemberList(param);
+        }
         CommonPage commonPage = CommonPage.restPage(list);
         commonPage.setList(drugReportService.drugReportMemberListToDto(list));
         return CommonResult.success(commonPage);
@@ -163,7 +168,10 @@ public class DrugReportController {
     public CommonResult sureDrugReport(@PathVariable String reportId, Date reportTime) {
         int count = drugReportService.sureDrugReport(reportId,reportTime);
         if (count == -1){
-            return CommonResult.failed("没有内容不能确认");
+            return CommonResult.failed("没有人员信息内容不能确认，请添加人员");
+        }
+        if (count == -2){
+            return CommonResult.failed("没有药监数据不能确认，请先通过药监计算工具确认");
         }
         if (count > 0) {
             return CommonResult.success(count);

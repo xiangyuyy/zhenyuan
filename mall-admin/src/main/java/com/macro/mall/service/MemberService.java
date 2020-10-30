@@ -2,6 +2,8 @@ package com.macro.mall.service;
 
 import com.macro.mall.dao.MemberDao;
 import com.macro.mall.dto.*;
+import com.macro.mall.dto.memberInfor.MemberBaseInforDto;
+import com.macro.mall.dto.memberInfor.MemberInforDto;
 import com.macro.mall.model.*;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,5 +61,7 @@ public interface MemberService {
     int updateMember(UpdateMemberDto updateMemberDto);
 
     List<CodeItemDto> getCodeItemDtoByKey(String key);
+
+    MemberInforDto getMemberInforDto(String id);
 
 }
