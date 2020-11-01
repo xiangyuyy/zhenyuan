@@ -39,6 +39,15 @@ public class MemberController {
         return CommonResult.success(result);
     }
 
+    @ApiOperation("门店组织机构")
+    @RequestMapping(value = "/getAllDepartmentShop", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<DepartmentShopDto>> getAllDepartmentShop() {
+        List<DepartmentShopDto> result = memberService.getAllDepartmentShop();
+        return CommonResult.success(result);
+    }
+
+
     @ApiOperation("获取指定分类信息")
     @RequestMapping(value = "/getCodeItem/{key}", method = RequestMethod.GET)
     @ResponseBody
