@@ -163,10 +163,10 @@ public class DrugReportController {
     }
 
     @ApiOperation("确定 保存不导出")
-    @RequestMapping(value = "/sureDrugReport/{reportId}", method = RequestMethod.POST)
+    @RequestMapping(value = "/sureDrugReport", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult sureDrugReport(@PathVariable String reportId, Date reportTime) {
-        int count = drugReportService.sureDrugReport(reportId,reportTime);
+    public CommonResult sureDrugReport(@RequestBody SureDrugReportDto sureDrugReportDto) {
+        int count = drugReportService.sureDrugReport(sureDrugReportDto.getReportId(),sureDrugReportDto.getReportTime());
         if (count == -1){
             return CommonResult.failed("没有人员信息内容不能确认，请添加人员");
         }

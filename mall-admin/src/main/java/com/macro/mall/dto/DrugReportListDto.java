@@ -19,6 +19,9 @@ public class DrugReportListDto {
     @ApiModelProperty(value = "门店")
     private String shopName;
 
+    @ApiModelProperty(value = "shopId")
+    private String shopId;
+
     @ApiModelProperty(value = "审核状态：-1->待确定;0->待审核；1->审核通过")
     private Integer checkStatus;
 

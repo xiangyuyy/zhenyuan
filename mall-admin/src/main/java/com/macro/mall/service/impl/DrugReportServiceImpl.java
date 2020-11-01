@@ -307,6 +307,7 @@ public class DrugReportServiceImpl implements DrugReportService {
         }
         DrugReportListDto dto = new DrugReportListDto();
         dto.setId(drugReport.getId());
+        dto.setShopId(drugReport.getShopId());
         dto.setCheckStatus(drugReport.getCheckStatus());
         dto.setReportTime(drugReport.getReportTime());
         Organization organization = organizationMapper.selectByPrimaryKey(drugReport.getShopId());
