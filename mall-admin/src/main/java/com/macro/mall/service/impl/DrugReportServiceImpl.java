@@ -139,18 +139,24 @@ public class DrugReportServiceImpl implements DrugReportService {
 */
             dto.setDrugMajor(x.getDrugMajorId());
 
-            Codeitem drugPositionOne = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW,x.getDrugPositionOneId());
-            if (drugPositionOne != null){//岗位1
+            String drugPositionAll = "";
+            Codeitem drugPositionOne = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionOneId());
+            if (drugPositionOne != null) {//岗位1
                 dto.setDrugPositionOne(drugPositionOne.getCodeitemdesc());
+                drugPositionAll += drugPositionOne.getCodeitemdesc();
             }
-            Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW,x.getDrugPositionTwoId());
-            if (drugPositionTwo != null){//岗位2
+            Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionTwoId());
+            if (drugPositionTwo != null) {//岗位2
                 dto.setDrugPositionTwo(drugPositionTwo.getCodeitemdesc());
+                drugPositionAll += "/" + drugPositionTwo.getCodeitemdesc();
             }
-            Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW,x.getDrugPositionThreeId());
-            if (drugPositionThree != null){//岗位3
+            Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionThreeId());
+            if (drugPositionThree != null) {//岗位3
                 dto.setDrugPositionThree(drugPositionThree.getCodeitemdesc());
+                drugPositionAll += "/" + drugPositionThree.getCodeitemdesc();
             }
+            dto.setDrugPositionAll(drugPositionAll);
+
 
             Codeitem drugOrg = codeItemService.getOneCodeitem(BaseConst.DRUG_BZZC,x.getDrugOrgId());
             if (drugOrg != null){//药监编制职称
@@ -220,18 +226,24 @@ public class DrugReportServiceImpl implements DrugReportService {
 */
             dto.setDrugMajor(x.getDrugMajorId());
 
-            Codeitem drugPositionOne = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW,x.getDrugPositionOneId());
-            if (drugPositionOne != null){//岗位1
+            String drugPositionAll = "";
+            Codeitem drugPositionOne = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionOneId());
+            if (drugPositionOne != null) {//岗位1
                 dto.setDrugPositionOne(drugPositionOne.getCodeitemdesc());
+                drugPositionAll += drugPositionOne.getCodeitemdesc();
             }
-            Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW,x.getDrugPositionTwoId());
-            if (drugPositionTwo != null){//岗位2
+            Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionTwoId());
+            if (drugPositionTwo != null) {//岗位2
                 dto.setDrugPositionTwo(drugPositionTwo.getCodeitemdesc());
+                drugPositionAll += "/" + drugPositionTwo.getCodeitemdesc();
             }
-            Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW,x.getDrugPositionThreeId());
-            if (drugPositionThree != null){//岗位3
+            Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionThreeId());
+            if (drugPositionThree != null) {//岗位3
                 dto.setDrugPositionThree(drugPositionThree.getCodeitemdesc());
+                drugPositionAll += "/" + drugPositionThree.getCodeitemdesc();
             }
+            dto.setDrugPositionAll(drugPositionAll);
+
 
             Codeitem drugOrg = codeItemService.getOneCodeitem(BaseConst.DRUG_BZZC,x.getDrugOrgId());
             if (drugOrg != null){//药监编制职称
@@ -250,7 +262,7 @@ public class DrugReportServiceImpl implements DrugReportService {
     @Override
     public List<DrugReport> getDrugReportList(DrugReportListParam param) {
         PageUtil.init(param);
-        //PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
         DrugReportExample drugReportExample = new DrugReportExample();
         DrugReportExample.Criteria criteria = drugReportExample.createCriteria();
         criteria.andCheckStatusNotEqualTo(-1);
@@ -371,18 +383,24 @@ public class DrugReportServiceImpl implements DrugReportService {
                 dto.setDrugMajor(codeitemMajor.getCodeitemdesc());
             }
 */
+            String drugPositionAll = "";
             Codeitem drugPositionOne = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionOneId());
             if (drugPositionOne != null) {//岗位1
                 dto.setDrugPositionOne(drugPositionOne.getCodeitemdesc());
+                drugPositionAll += drugPositionOne.getCodeitemdesc();
             }
             Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionTwoId());
             if (drugPositionTwo != null) {//岗位2
                 dto.setDrugPositionTwo(drugPositionTwo.getCodeitemdesc());
+                drugPositionAll += "/" + drugPositionTwo.getCodeitemdesc();
             }
             Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionThreeId());
             if (drugPositionThree != null) {//岗位3
                 dto.setDrugPositionThree(drugPositionThree.getCodeitemdesc());
+                drugPositionAll += "/" + drugPositionThree.getCodeitemdesc();
             }
+            dto.setDrugPositionAll(drugPositionAll);
+
 
             Codeitem drugOrg = codeItemService.getOneCodeitem(BaseConst.DRUG_BZZC, x.getDrugOrgId());
             if (drugOrg != null) {//药监编制职称

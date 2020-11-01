@@ -4,6 +4,7 @@ import cn.hutool.json.JSONUtil;
 import com.alibaba.druid.support.json.JSONParser;
 import com.macro.mall.bo.BaseConst;
 import com.macro.mall.dto.DepartmentDto;
+import com.macro.mall.dto.DepartmentShopDto;
 import com.macro.mall.dto.MemberListParam;
 import com.macro.mall.dto.SelectDto;
 import com.macro.mall.model.*;
@@ -85,8 +86,10 @@ public class MapperTest {
         Member s = memberService.getMember(a);*/
         List<Organization> list1 = zyOrganizationMapper.getInintOrganization();
         List<DepartmentDto> list2 = memberService.getAllDepartment();
+        List<DepartmentShopDto> list3 = memberService.getAllDepartmentShop();
 
-        LOGGER.info(JSONUtil.parseArray(list2).toString());
+
+        LOGGER.info(JSONUtil.parseArray(list3).toString());
     }
 
     @Test

@@ -54,4 +54,7 @@ public class AddReportMemberListDto {
     @ApiModelProperty(value = "职务或岗位3")
     private String drugPositionThree;
 
+    @ApiModelProperty(value = "职务或岗位集合")
+    private String drugPositionAll;
+
 }

@@ -76,6 +76,9 @@ public class DrugReportMemberListDto {
     @ApiModelProperty(value = "职务或岗位3")
     private String drugPositionThree;
 
+    @ApiModelProperty(value = "职务或岗位集合")
+    private String drugPositionAll;
+
     @ApiModelProperty(value = "参加专业工作时间")
     private Date workTime;
 

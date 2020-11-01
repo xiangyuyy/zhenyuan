@@ -236,13 +236,13 @@ public class DrugReportController {
     @ResponseBody
     public CommonResult update(@RequestBody UpdateMemberRecordDto UpdateMemberRecordDto) {
         if (StringUtils.isEmpty(UpdateMemberRecordDto.getMemberId())){
-            CommonResult.failed("MemberId不能为空");
+            return CommonResult.failed("MemberId不能为空");
         }
         if (StringUtils.isEmpty(UpdateMemberRecordDto.getReportId())){
-            CommonResult.failed("ReportId不能为空");
+            return CommonResult.failed("ReportId不能为空");
         }
         if (StringUtils.isEmpty(UpdateMemberRecordDto.getChangeReason())){
-            CommonResult.failed("变更原因不能为空");
+            return CommonResult.failed("变更原因不能为空");
         }
         int count = memberRecordService.updateMemberRecord(UpdateMemberRecordDto);
         if (count == -1){

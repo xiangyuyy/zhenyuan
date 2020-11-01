@@ -27,6 +27,8 @@ public interface MemberService {
 
     List<DepartmentDto> getAllDepartment();
 
+    List<DepartmentShopDto> getAllDepartmentShop();
+
     Member getMember(String id );
 
     UpdateMemberDto getUpdateMember(String id );

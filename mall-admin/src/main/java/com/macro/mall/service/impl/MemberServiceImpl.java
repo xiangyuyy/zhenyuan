@@ -96,6 +96,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<DepartmentShopDto> getAllDepartmentShop() {
+        List<Organization> list = getAllOrganizationList();
+        List<DepartmentShopDto> result = new ArrayList<>();
+        list.stream().forEach(x -> {
+            DepartmentShopDto dto = new DepartmentShopDto(x.getCodeitemid(), x.getCodeitemdesc(), x.getParentid());
+            result.add(dto);
+        });
+        return getShopThree(result, "102");
+    }
+
+    @Override
     public Member getMember(String id) {
         return memberMapper.selectByPrimaryKey(new Long(id));
     }
@@ -325,18 +336,23 @@ public class MemberServiceImpl implements MemberService {
 */
         dto.setDrugMajor(x.getDrugMajorId());
 
+        String drugPositionAll = "";
         Codeitem drugPositionOne = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionOneId());
         if (drugPositionOne != null) {//岗位1
             dto.setDrugPositionOne(drugPositionOne.getCodeitemdesc());
+            drugPositionAll += drugPositionOne.getCodeitemdesc();
         }
         Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionTwoId());
         if (drugPositionTwo != null) {//岗位2
             dto.setDrugPositionTwo(drugPositionTwo.getCodeitemdesc());
+            drugPositionAll += "/" + drugPositionTwo.getCodeitemdesc();
         }
         Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionThreeId());
         if (drugPositionThree != null) {//岗位3
             dto.setDrugPositionThree(drugPositionThree.getCodeitemdesc());
+            drugPositionAll += "/" + drugPositionThree.getCodeitemdesc();
         }
+        dto.setDrugPositionAll(drugPositionAll);
 
         Codeitem drugOrg = codeItemService.getOneCodeitem(BaseConst.DRUG_BZZC, x.getDrugOrgId());
         if (drugOrg != null) {//药监编制职称
@@ -612,6 +628,25 @@ public class MemberServiceImpl implements MemberService {
     private static List<DepartmentDto> getChildTree(List<DepartmentDto> list, String id) {
         List<DepartmentDto> childTree = new ArrayList<>();
         for (DepartmentDto dept : list) {
+            if (dept.getParentId().equals(id)) {
+                childTree.add(dept);
+            }
+        }
+        return childTree;
+    }
+
+    private static List<DepartmentShopDto> getShopThree(List<DepartmentShopDto> list, String parentId) {
+        //获取所有子节点
+        List<DepartmentShopDto> childTreeList = getChildShopTree(list, parentId);
+        for (DepartmentShopDto dept : childTreeList) {
+            dept.setChildren(getShopThree(list, dept.getValue()));
+        }
+        return childTreeList;
+    }
+
+    private static List<DepartmentShopDto> getChildShopTree(List<DepartmentShopDto> list, String id) {
+        List<DepartmentShopDto> childTree = new ArrayList<>();
+        for (DepartmentShopDto dept : list) {
             if (dept.getParentId().equals(id)) {
                 childTree.add(dept);
             }
