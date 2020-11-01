@@ -3,6 +3,7 @@ package com.macro.mall.controller;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.*;
+import com.macro.mall.dto.memberInfor.MemberInforDto;
 import com.macro.mall.model.Member;
 import com.macro.mall.model.UmsMenu;
 import com.macro.mall.model.UmsRole;
@@ -80,6 +81,14 @@ public class MemberController {
             return CommonResult.success(count);
         }
         return CommonResult.failed();
+    }
+
+    @ApiOperation("人员详情信息")
+    @RequestMapping(value = "/getMemberInfor/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<MemberInforDto> getMemberInforDto(@PathVariable String id) {
+        MemberInforDto dto = memberService.getMemberInforDto(id);
+        return CommonResult.success(dto);
     }
 
     @ApiOperation("获取人员搜索中的门店(人员修改的药监门店)下拉框取值")

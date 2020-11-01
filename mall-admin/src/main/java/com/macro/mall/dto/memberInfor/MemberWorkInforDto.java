@@ -17,7 +17,7 @@ public class MemberWorkInforDto {
     private String id;
 
     @ApiModelProperty(value = "合同起始时间")
-    private String beginTime;
+    private Date beginTime;
 
     @ApiModelProperty(value = "合同终止时间")
     private Date endTime;
@@ -27,6 +27,9 @@ public class MemberWorkInforDto {
 
     @ApiModelProperty(value = "合同备注")
     private String mark;
+
+    @ApiModelProperty(value = "合同类型")
+    private String kind;
 
 }
 

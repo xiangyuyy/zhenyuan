@@ -27,13 +27,16 @@ public class MemberInforDto {
     private List<MemberRetireWorkInforDto> memberRetireWorkInforDtoList;
 
     @ApiModelProperty(value = "离职信息")
-    private List<MemberOutWorkInforDto> memberOutWorkInforDtos;
+    private List<MemberOutWorkInforDto> memberOutWorkInforDtoList;
 
     @ApiModelProperty(value = "政治面貌")
     private List<MemberPoliticsInforDto> memberPoliticsInforDtoList;
 
     @ApiModelProperty(value = "药监职称")
     private List<MemberDrugInforDto> memberDrugInforDtoList;
+
+    @ApiModelProperty(value = "返聘信息")
+    private List<MemberBackWorkInforDto> memberBackWorkInforDtoList;
 
 }
 

@@ -17,13 +17,13 @@ public class MemberOutWorkInforDto {
     private String id;
 
     @ApiModelProperty(value = "离职日期")
-    private String outTime;
+    private Date outTime;
 
     @ApiModelProperty(value = "离职原因")
-    private Date reason;
+    private String reason;
 
     @ApiModelProperty(value = "离职前类别")
-    private Date kind;
+    private String kind;
 
     @ApiModelProperty(value = "离职说明")
     private String mark;

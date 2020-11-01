@@ -17,7 +17,7 @@ public class MemberDrugInforDto {
     private String id;
 
     @ApiModelProperty(value = "药监职称证书编号")
-    private Date num;
+    private String num;
 
     @ApiModelProperty(value = "药监职称时间")
     private Date time;

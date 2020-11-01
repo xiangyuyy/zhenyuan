@@ -47,10 +47,10 @@ public class DataReportController {
     }
 
     @ApiOperation("人员变更历史列表头部信息")
-    @RequestMapping(value = "/member/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/member/{memberId}", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<MemberListDto> getUpdateMember(@PathVariable String id) {
-        MemberListDto dto = memberService.getMemberToDto(id);
+    public CommonResult<MemberListDto> getMemberRecordListHead(@PathVariable String memberId) {
+        MemberListDto dto = memberService.getMemberToDto(memberId);
         return CommonResult.success(dto);
     }
 

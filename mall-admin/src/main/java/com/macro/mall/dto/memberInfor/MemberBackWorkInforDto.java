@@ -31,7 +31,7 @@ public class MemberBackWorkInforDto {
     @ApiModelProperty(value = "返聘终止时间")
     private Date endTime;
 
-    @ApiModelProperty(value = "离退原因")
+    @ApiModelProperty(value = "返聘原因")
     private String reason;
 }
 

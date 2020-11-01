@@ -69,9 +69,6 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private DrugCountMapper drugCountMapper;
 
-    @Autowired
-    private VZhichengMapper vZhichengMapperMapper;
-
 
 
     @Override
@@ -253,7 +250,7 @@ public class MemberServiceImpl implements MemberService {
     public List<VZhicheng> getMemberVZhichengr(String id) {
         VZhichengExample vZhichengExample = new VZhichengExample();
         vZhichengExample.createCriteria().andGhEqualTo(id);
-        List<VZhicheng> list = vZhichengMapperMapper.selectByExample(vZhichengExample);
+        List<VZhicheng> list = vZhichengMapper.selectByExample(vZhichengExample);
         return list;
     }
 
@@ -520,9 +517,87 @@ public class MemberServiceImpl implements MemberService {
         });
         memberInforDto.setMemberRetireWorkInforDtoList(memberRetireWorkInforDtos);
 
-        //66
 
-        return null;
+        List<MemberOutWorkInforDto> memberOutWorkInforDtos = new ArrayList<>();
+        Usra66Example usra66Example = new Usra66Example();
+        usra66Example.createCriteria().andA0100EqualTo(member.getRelationId());
+        List<Usra66> usr66List = usra66Mapper.selectByExample(usra66Example);
+        usr66List.stream().forEach(x->{
+            MemberOutWorkInforDto memberOutWorkInforDto = new MemberOutWorkInforDto();
+            memberOutWorkInforDto.setOutTime(x.getA6605());
+            memberOutWorkInforDto.setMark(x.getA6609());
+
+            Codeitem codeitemDK = codeItemService.getOneCodeitem(BaseConst.MEMBER_DK, x.getA6607());
+            if (codeitemDK != null) {
+                memberOutWorkInforDto.setReason(codeitemDK.getCodeitemdesc());
+            }
+            Codeitem codeitemXL = codeItemService.getOneCodeitem(BaseConst.MEMBER_XL, x.getA66aa());
+            if (codeitemXL != null) {
+                memberOutWorkInforDto.setKind(codeitemXL.getCodeitemdesc());
+            }
+
+            memberOutWorkInforDtos.add(memberOutWorkInforDto);
+        });
+        memberInforDto.setMemberOutWorkInforDtoList(memberOutWorkInforDtos);
+
+
+        List<MemberBackWorkInforDto> memberBackWorkInforDtos = new ArrayList<>();
+        Usra65Example usra65Example = new Usra65Example();
+        usra65Example.createCriteria().andA0100EqualTo(member.getRelationId());
+        List<Usra65> usr65List = usra65Mapper.selectByExample(usra65Example);
+        usr65List.stream().forEach(x->{
+            MemberBackWorkInforDto memberBackWorkInforDto = new MemberBackWorkInforDto();
+            memberBackWorkInforDto.setCompany(x.getA6501());
+            memberBackWorkInforDto.setReason(x.getA6506());
+            memberBackWorkInforDto.setWork(x.getA6507());
+            memberBackWorkInforDto.setBeginTime(x.getA6503());
+            memberBackWorkInforDto.setEndTime(x.getA6504());
+
+            Codeitem codeitemYD = codeItemService.getOneCodeitem(BaseConst.MEMBER_YD, x.getA6502());
+            if (codeitemYD != null) {
+                memberBackWorkInforDto.setKind(codeitemYD.getCodeitemdesc());
+            }
+
+            memberBackWorkInforDtos.add(memberBackWorkInforDto);
+        });
+        memberInforDto.setMemberBackWorkInforDtoList(memberBackWorkInforDtos);
+
+        List<MemberWorkInforDto> memberWorkInforDtos = new ArrayList<>();
+        Usra71Example usra71Example = new Usra71Example();
+        usra71Example.createCriteria().andA0100EqualTo(member.getRelationId());
+        List<Usra71> usr71List = usra71Mapper.selectByExample(usra71Example);
+        usr71List.stream().forEach(x->{
+            MemberWorkInforDto memberWorkInforDto = new MemberWorkInforDto();
+            memberWorkInforDto.setBeginTime(x.getA7110());
+            memberWorkInforDto.setEndTime(x.getA7105());
+            memberWorkInforDto.setSjEndTime(x.getA7125());
+            memberWorkInforDto.setMark(x.getA7130());
+
+            Codeitem codeitemBT = codeItemService.getOneCodeitem(BaseConst.MEMBER_BT, x.getA7104());
+            if (codeitemBT != null) {
+                memberWorkInforDto.setKind(codeitemBT.getCodeitemdesc());
+            }
+
+            memberWorkInforDtos.add(memberWorkInforDto);
+        });
+        memberInforDto.setMemberWorkInforDtoList(memberWorkInforDtos);
+
+
+        List<MemberDrugInforDto> memberDrugInforDtos = new ArrayList<>();
+        VZhichengExample vZhichengExample = new VZhichengExample();
+        vZhichengExample.createCriteria().andGhEqualTo(usra01.getA0144());//人员编号
+        List<VZhicheng> vZhichengList = vZhichengMapper.selectByExample(vZhichengExample);
+        vZhichengList.stream().forEach(x->{
+            MemberDrugInforDto memberDrugInforDto = new MemberDrugInforDto();
+            memberDrugInforDto.setKind(x.getZcjb());
+            memberDrugInforDto.setNum(x.getZcbh());
+            memberDrugInforDto.setTime(x.getZcsj());
+
+            memberDrugInforDtos.add(memberDrugInforDto);
+        });
+        memberInforDto.setMemberDrugInforDtoList(memberDrugInforDtos);
+
+        return memberInforDto;
     }
 
     private static List<DepartmentDto> getThree(List<DepartmentDto> list, String parentId) {
