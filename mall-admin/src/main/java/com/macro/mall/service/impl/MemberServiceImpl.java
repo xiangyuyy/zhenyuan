@@ -144,8 +144,8 @@ public class MemberServiceImpl implements MemberService {
         List<SelectDto> dtoList = new ArrayList<>();
         list.stream().forEach(x -> {
             if (x.getCodeitemid().length() >= 9) {
-                if (x.getCodeitemid().substring(0, 9).equals("102080202") || x.getCodeitemid().substring(0, 9).equals("102080203")
-                        || x.getCodeitemid().substring(0, 9).equals("102080201")) {
+                if (x.getCodeitemid().substring(0, 7).equals("1020802") || x.getCodeitemid().substring(0, 9).equals("1020803")
+                        || x.getCodeitemid().substring(0, 7).equals("1020804")) {
                     SelectDto selectDto = new SelectDto();
                     selectDto.setValue(x.getCodeitemid());
                     selectDto.setLabel(x.getCodeitemdesc());
