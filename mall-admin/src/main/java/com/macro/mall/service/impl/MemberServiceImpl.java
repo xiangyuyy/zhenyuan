@@ -345,12 +345,12 @@ public class MemberServiceImpl implements MemberService {
         Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionTwoId());
         if (drugPositionTwo != null) {//岗位2
             dto.setDrugPositionTwo(drugPositionTwo.getCodeitemdesc());
-            drugPositionAll += "/" + drugPositionTwo.getCodeitemdesc();
+            drugPositionAll += " " + drugPositionTwo.getCodeitemdesc();
         }
         Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionThreeId());
         if (drugPositionThree != null) {//岗位3
             dto.setDrugPositionThree(drugPositionThree.getCodeitemdesc());
-            drugPositionAll += "/" + drugPositionThree.getCodeitemdesc();
+            drugPositionAll += " " + drugPositionThree.getCodeitemdesc();
         }
         dto.setDrugPositionAll(drugPositionAll);
 

@@ -350,7 +350,7 @@ public class NZYServiceImpl implements NZYService {
     public Boolean updataALL() {
         try {
             updateOrganization(zyService.getUpdateOrganization());
-            updateUsra01(zyService.getInintUsra01());
+            updateUsra01(zyService.getUpdateUsra01());
             updateUsra04(zyService.getAllUsra04());
             updateUsra22(zyService.getAllUsra22());
             updateUsra64(zyService.getAllUsra64());
@@ -371,6 +371,8 @@ public class NZYServiceImpl implements NZYService {
         try {
             insertAllOrganization(zyService.getInintOrganization());
             insertAllUsra01(zyService.getInintUsra01());
+
+            insertAllCodeItem(zyService.getAllCodeItem());
 
             updateUsra04(zyService.getAllUsra04());
             updateUsra22(zyService.getAllUsra22());
