@@ -404,7 +404,7 @@ public class MemberServiceImpl implements MemberService {
             dto.setCodeitemdesc(x.getCodeitemdesc());
             dto.setCodesetid(x.getCodesetid());
             if (!StringUtils.isEmpty(x.getCodeitemdesc())){
-                dto.setCodesetid(StringPinYinCodeUtil.getPinYinHeadChar(x.getCodeitemdesc().toUpperCase()));
+                dto.setPycode(StringPinYinCodeUtil.getPinYinHeadChar(x.getCodeitemdesc()).toUpperCase());
             }
             daoList.add(dto);
         });
