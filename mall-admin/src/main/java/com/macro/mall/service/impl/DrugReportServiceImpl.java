@@ -10,6 +10,8 @@ import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
 import com.macro.mall.service.CodeItemService;
 import com.macro.mall.service.DrugReportService;
+import com.macro.mall.service.MemberService;
+import com.macro.mall.util.DateUtil;
 import com.macro.mall.util.PageUtil;
 import io.jsonwebtoken.lang.Strings;
 import org.slf4j.Logger;
@@ -66,6 +68,8 @@ public class DrugReportServiceImpl implements DrugReportService {
     @Autowired
     private UmsAdminMapper umsAdminMapper;
 
+    @Autowired
+    private MemberService memberService;
 
     @Override
     public List<Member> getAddDrugReportMemberList(AddReportMemberListParam param) {
@@ -103,7 +107,16 @@ public class DrugReportServiceImpl implements DrugReportService {
                     dto.setEducation(codeitem.getCodeitemdesc());
                 }
                 dto.setIdCard(usra01.getA0177());
-                dto.setTitle("待定");
+                //dto.setTitle("待定");
+                List<VZhicheng> vZhichengList  = memberService.getMemberVZhichengr(usra01.getA0144());
+                String title = "";
+                for (VZhicheng v:vZhichengList) {
+                    title += v.getZcjb();
+                    if(v.getZcsj() != null){
+                        title += "(" + DateUtil.getFormatString(v.getZcsj())+")" + " ";
+                    }
+                }
+                dto.setTitle(title);
                 dto.setTitleTime(null);
                 dto.setName(usra01.getA0101());
                 Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX,usra01.getA0107());
@@ -190,7 +203,16 @@ public class DrugReportServiceImpl implements DrugReportService {
                     dto.setEducation(codeitem.getCodeitemdesc());
                 }
                 dto.setIdCard(usra01.getA0177());
-                dto.setTitle("待定");
+                //dto.setTitle("待定");
+                List<VZhicheng> vZhichengList  = memberService.getMemberVZhichengr(usra01.getA0144());
+                String title = "";
+                for (VZhicheng v:vZhichengList) {
+                    title += v.getZcjb();
+                    if(v.getZcsj() != null){
+                        title += "(" + DateUtil.getFormatString(v.getZcsj())+")" + " ";
+                    }
+                }
+                dto.setTitle(title);
                 dto.setTitleTime(null);
                 dto.setName(usra01.getA0101());
                 Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX,usra01.getA0107());
@@ -351,7 +373,16 @@ public class DrugReportServiceImpl implements DrugReportService {
                     dto.setEducation(codeitem.getCodeitemdesc());
                 }
                 /*                dto.setIdCard(usra01.getA0177());*/
-                dto.setTitle("待定");
+                //dto.setTitle("待定");
+                List<VZhicheng> vZhichengList  = memberService.getMemberVZhichengr(usra01.getA0144());
+                String title = "";
+                for (VZhicheng v:vZhichengList) {
+                    title += v.getZcjb();
+                    if(v.getZcsj() != null){
+                        title += "(" + DateUtil.getFormatString(v.getZcsj())+")" + " ";
+                    }
+                }
+                dto.setTitle(title);
                 dto.setTitleTime(null);
                 dto.setName(usra01.getA0101());
 /*                Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX,usra01.getA0107());

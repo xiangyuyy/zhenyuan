@@ -10,6 +10,7 @@ import com.macro.mall.mapper.*;
 import com.macro.mall.model.*;
 import com.macro.mall.service.CodeItemService;
 import com.macro.mall.service.MemberService;
+import com.macro.mall.util.DateUtil;
 import com.macro.mall.util.PageUtil;
 import com.macro.mall.util.StringPinYinCodeUtil;
 import org.slf4j.Logger;
@@ -198,6 +199,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<SelectDto> getAllEducation() {
+        return getItemSelectDtoByType(BaseConst.MEMBER_AM);
+    }
+
+    @Override
     public List<SelectDto> getItemSelectDtoByType(String type) {
         List<Codeitem> list = codeItemService.getCodeitemBySetId(type);
         List<SelectDto> dtoList = new ArrayList<>();
@@ -294,10 +300,13 @@ public class MemberServiceImpl implements MemberService {
             }
             dto.setIdCard(usra01.getA0177());
             //dto.setTitle("待定");
-            List<VZhicheng> vZhichengList  = getMemberVZhichengr(x.getRelationId());
+            List<VZhicheng> vZhichengList  = getMemberVZhichengr(usra01.getA0144());
             String title = "";
-            for (VZhicheng y:vZhichengList) {
-                title += y.getZcjb()+ "/" + y.getZcsj().toString()+"<br>";
+            for (VZhicheng v:vZhichengList) {
+                title += v.getZcjb();
+                if(v.getZcsj() != null){
+                    title += "(" + DateUtil.getFormatString(v.getZcsj())+")" + " ";
+                }
             }
             dto.setTitle(title);
 

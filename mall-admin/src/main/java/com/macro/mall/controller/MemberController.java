@@ -247,6 +247,15 @@ public class MemberController {
         return CommonResult.success(dto);
     }
 
+
+    @ApiOperation("获取人员搜索中学历的下拉框取值")
+    @RequestMapping(value = "/getAllEducation", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SelectDto>> getAllEducation() {
+        List<SelectDto> dto = memberService.getAllEducation();
+        return CommonResult.success(dto);
+    }
+
     @ApiOperation("获取人员修改中药监上报职称下拉框取值")
     @RequestMapping(value = "/getDrugTitleSelect", method = RequestMethod.GET)
     @ResponseBody

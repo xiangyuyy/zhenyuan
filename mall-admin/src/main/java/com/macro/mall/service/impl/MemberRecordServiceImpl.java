@@ -11,6 +11,7 @@ import com.macro.mall.service.CodeItemService;
 import com.macro.mall.service.DrugReportService;
 import com.macro.mall.service.MemberRecordService;
 import com.macro.mall.service.MemberService;
+import com.macro.mall.util.DateUtil;
 import com.macro.mall.util.PageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +56,9 @@ public class MemberRecordServiceImpl implements MemberRecordService {
 
     @Autowired
     private OrganizationMapper organizationMapper;
+
+    @Autowired
+    private MemberService memberService;
 
     @Override
     public int updateMemberRecord(UpdateMemberRecordDto updateMemberRecordDto) {
@@ -160,7 +164,16 @@ public class MemberRecordServiceImpl implements MemberRecordService {
                     dto.setEducation(codeitem.getCodeitemdesc());
                 }
                 dto.setIdCard(usra01.getA0177());
-                dto.setTitle("待定");
+                //dto.setTitle("待定");
+                List<VZhicheng> vZhichengList  = memberService.getMemberVZhichengr(usra01.getA0144());
+                String title = "";
+                for (VZhicheng v:vZhichengList) {
+                    title += v.getZcjb();
+                    if(v.getZcsj() != null){
+                        title += "(" + DateUtil.getFormatString(v.getZcsj())+")" + " ";
+                    }
+                }
+                dto.setTitle(title);
                 dto.setTitleTime(null);
                 dto.setName(usra01.getA0101());
                 Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX,usra01.getA0107());

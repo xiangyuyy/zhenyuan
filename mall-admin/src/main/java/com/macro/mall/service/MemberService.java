@@ -47,6 +47,8 @@ public interface MemberService {
 
     List<SelectDto> getAllDrugOrg();
 
+    List<SelectDto> getAllEducation();
+
     List<SelectDto> getItemSelectDtoByType(String type);
 
     List<SelectDto> getMemberEducation(String id);
