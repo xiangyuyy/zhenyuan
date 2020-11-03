@@ -48,7 +48,6 @@ public class MemberController {
         return CommonResult.success(result);
     }
 
-
     @ApiOperation("获取指定分列表信息")
     @RequestMapping(value = "/getCodeItemList", method = RequestMethod.GET)
     @ResponseBody
