@@ -2,6 +2,7 @@ package com.macro.mall.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -24,8 +25,10 @@ public class DrugReportListParam extends  ListParam{
     private String operatorId;
 
     @ApiModelProperty(value = "部门申报建立  日期开始")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date reportTimeBegin;
 
     @ApiModelProperty(value = "部门申报建立  日期结束")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date reportTimeEnd;
 }
