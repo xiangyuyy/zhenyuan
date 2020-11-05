@@ -11,6 +11,7 @@ import com.macro.mall.model.*;
 import com.macro.mall.service.CodeItemService;
 import com.macro.mall.service.MemberService;
 import com.macro.mall.util.DateUtil;
+import com.macro.mall.util.HelpUtil;
 import com.macro.mall.util.PageUtil;
 import com.macro.mall.util.StringPinYinCodeUtil;
 import org.slf4j.Logger;
@@ -69,6 +70,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private DrugCountMapper drugCountMapper;
+
+    @Autowired
+    private UmsAdminMapper adminMapper;
 
 
 
@@ -178,6 +182,20 @@ public class MemberServiceImpl implements MemberService {
             SelectDto selectDto = new SelectDto();
             selectDto.setValue(x);
             selectDto.setLabel(x);
+            dtoList.add(selectDto);
+        });
+        return dtoList;
+    }
+
+    @Override
+    public List<SelectDto> getAllOperator() {
+        UmsAdminExample example = new UmsAdminExample();
+        List<UmsAdmin> list = adminMapper.selectByExample(example);
+        List<SelectDto> dtoList = new ArrayList<>();
+        list.stream().forEach(x -> {
+            SelectDto selectDto = new SelectDto();
+            selectDto.setValue(x.getId().toString());
+            selectDto.setLabel(x.getUsername());
             dtoList.add(selectDto);
         });
         return dtoList;
@@ -409,6 +427,12 @@ public class MemberServiceImpl implements MemberService {
             daoList.add(dto);
         });
         return daoList;
+    }
+
+    @Override
+    public Boolean updateOrAddCodeItem(CodeItemDto codeItemDto) {
+           return codeItemService.addOrUpdateItem(codeItemDto.getCodesetid(),codeItemDto.getCodeitemid(),codeItemDto.getCodeitemdesc());
+
     }
 
     @Override

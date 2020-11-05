@@ -143,6 +143,7 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         if (param.getCreateTimeEnd() != null){
             criteria.andCreateTimeLessThanOrEqualTo(param.getCreateTimeEnd());
         }
+        memberRecordExample.setOrderByClause("modify_time desc");
         return memberRecordMapper.selectByExample(memberRecordExample);
     }
 

@@ -26,16 +26,16 @@
             <if test="shopId != null and shopId !=''">
                 AND u.E0122 = #{shopId}
             </if>
-            <if test="name != null">
+            <if test="name != null and name !=''">
                 AND u.A0101 LIKE CONCAT('%',#{name},'%')
             </if>
-            <if test="major != null">
+            <if test="major != null and major !=''">
                 AND u.a0130 = #{major}
             </if>
-            <if test="titleId != null">
-                AND m.relation_id in (SELECT v.gh from v_zhicheng v where v.zcjb=#{titleId})
+            <if test="titleId != null and titleId !=''">
+                AND u.a0144 in (SELECT v.gh from v_zhicheng v where v.zcjb=#{titleId})
             </if>
-            <if test="drugPositionId != null">
+            <if test="drugPositionId != null and drugPositionId !=''">
                 AND (m.drug_position_one_id = #{drugPositionId} or m.drug_position_two_id = #{drugPositionId}
                 or m.drug_position_three_id = #{drugPositionId})
             </if>
@@ -57,13 +57,13 @@
 <!--            <if test="shopId != null and shopId !=''">
                 AND (u.E0122 = #{shopId} or m.drug_shop_id = #{shopId})
             </if>-->
-            <if test="educationId != null">
+            <if test="educationId != null  and educationId !=''">
                 AND u.a0134 = #{educationId}
             </if>
-            <if test="titleId != null">
+            <if test="titleId != null  and titleId !=''">
                 AND u.a0144 in (SELECT v.gh from v_zhicheng v where v.zcjb = #{titleId})
             </if>
-            <if test="drugPositionId != null">
+            <if test="drugPositionId != null and drugPositionId !=''">
                 AND (m.drug_position_one_id = #{drugPositionId} or m.drug_position_two_id = #{drugPositionId}
                 or m.drug_position_three_id = #{drugPositionId})
             </if>

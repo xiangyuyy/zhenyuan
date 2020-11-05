@@ -41,6 +41,8 @@ public interface MemberService {
 
     List<SelectDto> getAllTitle();
 
+    List<SelectDto> getAllOperator();
+
     List<SelectDto> getAllDrugPosition();
 
     List<SelectDto> getAllDrugTitle();
@@ -65,6 +67,8 @@ public interface MemberService {
     int updateMember(UpdateMemberDto updateMemberDto);
 
     List<CodeItemDto> getCodeItemDtoByKey(String key);
+
+    Boolean updateOrAddCodeItem(CodeItemDto codeItemDto);
 
     MemberInforDto getMemberInforDto(String id);
 

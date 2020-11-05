@@ -306,6 +306,7 @@ public class DrugReportServiceImpl implements DrugReportService {
         if (param.getReportTimeEnd() != null){
             criteria.andReportTimeLessThanOrEqualTo(param.getReportTimeEnd());
         }
+        drugReportExample.setOrderByClause("modify_time desc");
         return drugReportMapper.selectByExample(drugReportExample);
 
 
@@ -491,6 +492,59 @@ public class DrugReportServiceImpl implements DrugReportService {
                 }
             } else {
                 return 0;//重复插入
+            }
+        }
+        return 1;
+    }
+
+    @Override
+    public int choseShopAddDrugReportMember(String reportId, String ShopId) {
+        DrugReport drugReport = drugReportMapper.selectByPrimaryKey(reportId);
+        if (drugReport == null) {
+            drugReport = new DrugReport();
+            drugReport.setId(reportId);
+            drugReport.setShopId(ShopId);
+            drugReport.setCheckStatus(-1);
+/*          drugReport.setOperatorId(operatorId);
+            drugReport.setReportTime(reportTime);*/
+            int i = drugReportMapper.insertSelective(drugReport);
+            if (i == 0) {
+                return -1;
+            }
+
+            MemberExample memberExample = new MemberExample();
+            memberExample.createCriteria().andDrugShopIdEqualTo(ShopId);
+            List<Member> list = memberMapper.selectByExample(memberExample);
+            list.stream().forEach(x->{
+                DrugReportMember drugReportMember = new DrugReportMember();
+                drugReportMember.setMemberId(x.getId().toString());
+                drugReportMember.setRelationId(x.getRelationId());
+                /*           drugReportMember.setWorkTime(member.getWorkTime());*/
+                drugReportMember.setReportId(reportId);
+                drugReportMemberMapper.insertSelective(drugReportMember);
+            });
+            return 1;
+        }
+        else {
+            if (!drugReport.getShopId().equals(ShopId)){ //换门店了
+                drugReport.setShopId(ShopId);
+                int i = drugReportMapper.updateByPrimaryKeySelective(drugReport);
+                DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
+                DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
+                criteria.andReportIdEqualTo(reportId);
+                drugReportMemberMapper.deleteByExample(drugReportMemberExample); //删除以前的
+                MemberExample memberExample = new MemberExample();
+                memberExample.createCriteria().andDrugShopIdEqualTo(ShopId);
+                List<Member> list = memberMapper.selectByExample(memberExample);
+                list.stream().forEach(x->{
+                    DrugReportMember drugReportMember = new DrugReportMember();
+                    drugReportMember.setMemberId(x.getId().toString());
+                    drugReportMember.setRelationId(x.getRelationId());
+                    /*           drugReportMember.setWorkTime(member.getWorkTime());*/
+                    drugReportMember.setReportId(reportId);
+                    drugReportMemberMapper.insertSelective(drugReportMember);//新增
+                });
+                return 1;
             }
         }
         return 1;

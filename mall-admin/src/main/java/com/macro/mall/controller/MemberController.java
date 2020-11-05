@@ -54,25 +54,25 @@ public class MemberController {
     public CommonResult<List<CodeItemListDto>> getCodeItemList() {
         List<CodeItemListDto> dto = new ArrayList<>();
         //性别
-         String MEMBER_AX = "AX";
+        String MEMBER_AX = "AX";
         CodeItemListDto  codeItemListDto = new CodeItemListDto();
         codeItemListDto.setTitle("性别");
         codeItemListDto.setKey(MEMBER_AX);
         dto.add(codeItemListDto);
         //民族
-         String MEMBER_AE = "AE";
+        String MEMBER_AE = "AE";
         CodeItemListDto  codeItemListDto1 = new CodeItemListDto();
         codeItemListDto1.setTitle("民族");
         codeItemListDto1.setKey(MEMBER_AE);
         dto.add(codeItemListDto1);
         //籍贯
-         String MEMBER_AB = "AB";
+        String MEMBER_AB = "AB";
         CodeItemListDto  codeItemListDto2 = new CodeItemListDto();
         codeItemListDto2.setTitle("籍贯");
         codeItemListDto2.setKey(MEMBER_AB);
         dto.add(codeItemListDto2);
         //户口性质
-         String MEMBER_HP = "HP";
+        String MEMBER_HP = "HP";
         CodeItemListDto  codeItemListDto3 = new CodeItemListDto();
         codeItemListDto3.setTitle("户口性质");
         codeItemListDto3.setKey(MEMBER_HP);
@@ -85,7 +85,7 @@ public class MemberController {
         codeItemListDto4.setKey(MEMBER_XL);
         dto.add(codeItemListDto4);
         //学历
-         String MEMBER_AM = "AM";
+        String MEMBER_AM = "AM";
         CodeItemListDto  codeItemListDto5 = new CodeItemListDto();
         codeItemListDto5.setTitle("学历");
         codeItemListDto5.setKey(MEMBER_AM);
@@ -113,28 +113,28 @@ public class MemberController {
         dto.add(codeItemListDto8);
 
         //政治面貌
-         String MEMBER_AT = "AT";
+        String MEMBER_AT = "AT";
         CodeItemListDto  codeItemListDto9 = new CodeItemListDto();
         codeItemListDto9.setTitle("政治面貌");
         codeItemListDto9.setKey(MEMBER_AT);
         dto.add(codeItemListDto9);
 
         //异常类型
-         String MEMBER_CA = "CA";
+        String MEMBER_CA = "CA";
         CodeItemListDto  codeItemListDto10 = new CodeItemListDto();
         codeItemListDto10.setTitle("异常类型");
         codeItemListDto10.setKey(MEMBER_CA);
         dto.add(codeItemListDto10);
 
         //离职原因
-         String MEMBER_DK = "DK";
+        String MEMBER_DK = "DK";
         CodeItemListDto  codeItemListDto11 = new CodeItemListDto();
         codeItemListDto11.setTitle("离职原因");
         codeItemListDto11.setKey(MEMBER_DK);
         dto.add(codeItemListDto11);
 
         //离退类别
-         String MEMBER_HD = "HD";
+        String MEMBER_HD = "HD";
         CodeItemListDto  codeItemListDto12 = new CodeItemListDto();
         codeItemListDto12.setTitle("离退类别");
         codeItemListDto12.setKey(MEMBER_HD);
@@ -148,7 +148,37 @@ public class MemberController {
         dto.add(codeItemListDto13);
 
         //药监上报职称
-         String DRUG_SBZC = "SBZC";
+        String DRUG_SBZC = "SBZC";
+        CodeItemListDto  codeItemListDto15 = new CodeItemListDto();
+        codeItemListDto15.setTitle("药监上报职称");
+        codeItemListDto15.setKey(DRUG_SBZC);
+        dto.add(codeItemListDto15);
+
+        //药监编制职称
+        String DRUG_BZZC = "BZZC";
+        CodeItemListDto  codeItemListDto16 = new CodeItemListDto();
+        codeItemListDto16.setTitle("药监编制职称");
+        codeItemListDto16.setKey(DRUG_BZZC);
+        dto.add(codeItemListDto16);
+
+        //药监岗位
+        String DRUG_DRGW = "DRGW";
+        CodeItemListDto  codeItemListDto17 = new CodeItemListDto();
+        codeItemListDto17.setTitle("药监岗位");
+        codeItemListDto17.setKey(DRUG_DRGW);
+        dto.add(codeItemListDto17);
+
+        return CommonResult.success(dto);
+    }
+
+
+    @ApiOperation("获取2.0分类列表信息")
+    @RequestMapping(value = "/getCodeItemListFor2", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<CodeItemListDto>> getCodeItemListFor2() {
+        List<CodeItemListDto> dto = new ArrayList<>();
+        //药监上报职称
+        String DRUG_SBZC = "SBZC";
         CodeItemListDto  codeItemListDto15 = new CodeItemListDto();
         codeItemListDto15.setTitle("药监上报职称");
         codeItemListDto15.setKey(DRUG_SBZC);
@@ -177,6 +207,14 @@ public class MemberController {
     public CommonResult<List<CodeItemDto>> getCodeItem(@PathVariable String key) {
         List<CodeItemDto> dto = memberService.getCodeItemDtoByKey(key);
         return CommonResult.success(dto);
+    }
+
+    @ApiOperation("修改分类信息")
+    @RequestMapping(value = "/updateCodeItem", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult update(@RequestBody CodeItemDto codeItemDto) {
+        Boolean aBoolean = memberService.updateOrAddCodeItem(codeItemDto);
+        return CommonResult.success(aBoolean);
     }
 
     @ApiOperation("人员管理列表")

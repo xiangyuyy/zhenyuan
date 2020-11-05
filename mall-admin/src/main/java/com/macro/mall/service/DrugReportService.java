@@ -36,6 +36,8 @@ public interface DrugReportService {
 
     int addDrugReportMember(AddReportMemberDto dto);
 
+    int choseShopAddDrugReportMember(String reportId,String ShopId);
+
     int deleteDrugReportMember(String id);
 
     Boolean deleteAllDrugReportMember(String id);

@@ -4,13 +4,11 @@ import cn.hutool.core.collection.ListUtil;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.*;
-import com.macro.mall.model.DrugCount;
-import com.macro.mall.model.DrugReport;
-import com.macro.mall.model.DrugReportMember;
-import com.macro.mall.model.Member;
+import com.macro.mall.model.*;
 import com.macro.mall.service.DrugReportService;
 import com.macro.mall.service.MemberRecordService;
 import com.macro.mall.service.MemberService;
+import com.macro.mall.service.UmsRoleService;
 import com.macro.mall.util.DrugCountUtil;
 import com.macro.mall.util.HelpUtil;
 import io.swagger.annotations.Api;
@@ -18,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.collections.ListUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +42,9 @@ public class DrugReportController {
     @Autowired
     private MemberRecordService memberRecordService;
 
+    @Autowired
+    private UmsRoleService roleService;
+
     @ApiOperation("获得单号")
     @RequestMapping(value = "/getReportId", method = RequestMethod.GET)
     @ResponseBody
@@ -54,10 +56,10 @@ public class DrugReportController {
     @RequestMapping(value = "/getDrugCount", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult<DrugCount> getDrugCount(@RequestBody DrugCount drugCount) {
-        if (drugCount.getArea() == null){
+        if (drugCount.getArea() == null) {
             CommonResult.failed("经营面积不能为空");
         }
-        DrugCount result = DrugCountUtil.getResult(drugCount.getSubjection(),drugCount.getChineseMedicine(),drugCount.getLongRange(),drugCount.getArea());
+        DrugCount result = DrugCountUtil.getResult(drugCount.getSubjection(), drugCount.getChineseMedicine(), drugCount.getLongRange(), drugCount.getArea());
         result.setShopId(drugCount.getShopId());
         return CommonResult.success(result);
     }
@@ -74,8 +76,8 @@ public class DrugReportController {
     @RequestMapping(value = "/sureDrugCount", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult add(@RequestBody DrugCount drugCount) {
-        if (StringUtils.isEmpty(drugCount.getShopId())){
-            return  CommonResult.failed("ShopId不能为空");
+        if (StringUtils.isEmpty(drugCount.getShopId())) {
+            return CommonResult.failed("ShopId不能为空");
         }
         int count = drugReportService.addOrUpdateDrugCount(drugCount);
         if (count > 0) {
@@ -89,10 +91,10 @@ public class DrugReportController {
     @RequestMapping(value = "/getMemberList", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<AddReportMemberListDto>> getMemberList(AddReportMemberListParam param) {
-        if (StringUtils.isEmpty(param.getShopId())){
+        if (StringUtils.isEmpty(param.getShopId())) {
             CommonResult.failed("ShopId不能为空");
         }
-        if (StringUtils.isEmpty(param.getReportId())){
+        if (StringUtils.isEmpty(param.getReportId())) {
             CommonResult.failed("ReportId不能为空");
         }
         List<Member> list = drugReportService.getAddDrugReportMemberList(param);
@@ -101,26 +103,40 @@ public class DrugReportController {
         return CommonResult.success(commonPage);
     }
 
+    @ApiOperation("选择药监门店")
+    @RequestMapping(value = "/choseShopAddDrugReportMember", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult choseShopAddDrugReportMember(String reportId, String shopId) {
+        if (StringUtils.isEmpty(shopId)) {
+            CommonResult.failed("shopId不能为空");
+        }
+        if (StringUtils.isEmpty(reportId)) {
+            CommonResult.failed("ReportId不能为空");
+        }
+        int i = drugReportService.choseShopAddDrugReportMember(reportId, shopId);
+        return CommonResult.success(i);
+    }
+
     @ApiOperation("添加人员")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult add(@RequestBody AddReportMemberDto addReportMemberDto) {
-        if (StringUtils.isEmpty(addReportMemberDto.getShopId())){
+        if (StringUtils.isEmpty(addReportMemberDto.getShopId())) {
             CommonResult.failed("ShopId不能为空");
         }
-        if (StringUtils.isEmpty(addReportMemberDto.getReportId())){
+        if (StringUtils.isEmpty(addReportMemberDto.getReportId())) {
             CommonResult.failed("ReportId不能为空");
         }
 
-        if (addReportMemberDto.getMemberIds() == null || addReportMemberDto.getMemberIds().size() == 0){
+        if (addReportMemberDto.getMemberIds() == null || addReportMemberDto.getMemberIds().size() == 0) {
             CommonResult.failed("新增人员id不能为空");
         }
         int count = drugReportService.addDrugReportMember(addReportMemberDto);
 
-        if (count == -1){
+        if (count == -1) {
             return CommonResult.failed("创建药监信息失败");
         }
-        if (count == 0){
+        if (count == 0) {
             return CommonResult.failed("存在重复新增人员");
         }
         if (count > 0) {
@@ -134,7 +150,7 @@ public class DrugReportController {
     @ResponseBody
     public CommonResult<CommonPage<DrugReportMemberListDto>> getDrugReportMemberList(DrugReportMemberListParam param) {
         List<DrugReportMember> list = new ArrayList<>();
-        if(!StringUtils.isEmpty(param.getReportId())){
+        if (!StringUtils.isEmpty(param.getReportId())) {
             list = drugReportService.getDrugReportMemberList(param);
         }
         CommonPage commonPage = CommonPage.restPage(list);
@@ -166,11 +182,11 @@ public class DrugReportController {
     @RequestMapping(value = "/sureDrugReport", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult sureDrugReport(@RequestBody SureDrugReportDto sureDrugReportDto) {
-        int count = drugReportService.sureDrugReport(sureDrugReportDto.getReportId(),sureDrugReportDto.getReportTime());
-        if (count == -1){
+        int count = drugReportService.sureDrugReport(sureDrugReportDto.getReportId(), sureDrugReportDto.getReportTime());
+        if (count == -1) {
             return CommonResult.failed("没有人员信息内容不能确认，请添加人员");
         }
-        if (count == -2){
+        if (count == -2) {
             return CommonResult.failed("没有药监数据不能确认，请先通过药监计算工具确认");
         }
         if (count > 0) {
@@ -213,7 +229,7 @@ public class DrugReportController {
     @RequestMapping(value = "/getDrugChangeReportMemberList", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<DrugReportMemberListDto>> getDrugChangeReportMemberList(DrugReportMemberListParam param) {
-        if (StringUtils.isEmpty(param.getReportId())){
+        if (StringUtils.isEmpty(param.getReportId())) {
             CommonResult.failed("ReportId不能为空");
         }
         List<DrugReportMember> list = drugReportService.getDrugReportMemberList(param);
@@ -235,17 +251,17 @@ public class DrugReportController {
     @RequestMapping(value = "/updateMemberRecord", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult update(@RequestBody UpdateMemberRecordDto UpdateMemberRecordDto) {
-        if (StringUtils.isEmpty(UpdateMemberRecordDto.getMemberId())){
+        if (StringUtils.isEmpty(UpdateMemberRecordDto.getMemberId())) {
             return CommonResult.failed("MemberId不能为空");
         }
-        if (StringUtils.isEmpty(UpdateMemberRecordDto.getReportId())){
+        if (StringUtils.isEmpty(UpdateMemberRecordDto.getReportId())) {
             return CommonResult.failed("ReportId不能为空");
         }
-        if (StringUtils.isEmpty(UpdateMemberRecordDto.getChangeReason())){
+        if (StringUtils.isEmpty(UpdateMemberRecordDto.getChangeReason())) {
             return CommonResult.failed("变更原因不能为空");
         }
         int count = memberRecordService.updateMemberRecord(UpdateMemberRecordDto);
-        if (count == -1){
+        if (count == -1) {
             return CommonResult.failed("没有找到定人员信息");
         }
         if (count > 0) {
@@ -254,5 +270,22 @@ public class DrugReportController {
         return CommonResult.failed();
     }
 
+    @ApiOperation(value = "是否有审核权限")
+    @RequestMapping(value = "/isCanSH", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult isCanSH() {
+        List<UmsMenu> list = roleService.getMenuList(drugReportService.getCurrentAdminUser().getUmsAdmin().getId());
+        if (list.stream().anyMatch(x -> x.getTitle().contains("药监审核"))) {
+            return CommonResult.success(true);
+        }
+        return CommonResult.success(false);
+    }
 
+    @ApiOperation("获取搜索中操作员的下拉框取值")
+    @RequestMapping(value = "/getAllOperator", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SelectDto>> getAllOperator() {
+        List<SelectDto> dto = memberService.getAllOperator();
+        return CommonResult.success(dto);
+    }
 }
