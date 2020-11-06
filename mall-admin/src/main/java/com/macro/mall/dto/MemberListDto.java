@@ -88,4 +88,7 @@ public class MemberListDto {
     @ApiModelProperty(value = "是否参加培训：0->否；1->是")
     private Integer trainStatus;
 
+    @ApiModelProperty(value = "是否虚挂")
+    private String isInvitual;
+
 }

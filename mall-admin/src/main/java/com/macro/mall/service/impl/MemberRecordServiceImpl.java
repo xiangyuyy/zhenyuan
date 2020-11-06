@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -239,6 +240,13 @@ public class MemberRecordServiceImpl implements MemberRecordService {
             Codeitem drugTitle = codeItemService.getOneCodeitem(BaseConst.DRUG_SBZC,x.getDrugTitleId());
             if (drugTitle != null){//药监上报职称
                 dto.setDrugTitle(drugTitle.getCodeitemdesc());
+            }
+            //虚挂
+            if (!StringUtils.isEmpty(x.getDrugShopId()) &&!x.getDrugShopId().equals(usra01.getE0122())) {
+                dto.setIsInvitual("是");
+            }
+            else {
+                dto.setIsInvitual("否");
             }
 
             // 变更特殊

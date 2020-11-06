@@ -180,6 +180,13 @@ public class DrugReportServiceImpl implements DrugReportService {
             if (drugTitle != null){//药监上报职称
                 dto.setDrugTitle(drugTitle.getCodeitemdesc());
             }
+            //虚挂
+            if (!StringUtils.isEmpty(x.getDrugShopId()) &&!x.getDrugShopId().equals(usra01.getE0122())) {
+                dto.setIsInvitual("是");
+            }
+            else {
+                dto.setIsInvitual("否");
+            }
             daoList.add(dto);
         });
         return daoList;
@@ -275,6 +282,13 @@ public class DrugReportServiceImpl implements DrugReportService {
             Codeitem drugTitle = codeItemService.getOneCodeitem(BaseConst.DRUG_SBZC,x.getDrugTitleId());
             if (drugTitle != null){//药监上报职称
                 dto.setDrugTitle(drugTitle.getCodeitemdesc());
+            }
+            //虚挂
+            if (!StringUtils.isEmpty(x.getDrugShopId()) &&!x.getDrugShopId().equals(usra01.getE0122())) {
+                dto.setIsInvitual("是");
+            }
+            else {
+                dto.setIsInvitual("否");
             }
             daoList.add(dto);
         });
@@ -444,6 +458,13 @@ public class DrugReportServiceImpl implements DrugReportService {
             Codeitem drugTitle = codeItemService.getOneCodeitem(BaseConst.DRUG_SBZC, x.getDrugTitleId());
             if (drugTitle != null) {//药监上报职称
                 dto.setDrugTitle(drugTitle.getCodeitemdesc());
+            }
+            //虚挂
+            if (!StringUtils.isEmpty(x.getDrugShopId()) &&!x.getDrugShopId().equals(usra01.getE0122())) {
+                dto.setIsInvitual("是");
+            }
+            else {
+                dto.setIsInvitual("否");
             }
             daoList.add(dto);
         });

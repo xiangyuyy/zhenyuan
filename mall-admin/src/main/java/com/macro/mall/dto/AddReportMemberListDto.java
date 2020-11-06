@@ -57,4 +57,7 @@ public class AddReportMemberListDto {
     @ApiModelProperty(value = "职务或岗位集合")
     private String drugPositionAll;
 
+    @ApiModelProperty(value = "是否虚挂")
+    private String isInvitual;
+
 }

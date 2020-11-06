@@ -9,6 +9,7 @@ import com.macro.mall.model.UmsMenu;
 import com.macro.mall.model.UmsRole;
 import com.macro.mall.service.MemberService;
 import com.macro.mall.service.UmsMenuService;
+import com.macro.mall.util.ExcelRead;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,7 +17,9 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +51,25 @@ public class MemberController {
         return CommonResult.success(result);
     }
 
+    @ApiOperation("导入")
+    @RequestMapping(value = "/importMember", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult importMember(MultipartFile file) {
+        List<ArrayList<String>> readExcel = null;
+        try {
+            readExcel = ExcelRead.readExcel(file);
+            if (readExcel == null) {
+                return CommonResult.failed();
+            }
+            for (ArrayList<String> arrayList : readExcel) {
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return CommonResult.success(1);
+    }
+
     @ApiOperation("获取指定分列表信息")
     @RequestMapping(value = "/getCodeItemList", method = RequestMethod.GET)
     @ResponseBody
@@ -55,115 +77,115 @@ public class MemberController {
         List<CodeItemListDto> dto = new ArrayList<>();
         //性别
         String MEMBER_AX = "AX";
-        CodeItemListDto  codeItemListDto = new CodeItemListDto();
+        CodeItemListDto codeItemListDto = new CodeItemListDto();
         codeItemListDto.setTitle("性别");
         codeItemListDto.setKey(MEMBER_AX);
         dto.add(codeItemListDto);
         //民族
         String MEMBER_AE = "AE";
-        CodeItemListDto  codeItemListDto1 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto1 = new CodeItemListDto();
         codeItemListDto1.setTitle("民族");
         codeItemListDto1.setKey(MEMBER_AE);
         dto.add(codeItemListDto1);
         //籍贯
         String MEMBER_AB = "AB";
-        CodeItemListDto  codeItemListDto2 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto2 = new CodeItemListDto();
         codeItemListDto2.setTitle("籍贯");
         codeItemListDto2.setKey(MEMBER_AB);
         dto.add(codeItemListDto2);
         //户口性质
         String MEMBER_HP = "HP";
-        CodeItemListDto  codeItemListDto3 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto3 = new CodeItemListDto();
         codeItemListDto3.setTitle("户口性质");
         codeItemListDto3.setKey(MEMBER_HP);
         dto.add(codeItemListDto3);
 
         //人员类别  离职前类别
         String MEMBER_XL = "XL";
-        CodeItemListDto  codeItemListDto4 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto4 = new CodeItemListDto();
         codeItemListDto4.setTitle("人员类别  离职前类别");
         codeItemListDto4.setKey(MEMBER_XL);
         dto.add(codeItemListDto4);
         //学历
         String MEMBER_AM = "AM";
-        CodeItemListDto  codeItemListDto5 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto5 = new CodeItemListDto();
         codeItemListDto5.setTitle("学历");
         codeItemListDto5.setKey(MEMBER_AM);
         dto.add(codeItemListDto5);
 
         //学历性质
         String MEMBER_DC = "DC";
-        CodeItemListDto  codeItemListDto6 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto6 = new CodeItemListDto();
         codeItemListDto6.setTitle("学历性质");
         codeItemListDto6.setKey(MEMBER_DC);
         dto.add(codeItemListDto6);
 
         //所学专业
         String MEMBER_AI = "AI";
-        CodeItemListDto  codeItemListDto7 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto7 = new CodeItemListDto();
         codeItemListDto7.setTitle("所学专业");
         codeItemListDto7.setKey(MEMBER_AI);
         dto.add(codeItemListDto7);
 
         //合同类型
         String MEMBER_BT = "BT";
-        CodeItemListDto  codeItemListDto8 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto8 = new CodeItemListDto();
         codeItemListDto8.setTitle("合同类型");
         codeItemListDto8.setKey(MEMBER_BT);
         dto.add(codeItemListDto8);
 
         //政治面貌
         String MEMBER_AT = "AT";
-        CodeItemListDto  codeItemListDto9 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto9 = new CodeItemListDto();
         codeItemListDto9.setTitle("政治面貌");
         codeItemListDto9.setKey(MEMBER_AT);
         dto.add(codeItemListDto9);
 
         //异常类型
         String MEMBER_CA = "CA";
-        CodeItemListDto  codeItemListDto10 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto10 = new CodeItemListDto();
         codeItemListDto10.setTitle("异常类型");
         codeItemListDto10.setKey(MEMBER_CA);
         dto.add(codeItemListDto10);
 
         //离职原因
         String MEMBER_DK = "DK";
-        CodeItemListDto  codeItemListDto11 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto11 = new CodeItemListDto();
         codeItemListDto11.setTitle("离职原因");
         codeItemListDto11.setKey(MEMBER_DK);
         dto.add(codeItemListDto11);
 
         //离退类别
         String MEMBER_HD = "HD";
-        CodeItemListDto  codeItemListDto12 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto12 = new CodeItemListDto();
         codeItemListDto12.setTitle("离退类别");
         codeItemListDto12.setKey(MEMBER_HD);
         dto.add(codeItemListDto12);
 
         //返聘类别
         String MEMBER_YD = "YD";
-        CodeItemListDto  codeItemListDto13 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto13 = new CodeItemListDto();
         codeItemListDto13.setTitle("返聘类别");
         codeItemListDto13.setKey(MEMBER_YD);
         dto.add(codeItemListDto13);
 
         //药监上报职称
         String DRUG_SBZC = "SBZC";
-        CodeItemListDto  codeItemListDto15 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto15 = new CodeItemListDto();
         codeItemListDto15.setTitle("药监上报职称");
         codeItemListDto15.setKey(DRUG_SBZC);
         dto.add(codeItemListDto15);
 
         //药监编制职称
         String DRUG_BZZC = "BZZC";
-        CodeItemListDto  codeItemListDto16 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto16 = new CodeItemListDto();
         codeItemListDto16.setTitle("药监编制职称");
         codeItemListDto16.setKey(DRUG_BZZC);
         dto.add(codeItemListDto16);
 
         //药监岗位
         String DRUG_DRGW = "DRGW";
-        CodeItemListDto  codeItemListDto17 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto17 = new CodeItemListDto();
         codeItemListDto17.setTitle("药监岗位");
         codeItemListDto17.setKey(DRUG_DRGW);
         dto.add(codeItemListDto17);
@@ -179,21 +201,21 @@ public class MemberController {
         List<CodeItemListDto> dto = new ArrayList<>();
         //药监上报职称
         String DRUG_SBZC = "SBZC";
-        CodeItemListDto  codeItemListDto15 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto15 = new CodeItemListDto();
         codeItemListDto15.setTitle("药监上报职称");
         codeItemListDto15.setKey(DRUG_SBZC);
         dto.add(codeItemListDto15);
 
         //药监编制职称
         String DRUG_BZZC = "BZZC";
-        CodeItemListDto  codeItemListDto16 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto16 = new CodeItemListDto();
         codeItemListDto16.setTitle("药监编制职称");
         codeItemListDto16.setKey(DRUG_BZZC);
         dto.add(codeItemListDto16);
 
         //药监岗位
         String DRUG_DRGW = "DRGW";
-        CodeItemListDto  codeItemListDto17 = new CodeItemListDto();
+        CodeItemListDto codeItemListDto17 = new CodeItemListDto();
         codeItemListDto17.setTitle("药监岗位");
         codeItemListDto17.setKey(DRUG_DRGW);
         dto.add(codeItemListDto17);
@@ -240,11 +262,11 @@ public class MemberController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult update(@RequestBody UpdateMemberDto updateMemberDto) {
-        if (StringUtils.isEmpty(updateMemberDto.getId())){
+        if (StringUtils.isEmpty(updateMemberDto.getId())) {
             return CommonResult.failed("Id不能为空");
         }
         int count = memberService.updateMember(updateMemberDto);
-        if (count == -1){
+        if (count == -1) {
             return CommonResult.failed("没有找到定人员信息");
         }
         if (count > 0) {

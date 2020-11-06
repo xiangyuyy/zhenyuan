@@ -10,6 +10,7 @@ import com.macro.mall.service.MemberRecordService;
 import com.macro.mall.service.MemberService;
 import com.macro.mall.service.UmsRoleService;
 import com.macro.mall.util.DrugCountUtil;
+import com.macro.mall.util.ExportExcel;
 import com.macro.mall.util.HelpUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +21,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -199,6 +202,39 @@ public class DrugReportController {
             return CommonResult.failed("没有药监数据不能确认，请先通过药监计算工具确认");
         }
         if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
+
+    @ApiOperation("确定 保存导出")
+    @RequestMapping(value = "/sureAndExportDrugReport", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult sureAndExportDrugReport(HttpServletRequest request,
+                                                HttpServletResponse response, @RequestBody SureDrugReportDto sureDrugReportDto) {
+        int count = drugReportService.sureDrugReport(sureDrugReportDto.getReportId(), sureDrugReportDto.getReportTime());
+        if (count == -1) {
+            return CommonResult.failed("没有人员信息内容不能确认，请添加人员");
+        }
+        if (count == -2) {
+            return CommonResult.failed("没有药监数据不能确认，请先通过药监计算工具确认");
+        }
+        if (count > 0) {
+            List<DrugReportMember> list = new ArrayList<>();
+            if (!StringUtils.isEmpty(sureDrugReportDto.getReportId())) {
+                DrugReportMemberListParam param = new DrugReportMemberListParam();
+                param.setReportId(sureDrugReportDto.getReportId());
+                param.setPageSize(Integer.MAX_VALUE);
+                param.setPageNum(1);
+                list = drugReportService.getDrugReportMemberList(param);
+                List<DrugReportMemberListDto> result = drugReportService.drugReportMemberListToDto(list);
+                ExportExcel<DrugReportMemberListDto> ee= new ExportExcel<DrugReportMemberListDto>();
+                String[] headers = {"收货人姓名","手机号码 ","收货地址 ","蟹卡类型","昵称","用户ID","蟹卡卡号 ","蟹卡密码","发货时间","登录电话"};
+                String fileName = "蟹卡列表";
+                ee.exportExcel(headers,result,fileName,response);
+            }
             return CommonResult.success(count);
         } else {
             return CommonResult.failed();
