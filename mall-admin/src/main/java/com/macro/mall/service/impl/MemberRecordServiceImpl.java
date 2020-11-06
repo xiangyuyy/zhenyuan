@@ -138,9 +138,11 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         MemberRecordExample.Criteria criteria = memberRecordExample.createCriteria();
         criteria.andMemberIdEqualTo(param.getMemberId());
         if (param.getCreateTimeBegin() != null){
+            param.setCreateTimeBegin(DateUtil.getDateAddOneDay(param.getCreateTimeBegin()));
             criteria.andCreateTimeGreaterThanOrEqualTo(param.getCreateTimeBegin());
         }
         if (param.getCreateTimeEnd() != null){
+            param.setCreateTimeEnd(DateUtil.getDateAddOneDay(param.getCreateTimeEnd()));
             criteria.andCreateTimeLessThanOrEqualTo(param.getCreateTimeEnd());
         }
         memberRecordExample.setOrderByClause("modify_time desc");

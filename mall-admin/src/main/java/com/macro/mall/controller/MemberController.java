@@ -241,7 +241,7 @@ public class MemberController {
     @ResponseBody
     public CommonResult update(@RequestBody UpdateMemberDto updateMemberDto) {
         if (StringUtils.isEmpty(updateMemberDto.getId())){
-            CommonResult.failed("Id不能为空");
+            return CommonResult.failed("Id不能为空");
         }
         int count = memberService.updateMember(updateMemberDto);
         if (count == -1){

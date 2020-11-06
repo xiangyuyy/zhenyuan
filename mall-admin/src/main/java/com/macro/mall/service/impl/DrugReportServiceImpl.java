@@ -301,9 +301,11 @@ public class DrugReportServiceImpl implements DrugReportService {
             criteria.andIdLike("%" + param.getReportId() + "%");
         }
         if (param.getReportTimeBegin() != null){
+            param.setReportTimeBegin(DateUtil.getDateAddOneDay(param.getReportTimeBegin()));
             criteria.andReportTimeGreaterThanOrEqualTo(param.getReportTimeBegin());
         }
         if (param.getReportTimeEnd() != null){
+            param.setReportTimeEnd(DateUtil.getDateAddOneDay(param.getReportTimeEnd()));
             criteria.andReportTimeLessThanOrEqualTo(param.getReportTimeEnd());
         }
         drugReportExample.setOrderByClause("modify_time desc");

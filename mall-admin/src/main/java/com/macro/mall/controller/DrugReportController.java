@@ -57,7 +57,16 @@ public class DrugReportController {
     @ResponseBody
     public CommonResult<DrugCount> getDrugCount(@RequestBody DrugCount drugCount) {
         if (drugCount.getArea() == null) {
-            CommonResult.failed("经营面积不能为空");
+            return CommonResult.failed("经营面积不能为空");
+        }
+        if (drugCount.getSubjection() == null) {
+            return CommonResult.failed("行政隶属不能为空");
+        }
+        if (drugCount.getChineseMedicine() == null) {
+            return  CommonResult.failed("有无中药不能为空");
+        }
+        if (drugCount.getLongRange() == null) {
+            return CommonResult.failed("是否远程不能为空");
         }
         DrugCount result = DrugCountUtil.getResult(drugCount.getSubjection(), drugCount.getChineseMedicine(), drugCount.getLongRange(), drugCount.getArea());
         result.setShopId(drugCount.getShopId());
@@ -92,10 +101,10 @@ public class DrugReportController {
     @ResponseBody
     public CommonResult<CommonPage<AddReportMemberListDto>> getMemberList(AddReportMemberListParam param) {
         if (StringUtils.isEmpty(param.getShopId())) {
-            CommonResult.failed("ShopId不能为空");
+            return CommonResult.failed("ShopId不能为空");
         }
         if (StringUtils.isEmpty(param.getReportId())) {
-            CommonResult.failed("ReportId不能为空");
+            return CommonResult.failed("ReportId不能为空");
         }
         List<Member> list = drugReportService.getAddDrugReportMemberList(param);
         CommonPage commonPage = CommonPage.restPage(list);
@@ -108,10 +117,10 @@ public class DrugReportController {
     @ResponseBody
     public CommonResult choseShopAddDrugReportMember(String reportId, String shopId) {
         if (StringUtils.isEmpty(shopId)) {
-            CommonResult.failed("shopId不能为空");
+            return CommonResult.failed("shopId不能为空");
         }
         if (StringUtils.isEmpty(reportId)) {
-            CommonResult.failed("ReportId不能为空");
+            return CommonResult.failed("ReportId不能为空");
         }
         int i = drugReportService.choseShopAddDrugReportMember(reportId, shopId);
         return CommonResult.success(i);
@@ -122,14 +131,14 @@ public class DrugReportController {
     @ResponseBody
     public CommonResult add(@RequestBody AddReportMemberDto addReportMemberDto) {
         if (StringUtils.isEmpty(addReportMemberDto.getShopId())) {
-            CommonResult.failed("ShopId不能为空");
+            return CommonResult.failed("ShopId不能为空");
         }
         if (StringUtils.isEmpty(addReportMemberDto.getReportId())) {
-            CommonResult.failed("ReportId不能为空");
+            return CommonResult.failed("ReportId不能为空");
         }
 
         if (addReportMemberDto.getMemberIds() == null || addReportMemberDto.getMemberIds().size() == 0) {
-            CommonResult.failed("新增人员id不能为空");
+            return CommonResult.failed("新增人员id不能为空");
         }
         int count = drugReportService.addDrugReportMember(addReportMemberDto);
 
@@ -230,7 +239,7 @@ public class DrugReportController {
     @ResponseBody
     public CommonResult<CommonPage<DrugReportMemberListDto>> getDrugChangeReportMemberList(DrugReportMemberListParam param) {
         if (StringUtils.isEmpty(param.getReportId())) {
-            CommonResult.failed("ReportId不能为空");
+            return CommonResult.failed("ReportId不能为空");
         }
         List<DrugReportMember> list = drugReportService.getDrugReportMemberList(param);
         CommonPage commonPage = CommonPage.restPage(list);
