@@ -480,7 +480,7 @@ public class MemberServiceImpl implements MemberService {
             memberBaseInforDto.setNativePlace(codeitemJg.getCodeitemdesc());
         }
 
-        Codeitem codeitemHh = codeItemService.getOneCodeitem(BaseConst.MEMBER_HP,usra01.getA0114());
+        Codeitem codeitemHh = codeItemService.getOneCodeitem(BaseConst.MEMBER_HP,usra01.getA0174());
         if (codeitemHh != null){
             memberBaseInforDto.setHousehold(codeitemHh.getCodeitemdesc());
         }
@@ -525,7 +525,7 @@ public class MemberServiceImpl implements MemberService {
                 memberEducationInforDto.setEducation(codeitemAM.getCodeitemdesc());
             }
 
-            Codeitem codeitemAI = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI, x.getA0405());
+            Codeitem codeitemAI = codeItemService.getOneCodeitem(BaseConst.MEMBER_AI, x.getA0410());
             if (codeitemAI != null) {
                 memberEducationInforDto.setMajor(codeitemAI.getCodeitemdesc());
             }
