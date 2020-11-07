@@ -612,6 +612,23 @@ public class DrugReportServiceImpl implements DrugReportService {
     }
 
     @Override
+    public List<ExportDrugReportMemberDto> exportDrugReportMember(String reportId) {
+        DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
+        DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
+        criteria.andReportIdEqualTo(reportId);
+        List<DrugReportMember> list =  drugReportMemberMapper.selectByExample(drugReportMemberExample);
+        List<DrugReportMemberListDto> toDtos = drugChangeReportMemberListToDto(list);
+        List<ExportDrugReportMemberDto> result = new ArrayList<>();
+        toDtos.stream().forEach(x->{
+            ExportDrugReportMemberDto model = new ExportDrugReportMemberDto();
+            model.setName(x.getName());
+            //导出
+            result.add(model);
+        });
+        return result;
+    }
+
+    @Override
     public int passDrugReport(String reportId) {
         DrugReport drugReport = drugReportMapper.selectByPrimaryKey(reportId);
         drugReport.setCheckStatus(1);

@@ -44,6 +44,8 @@ public interface DrugReportService {
 
     int sureDrugReport(String reportId, Date reportTime);
 
+    List<ExportDrugReportMemberDto> exportDrugReportMember(String reportId);
+
     int passDrugReport(String reportId);
 
     DrugCount getDrugCountByShopId(String shopId);

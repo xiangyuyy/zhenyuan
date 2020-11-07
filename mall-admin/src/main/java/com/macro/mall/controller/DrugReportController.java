@@ -224,15 +224,10 @@ public class DrugReportController {
         if (count > 0) {
             List<DrugReportMember> list = new ArrayList<>();
             if (!StringUtils.isEmpty(sureDrugReportDto.getReportId())) {
-                DrugReportMemberListParam param = new DrugReportMemberListParam();
-                param.setReportId(sureDrugReportDto.getReportId());
-                param.setPageSize(Integer.MAX_VALUE);
-                param.setPageNum(1);
-                list = drugReportService.getDrugReportMemberList(param);
-                List<DrugReportMemberListDto> result = drugReportService.drugReportMemberListToDto(list);
-                ExportExcel<DrugReportMemberListDto> ee= new ExportExcel<DrugReportMemberListDto>();
+                List<ExportDrugReportMemberDto> result = drugReportService.exportDrugReportMember(sureDrugReportDto.getReportId());
+                ExportExcel<ExportDrugReportMemberDto> ee= new ExportExcel<ExportDrugReportMemberDto>();
                 String[] headers = {"收货人姓名","手机号码 ","收货地址 ","蟹卡类型","昵称","用户ID","蟹卡卡号 ","蟹卡密码","发货时间","登录电话"};
-                String fileName = "蟹卡列表";
+                String fileName = "药监申报表" + sureDrugReportDto.getReportId();
                 ee.exportExcel(headers,result,fileName,response);
             }
             return CommonResult.success(count);
