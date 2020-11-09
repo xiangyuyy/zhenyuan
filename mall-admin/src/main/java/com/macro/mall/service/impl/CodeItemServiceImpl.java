@@ -80,4 +80,21 @@ public class CodeItemServiceImpl implements CodeItemService {
         }
         return true;
     }
+
+    @Override
+    public Boolean deleteCodeItem(String codesetid, String codeitemid) {
+        Codeitem codeitem = getOneCodeitem(codesetid, codeitemid);
+        if (codeitem == null){
+            return false;
+        }
+        CodeitemExample example  = new CodeitemExample();
+        CodeitemExample.Criteria c = example.createCriteria();
+        c.andCodeitemidEqualTo(codeitemid);
+        c.andCodesetidEqualTo(codesetid);
+        int i = codeitemMapper.deleteByExample(example);
+        if (i <= 0) {
+            return false;
+        }
+        return true;
+    }
 }

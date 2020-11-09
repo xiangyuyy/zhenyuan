@@ -444,6 +444,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public Boolean deleteCodeItem(CodeItemDto codeItemDto) {
+        return codeItemService.deleteCodeItem(codeItemDto.getCodesetid(),codeItemDto.getCodeitemid());
+    }
+
+    @Override
     public MemberInforDto getMemberInforDto(String id) {
         Member member = memberMapper.selectByPrimaryKey(new Long(id));
         if (member == null){

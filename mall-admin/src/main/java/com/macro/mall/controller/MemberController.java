@@ -231,11 +231,19 @@ public class MemberController {
         return CommonResult.success(dto);
     }
 
-    @ApiOperation("修改分类信息")
-    @RequestMapping(value = "/updateCodeItem", method = RequestMethod.POST)
+    @ApiOperation("修改或者新增分类信息")
+    @RequestMapping(value = "/updateOrAddCodeItem", method = RequestMethod.POST)
     @ResponseBody
     public CommonResult update(@RequestBody CodeItemDto codeItemDto) {
         Boolean aBoolean = memberService.updateOrAddCodeItem(codeItemDto);
+        return CommonResult.success(aBoolean);
+    }
+
+    @ApiOperation("删除分类信息")
+    @RequestMapping(value = "/deleteCodeItem", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult deleteCodeItem(@RequestBody CodeItemDto codeItemDto) {
+        Boolean aBoolean = memberService.deleteCodeItem(codeItemDto);
         return CommonResult.success(aBoolean);
     }
 

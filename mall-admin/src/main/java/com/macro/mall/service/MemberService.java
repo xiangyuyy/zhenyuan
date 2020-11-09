@@ -70,6 +70,8 @@ public interface MemberService {
 
     Boolean updateOrAddCodeItem(CodeItemDto codeItemDto);
 
+    Boolean deleteCodeItem(CodeItemDto codeItemDto);
+
     MemberInforDto getMemberInforDto(String id);
 
 }

@@ -28,5 +28,5 @@ public interface CodeItemService {
 
     Boolean addOrUpdateItem(String codesetid, String codeitemid, String codeitemdesc);
 
-
+    Boolean deleteCodeItem(String codesetid, String codeitemid);
 }
