@@ -19,4 +19,6 @@ public class MemberListParam  extends  ListParam{
     private String major;
     @ApiModelProperty(value = "职务id")
     private String drugPositionId;
+    @ApiModelProperty(value = "药监门店是否为空 0 空 1 不为空")
+    private String isNullDrugShopId;
 }

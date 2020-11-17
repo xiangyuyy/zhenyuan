@@ -15,6 +15,8 @@ public class AddReportMemberListParam extends  ListParam{
     private String reportId;
     @ApiModelProperty(value = "职称id")
     private String titleId;
+    @ApiModelProperty(value = "姓名")
+    private String name;
     @ApiModelProperty(value = "学历")
     private String educationId;
     @ApiModelProperty(value = "职务id")
