@@ -9,6 +9,7 @@
     <result column="drug_shop_id" jdbcType="VARCHAR" property="drugShopId" />
     <result column="drug_title_id" jdbcType="VARCHAR" property="drugTitleId" />
     <result column="drug_org_id" jdbcType="VARCHAR" property="drugOrgId" />
+    <result column="education_id" jdbcType="VARCHAR" property="educationId" />
     <result column="drug_education_id" jdbcType="VARCHAR" property="drugEducationId" />
     <result column="drug_major_id" jdbcType="VARCHAR" property="drugMajorId" />
     <result column="drug_position_one_id" jdbcType="VARCHAR" property="drugPositionOneId" />
@@ -79,8 +80,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, report_id, relation_id, member_id, drug_shop_id, drug_title_id, drug_org_id, 
-    drug_education_id, drug_major_id, drug_position_one_id, drug_position_two_id, drug_position_three_id, 
-    work_time, health_status, education_status, train_status
+    education_id, drug_education_id, drug_major_id, drug_position_one_id, drug_position_two_id, 
+    drug_position_three_id, work_time, health_status, education_status, train_status
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.DrugReportMemberExample" resultMap="BaseResultMap">
     select
@@ -118,14 +119,14 @@
     </selectKey>
     insert into drug_report_member (report_id, relation_id, member_id, 
       drug_shop_id, drug_title_id, drug_org_id, 
-      drug_education_id, drug_major_id, drug_position_one_id, 
-      drug_position_two_id, drug_position_three_id, 
+      education_id, drug_education_id, drug_major_id, 
+      drug_position_one_id, drug_position_two_id, drug_position_three_id, 
       work_time, health_status, education_status, 
       train_status)
     values (#{reportId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, #{memberId,jdbcType=VARCHAR}, 
       #{drugShopId,jdbcType=VARCHAR}, #{drugTitleId,jdbcType=VARCHAR}, #{drugOrgId,jdbcType=VARCHAR}, 
-      #{drugEducationId,jdbcType=VARCHAR}, #{drugMajorId,jdbcType=VARCHAR}, #{drugPositionOneId,jdbcType=VARCHAR}, 
-      #{drugPositionTwoId,jdbcType=VARCHAR}, #{drugPositionThreeId,jdbcType=VARCHAR}, 
+      #{educationId,jdbcType=VARCHAR}, #{drugEducationId,jdbcType=VARCHAR}, #{drugMajorId,jdbcType=VARCHAR}, 
+      #{drugPositionOneId,jdbcType=VARCHAR}, #{drugPositionTwoId,jdbcType=VARCHAR}, #{drugPositionThreeId,jdbcType=VARCHAR}, 
       #{workTime,jdbcType=TIMESTAMP}, #{healthStatus,jdbcType=INTEGER}, #{educationStatus,jdbcType=INTEGER}, 
       #{trainStatus,jdbcType=INTEGER})
   </insert>
@@ -152,6 +153,9 @@
       </if>
       <if test="drugOrgId != null">
         drug_org_id,
+      </if>
+      <if test="educationId != null">
+        education_id,
       </if>
       <if test="drugEducationId != null">
         drug_education_id,
@@ -199,6 +203,9 @@
       </if>
       <if test="drugOrgId != null">
         #{drugOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="educationId != null">
+        #{educationId,jdbcType=VARCHAR},
       </if>
       <if test="drugEducationId != null">
         #{drugEducationId,jdbcType=VARCHAR},
@@ -259,6 +266,9 @@
       <if test="record.drugOrgId != null">
         drug_org_id = #{record.drugOrgId,jdbcType=VARCHAR},
       </if>
+      <if test="record.educationId != null">
+        education_id = #{record.educationId,jdbcType=VARCHAR},
+      </if>
       <if test="record.drugEducationId != null">
         drug_education_id = #{record.drugEducationId,jdbcType=VARCHAR},
       </if>
@@ -300,6 +310,7 @@
       drug_shop_id = #{record.drugShopId,jdbcType=VARCHAR},
       drug_title_id = #{record.drugTitleId,jdbcType=VARCHAR},
       drug_org_id = #{record.drugOrgId,jdbcType=VARCHAR},
+      education_id = #{record.educationId,jdbcType=VARCHAR},
       drug_education_id = #{record.drugEducationId,jdbcType=VARCHAR},
       drug_major_id = #{record.drugMajorId,jdbcType=VARCHAR},
       drug_position_one_id = #{record.drugPositionOneId,jdbcType=VARCHAR},
@@ -333,6 +344,9 @@
       </if>
       <if test="drugOrgId != null">
         drug_org_id = #{drugOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="educationId != null">
+        education_id = #{educationId,jdbcType=VARCHAR},
       </if>
       <if test="drugEducationId != null">
         drug_education_id = #{drugEducationId,jdbcType=VARCHAR},
@@ -372,6 +386,7 @@
       drug_shop_id = #{drugShopId,jdbcType=VARCHAR},
       drug_title_id = #{drugTitleId,jdbcType=VARCHAR},
       drug_org_id = #{drugOrgId,jdbcType=VARCHAR},
+      education_id = #{educationId,jdbcType=VARCHAR},
       drug_education_id = #{drugEducationId,jdbcType=VARCHAR},
       drug_major_id = #{drugMajorId,jdbcType=VARCHAR},
       drug_position_one_id = #{drugPositionOneId,jdbcType=VARCHAR},

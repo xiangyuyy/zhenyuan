@@ -77,6 +77,7 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         member.setDrugTitleId(updateMemberRecordDto.getDrugTitleId());
         member.setDrugShopId(updateMemberRecordDto.getDrugShopId());
         member.setDrugOrgId(updateMemberRecordDto.getDrugOrgId());
+        member.setEducationId(updateMemberRecordDto.getEducationId());
         int i = memberMapper.updateByPrimaryKeySelective(member);
         //插入记录
         MemberRecord memberRecord = new MemberRecord();
@@ -97,6 +98,7 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         memberRecord.setDrugShopId(updateMemberRecordDto.getDrugShopId());
         memberRecord.setDrugOrgId(updateMemberRecordDto.getDrugOrgId());
         memberRecord.setChangeReason(updateMemberRecordDto.getChangeReason());
+        memberRecord.setEducationId(updateMemberRecordDto.getEducationId());
 
         memberRecordMapper.insertSelective(memberRecord);
 
@@ -128,6 +130,7 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         member.setDrugTitleId(model.getDrugTitleId());
         member.setDrugShopId(model.getDrugShopId());
         member.setDrugOrgId(model.getDrugOrgId());
+        member.setEducationId(model.getEducationId());
         return member;
     }
 

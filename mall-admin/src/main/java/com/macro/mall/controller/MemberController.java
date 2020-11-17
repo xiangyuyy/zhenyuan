@@ -340,12 +340,47 @@ public class MemberController {
         return CommonResult.success(dto);
     }
 
+
     @ApiOperation("获取人员修改中药监学历下拉框取值")
+    @RequestMapping(value = "/getMemberDrugEducation}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SelectDto>> getMemberDrugEducation() {
+        List<SelectDto> dto = memberService.getAllEducation();
+        return CommonResult.success(dto);
+    }
+
+    @ApiOperation("获取人员修改中学历下拉框取值")
     @RequestMapping(value = "/getMemberEducation/{id}", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<List<SelectDto>> getAllmajor(@PathVariable String id) {
         List<SelectDto> dto = memberService.getMemberEducation(id);
         return CommonResult.success(dto);
+    }
+
+    @ApiOperation("获取人员修改中选择学历获得药监专业默认值")
+    @RequestMapping(value = "/getMajorByEducation/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<String> getMajorByEducation(@PathVariable String id,@RequestParam("educationValue") String educationValue) {
+        String value = "";
+        if (StringUtils.isEmpty(educationValue)){
+            return CommonResult.success(value);
+        }
+        List<SelectDto> dto = memberService.getMemberEducation(id);
+        if (dto.size() == 0){
+            return CommonResult.success(value);
+        }
+        List<SelectDto> dto1 = memberService.getMemberMajor(id);
+        if (dto1.size() == 0){
+            return CommonResult.success(value);
+        }
+
+        for (int i = 0; i <dto.size() ; i++) {
+            if (dto.get(i).getValue().equals(educationValue)){
+                value = dto1.get(i).getValue();
+            }
+        }
+
+        return CommonResult.success(value);
     }
 
     @ApiOperation("获取人员修改中岗位（搜索中的职务）下拉框取值")

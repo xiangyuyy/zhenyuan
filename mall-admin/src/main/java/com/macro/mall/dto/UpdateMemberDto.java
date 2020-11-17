@@ -24,7 +24,11 @@ public class UpdateMemberDto {
     @ApiModelProperty(value = "药监编制职称")
     private String drugOrgId;
 
+    @ApiModelProperty(value = "学历")
+    private String educationId;
+
     @ApiModelProperty(value = "药监学历")
+
     private String drugEducationId;
 
     @ApiModelProperty(value = "药监专业")

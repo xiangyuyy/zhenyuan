@@ -658,6 +658,8 @@ public class DrugReportServiceImpl implements DrugReportService {
                 x.setRelationId(member.getRelationId());
                 x.setWorkTime(member.getWorkTime());
                 x.setReportId(reportId);
+                //新增字段
+                x.setEducationId(member.getEducationId());
                 drugReportMemberMapper.updateByPrimaryKeySelective(x);
             }
         });

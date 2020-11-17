@@ -134,6 +134,7 @@ public class MemberServiceImpl implements MemberService {
         member.setDrugTitleId(model.getDrugTitleId());
         member.setDrugShopId(model.getDrugShopId());
         member.setDrugOrgId(model.getDrugOrgId());
+        member.setEducationId(model.getEducationId());
         return member;
     }
 
@@ -417,6 +418,7 @@ public class MemberServiceImpl implements MemberService {
         member.setDrugTitleId(updateMemberDto.getDrugTitleId());
         member.setDrugShopId(updateMemberDto.getDrugShopId());
         member.setDrugOrgId(updateMemberDto.getDrugOrgId());
+        member.setEducationId(updateMemberDto.getEducationId());
         return memberMapper.updateByPrimaryKeySelective(member);
     }
 
