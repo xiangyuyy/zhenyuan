@@ -375,6 +375,76 @@ public class MemberExample {
             return (Criteria) this;
         }
 
+        public Criteria andEducationIdIsNull() {
+            addCriterion("education_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEducationIdIsNotNull() {
+            addCriterion("education_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEducationIdEqualTo(String value) {
+            addCriterion("education_id =", value, "educationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEducationIdNotEqualTo(String value) {
+            addCriterion("education_id <>", value, "educationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEducationIdGreaterThan(String value) {
+            addCriterion("education_id >", value, "educationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEducationIdGreaterThanOrEqualTo(String value) {
+            addCriterion("education_id >=", value, "educationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEducationIdLessThan(String value) {
+            addCriterion("education_id <", value, "educationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEducationIdLessThanOrEqualTo(String value) {
+            addCriterion("education_id <=", value, "educationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEducationIdLike(String value) {
+            addCriterion("education_id like", value, "educationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEducationIdNotLike(String value) {
+            addCriterion("education_id not like", value, "educationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEducationIdIn(List<String> values) {
+            addCriterion("education_id in", values, "educationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEducationIdNotIn(List<String> values) {
+            addCriterion("education_id not in", values, "educationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEducationIdBetween(String value1, String value2) {
+            addCriterion("education_id between", value1, value2, "educationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEducationIdNotBetween(String value1, String value2) {
+            addCriterion("education_id not between", value1, value2, "educationId");
+            return (Criteria) this;
+        }
+
         public Criteria andDrugOrgIdIsNull() {
             addCriterion("drug_org_id is null");
             return (Criteria) this;

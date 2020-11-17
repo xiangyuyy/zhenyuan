@@ -16,6 +16,9 @@ public class Member implements Serializable {
     @ApiModelProperty(value = "药监上报职称")
     private String drugTitleId;
 
+    @ApiModelProperty(value = "学历")
+    private String educationId;
+
     @ApiModelProperty(value = "药监编制职称")
     private String drugOrgId;
 
@@ -84,6 +87,14 @@ public class Member implements Serializable {
 
     public void setDrugTitleId(String drugTitleId) {
         this.drugTitleId = drugTitleId;
+    }
+
+    public String getEducationId() {
+        return educationId;
+    }
+
+    public void setEducationId(String educationId) {
+        this.educationId = educationId;
     }
 
     public String getDrugOrgId() {
@@ -192,6 +203,7 @@ public class Member implements Serializable {
         sb.append(", relationId=").append(relationId);
         sb.append(", drugShopId=").append(drugShopId);
         sb.append(", drugTitleId=").append(drugTitleId);
+        sb.append(", educationId=").append(educationId);
         sb.append(", drugOrgId=").append(drugOrgId);
         sb.append(", drugEducationId=").append(drugEducationId);
         sb.append(", drugMajorId=").append(drugMajorId);

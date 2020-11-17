@@ -3,6 +3,7 @@ package com.macro.mall.model;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class DrugCount implements Serializable {
     @ApiModelProperty(value = "门店id")
@@ -31,6 +32,12 @@ public class DrugCount implements Serializable {
 
     @ApiModelProperty(value = "技工")
     private Integer mechanic;
+
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
+
+    @ApiModelProperty(value = "修改时间")
+    private Date modifyTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -106,6 +113,22 @@ public class DrugCount implements Serializable {
         this.mechanic = mechanic;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -121,6 +144,8 @@ public class DrugCount implements Serializable {
         sb.append(", praChinesePharmacist=").append(praChinesePharmacist);
         sb.append(", pharmacist=").append(pharmacist);
         sb.append(", mechanic=").append(mechanic);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", modifyTime=").append(modifyTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

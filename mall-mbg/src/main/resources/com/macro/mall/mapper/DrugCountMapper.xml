@@ -11,6 +11,8 @@
     <result column="pra_chinese_pharmacist" jdbcType="INTEGER" property="praChinesePharmacist" />
     <result column="pharmacist" jdbcType="INTEGER" property="pharmacist" />
     <result column="mechanic" jdbcType="INTEGER" property="mechanic" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     shop_id, subjection, chinese_medicine, long_range, area, pra_pharmacist, pra_chinese_pharmacist, 
-    pharmacist, mechanic
+    pharmacist, mechanic, create_time, modify_time
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.DrugCountExample" resultMap="BaseResultMap">
     select
@@ -107,12 +109,12 @@
   <insert id="insert" parameterType="com.macro.mall.model.DrugCount">
     insert into drug_count (shop_id, subjection, chinese_medicine, 
       long_range, area, pra_pharmacist, 
-      pra_chinese_pharmacist, pharmacist, mechanic
-      )
+      pra_chinese_pharmacist, pharmacist, mechanic, 
+      create_time, modify_time)
     values (#{shopId,jdbcType=VARCHAR}, #{subjection,jdbcType=INTEGER}, #{chineseMedicine,jdbcType=INTEGER}, 
       #{longRange,jdbcType=INTEGER}, #{area,jdbcType=DECIMAL}, #{praPharmacist,jdbcType=INTEGER}, 
-      #{praChinesePharmacist,jdbcType=INTEGER}, #{pharmacist,jdbcType=INTEGER}, #{mechanic,jdbcType=INTEGER}
-      )
+      #{praChinesePharmacist,jdbcType=INTEGER}, #{pharmacist,jdbcType=INTEGER}, #{mechanic,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.DrugCount">
     insert into drug_count
@@ -144,6 +146,12 @@
       <if test="mechanic != null">
         mechanic,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="shopId != null">
@@ -172,6 +180,12 @@
       </if>
       <if test="mechanic != null">
         #{mechanic,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -211,6 +225,12 @@
       <if test="record.mechanic != null">
         mechanic = #{record.mechanic,jdbcType=INTEGER},
       </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.modifyTime != null">
+        modify_time = #{record.modifyTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -226,7 +246,9 @@
       pra_pharmacist = #{record.praPharmacist,jdbcType=INTEGER},
       pra_chinese_pharmacist = #{record.praChinesePharmacist,jdbcType=INTEGER},
       pharmacist = #{record.pharmacist,jdbcType=INTEGER},
-      mechanic = #{record.mechanic,jdbcType=INTEGER}
+      mechanic = #{record.mechanic,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      modify_time = #{record.modifyTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -258,6 +280,12 @@
       <if test="mechanic != null">
         mechanic = #{mechanic,jdbcType=INTEGER},
       </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where shop_id = #{shopId,jdbcType=VARCHAR}
   </update>
@@ -270,7 +298,9 @@
       pra_pharmacist = #{praPharmacist,jdbcType=INTEGER},
       pra_chinese_pharmacist = #{praChinesePharmacist,jdbcType=INTEGER},
       pharmacist = #{pharmacist,jdbcType=INTEGER},
-      mechanic = #{mechanic,jdbcType=INTEGER}
+      mechanic = #{mechanic,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where shop_id = #{shopId,jdbcType=VARCHAR}
   </update>
 </mapper>
