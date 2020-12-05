@@ -18,7 +18,10 @@ public interface DrugReportService {
 
     List<AddReportMemberListDto> AddDrugReportMemberListToDto(List<Member> list);
 
-    //药监申报录入表 是显示member表中值了
+    //部门变更录入 显示药监申报详细列表
+    List<DrugReportMember> getShopDrugReportMemberList(ShopDrugReportMemberListParam param);
+
+    //药监申报录入表 显示药监申报详细列表 是显示member表中值了
     List<DrugReportMember> getDrugReportMemberList(DrugReportMemberListParam param);
 
     List<DrugReportMemberListDto> drugReportMemberListToDto(List<DrugReportMember> list);
@@ -36,6 +39,8 @@ public interface DrugReportService {
 
     int addDrugReportMember(AddReportMemberDto dto);
 
+    int addReportChangeMember(AddReportChangeMemberDto dto);
+
     int choseShopAddDrugReportMember(String reportId,String ShopId);
 
     int deleteDrugReportMember(String id);
@@ -47,6 +52,9 @@ public interface DrugReportService {
     List<ExportDrugReportMemberDto> exportDrugReportMember(String reportId);
 
     int passDrugReport(String reportId);
+
+    //药监计算结果查询
+    List<DrugCount> getDrugCountList(DrugCountListParam param);
 
     DrugCount getDrugCountByShopId(String shopId);
 

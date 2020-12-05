@@ -5,16 +5,20 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 /**
- * 药监花名册历史数据 中个人的变更历史查询
+ * 部门申报变更记录查询
  * Created by macro on 2018/4/26.
  */
 @Data
-public class MemberRecordListParam extends  ListParam{
+public class ShopMemberRecordListParam extends ListParam {
 
-    @ApiModelProperty(value = "人员memberId")
-    private String memberId;
+    @ApiModelProperty(value = "门店ids")
+    private List<String> shopIds;
+
+    @ApiModelProperty(value = "变更原因")
+    private String changeReason;
 
     @ApiModelProperty(value = "变更日期  日期开始")
     @DateTimeFormat(pattern = "yyyy-MM-dd")

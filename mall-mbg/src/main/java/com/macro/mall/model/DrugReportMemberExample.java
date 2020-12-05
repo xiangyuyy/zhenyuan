@@ -235,6 +235,76 @@ public class DrugReportMemberExample {
             return (Criteria) this;
         }
 
+        public Criteria andReportShopIdIsNull() {
+            addCriterion("report_shop_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportShopIdIsNotNull() {
+            addCriterion("report_shop_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportShopIdEqualTo(String value) {
+            addCriterion("report_shop_id =", value, "reportShopId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportShopIdNotEqualTo(String value) {
+            addCriterion("report_shop_id <>", value, "reportShopId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportShopIdGreaterThan(String value) {
+            addCriterion("report_shop_id >", value, "reportShopId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportShopIdGreaterThanOrEqualTo(String value) {
+            addCriterion("report_shop_id >=", value, "reportShopId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportShopIdLessThan(String value) {
+            addCriterion("report_shop_id <", value, "reportShopId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportShopIdLessThanOrEqualTo(String value) {
+            addCriterion("report_shop_id <=", value, "reportShopId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportShopIdLike(String value) {
+            addCriterion("report_shop_id like", value, "reportShopId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportShopIdNotLike(String value) {
+            addCriterion("report_shop_id not like", value, "reportShopId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportShopIdIn(List<String> values) {
+            addCriterion("report_shop_id in", values, "reportShopId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportShopIdNotIn(List<String> values) {
+            addCriterion("report_shop_id not in", values, "reportShopId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportShopIdBetween(String value1, String value2) {
+            addCriterion("report_shop_id between", value1, value2, "reportShopId");
+            return (Criteria) this;
+        }
+
+        public Criteria andReportShopIdNotBetween(String value1, String value2) {
+            addCriterion("report_shop_id not between", value1, value2, "reportShopId");
+            return (Criteria) this;
+        }
+
         public Criteria andRelationIdIsNull() {
             addCriterion("relation_id is null");
             return (Criteria) this;

@@ -22,4 +22,7 @@ public interface MemberRecordService {
 
     List<MemberRecordListDto> memberRecordListToDto(List<MemberRecord> list);
 
+    //部门申报变更记录查询
+    List<MemberRecord> getShopMemberRecordList(ShopMemberRecordListParam param);
+
 }

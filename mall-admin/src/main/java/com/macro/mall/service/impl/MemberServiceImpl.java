@@ -224,6 +224,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<SelectDto> getAllDrugChangeReason() {
+        return getItemSelectDtoByType(BaseConst.DRUG_CHANGE_REASON);
+    }
+
+    @Override
     public List<SelectDto> getItemSelectDtoByType(String type) {
         List<Codeitem> list = codeItemService.getCodeitemBySetId(type);
         List<SelectDto> dtoList = new ArrayList<>();

@@ -53,4 +53,8 @@ public class BaseConst {
     //药监岗位
     public static final String DRUG_DRGW = "DRGW";
 
+    //变更理由
+    public static final String DRUG_CHANGE_REASON = "DRCR";
+
+
 }

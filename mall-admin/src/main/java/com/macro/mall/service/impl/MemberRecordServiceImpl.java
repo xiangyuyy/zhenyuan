@@ -100,10 +100,14 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         memberRecord.setChangeReason(updateMemberRecordDto.getChangeReason());
         memberRecord.setEducationId(updateMemberRecordDto.getEducationId());
 
+        //药监申报门店
+        DrugReport drugReport = drugReportMapper.selectByPrimaryKey(updateMemberRecordDto.getReportId());
+        if (drugReport != null){
+            memberRecord.setReportShopId(drugReport.getShopId());
+        }
         memberRecordMapper.insertSelective(memberRecord);
 
         //修改审核状态
-        DrugReport drugReport = drugReportMapper.selectByPrimaryKey(updateMemberRecordDto.getReportId());
         drugReport.setCheckStatus(0);
         //操作人
         drugReport.setOperatorId(drugReportService.getCurrentAdminUser().getUmsAdmin().getId().toString());
@@ -141,6 +145,33 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         MemberRecordExample memberRecordExample = new MemberRecordExample();
         MemberRecordExample.Criteria criteria = memberRecordExample.createCriteria();
         criteria.andMemberIdEqualTo(param.getMemberId());
+        if (param.getCreateTimeBegin() != null){
+            param.setCreateTimeBegin(DateUtil.getDateAddOneDay(param.getCreateTimeBegin()));
+            criteria.andCreateTimeGreaterThanOrEqualTo(param.getCreateTimeBegin());
+        }
+        if (param.getCreateTimeEnd() != null){
+            param.setCreateTimeEnd(DateUtil.getDateAddOneDay(param.getCreateTimeEnd()));
+            criteria.andCreateTimeLessThanOrEqualTo(param.getCreateTimeEnd());
+        }
+        memberRecordExample.setOrderByClause("modify_time desc");
+        return memberRecordMapper.selectByExample(memberRecordExample);
+    }
+
+    @Override
+    public List<MemberRecord> getShopMemberRecordList(ShopMemberRecordListParam param) {
+        PageUtil.init(param);
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        MemberRecordExample memberRecordExample = new MemberRecordExample();
+        MemberRecordExample.Criteria criteria = memberRecordExample.createCriteria();
+
+        if (param.getShopIds() != null && param.getShopIds().size() > 0) {
+            criteria.andReportShopIdIn(param.getShopIds());
+        }
+
+        if (!StringUtils.isEmpty(param.getChangeReason())) {
+            criteria.andChangeReasonEqualTo(param.getChangeReason());
+        }
+
         if (param.getCreateTimeBegin() != null){
             param.setCreateTimeBegin(DateUtil.getDateAddOneDay(param.getCreateTimeBegin()));
             criteria.andCreateTimeGreaterThanOrEqualTo(param.getCreateTimeBegin());
@@ -252,8 +283,11 @@ public class MemberRecordServiceImpl implements MemberRecordService {
                 dto.setIsInvitual("否");
             }
 
-            // 变更特殊
-            dto.setChangeReason(x.getChangeReason());
+            // 变更原因
+            Codeitem changeReason = codeItemService.getOneCodeitem(BaseConst.DRUG_CHANGE_REASON,x.getChangeReason());
+            if (changeReason != null){//变更原因
+                dto.setChangeReason(changeReason.getCodeitemdesc());
+            }
             dto.setCreateTime(x.getCreateTime());
             dto.setReportId(x.getReportId());
             daoList.add(dto);

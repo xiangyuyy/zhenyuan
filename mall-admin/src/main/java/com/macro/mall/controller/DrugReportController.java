@@ -157,6 +157,33 @@ public class DrugReportController {
         return CommonResult.failed();
     }
 
+    @ApiOperation("部门变更添加人员")
+    @RequestMapping(value = "/addReportChangeMember", method = RequestMethod.POST)
+    @ResponseBody
+    public CommonResult addReportChangeMember(@RequestBody AddReportChangeMemberDto addReportMemberDto) {
+        if (StringUtils.isEmpty(addReportMemberDto.getReportId())) {
+            return CommonResult.failed("ReportId不能为空");
+        }
+
+        if (addReportMemberDto.getMemberIds() == null || addReportMemberDto.getMemberIds().size() == 0) {
+            return CommonResult.failed("新增人员id不能为空");
+        }
+
+        if (StringUtils.isEmpty(addReportMemberDto.getChangeReason())) {
+            return CommonResult.failed("变更原因不能为空");
+        }
+        int count = drugReportService.addReportChangeMember(addReportMemberDto);
+
+        if (count == 0) {
+            return CommonResult.failed("存在重复新增人员");
+        }
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
+    }
+
+
     @ApiOperation("药监申报录入表")
     @RequestMapping(value = "/getDrugReportMemberList", method = RequestMethod.GET)
     @ResponseBody
@@ -265,7 +292,7 @@ public class DrugReportController {
         return CommonResult.success(drugReportService.getDrugReportDto(reportId));
     }
 
-    @ApiOperation("部门变更录入表")
+    @ApiOperation("部门变更录入表 --点击控制台已经审核变更进入")
     @RequestMapping(value = "/getDrugChangeReportMemberList", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<DrugReportMemberListDto>> getDrugChangeReportMemberList(DrugReportMemberListParam param) {
@@ -277,6 +304,17 @@ public class DrugReportController {
         commonPage.setList(drugReportService.drugChangeReportMemberListToDto(list));
         return CommonResult.success(commonPage);
     }
+
+    @ApiOperation("部门申报变更-2020-12-5")
+    @RequestMapping(value = "/getShopDrugChangeReportMemberList", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<DrugReportMemberListDto>> getShopDrugChangeReportMemberList(ShopDrugReportMemberListParam param) {
+        List<DrugReportMember> list = drugReportService.getShopDrugReportMemberList(param);
+        CommonPage commonPage = CommonPage.restPage(list);
+        commonPage.setList(drugReportService.drugChangeReportMemberListToDto(list));
+        return CommonResult.success(commonPage);
+    }
+
 
     @ApiOperation("获取变更指定人员信息，id是记录行id，不是人员id")
     @RequestMapping(value = "/getMemberRecord/{id}", method = RequestMethod.GET)

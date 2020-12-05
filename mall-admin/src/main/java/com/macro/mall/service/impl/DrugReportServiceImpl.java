@@ -71,6 +71,10 @@ public class DrugReportServiceImpl implements DrugReportService {
     @Autowired
     private MemberService memberService;
 
+    @Autowired
+    private MemberRecordMapper memberRecordMapper;
+
+
     @Override
     public List<Member> getAddDrugReportMemberList(AddReportMemberListParam param) {
         PageUtil.init(param);
@@ -89,42 +93,55 @@ public class DrugReportServiceImpl implements DrugReportService {
     }
 
     @Override
+    public List<DrugReportMember> getShopDrugReportMemberList(ShopDrugReportMemberListParam param) {
+        PageUtil.init(param);
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
+        DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
+
+        if (param.getShopIds() != null && param.getShopIds().size() > 0) {
+            criteria.andReportShopIdIn(param.getShopIds());
+        }
+        return drugReportMemberMapper.selectByExample(drugReportMemberExample);
+    }
+
+    @Override
     public List<DrugReportMemberListDto> drugReportMemberListToDto(List<DrugReportMember> list) {
         List<DrugReportMemberListDto> daoList = new ArrayList<>();
-        list.stream().forEach(y->{
-            DrugReportMemberListDto dto =  new DrugReportMemberListDto();
+        list.stream().forEach(y -> {
+            DrugReportMemberListDto dto = new DrugReportMemberListDto();
             dto.setId(y.getId());
             dto.setMemberId(y.getMemberId());
             //取member 中的数据 审核后才显示记录中的。
             Member x = memberMapper.selectByPrimaryKey(new Long(y.getMemberId()));
             Usra01 usra01 = usra01Mapper.selectByPrimaryKey(x.getRelationId());
-            if(usra01 != null){
+            if (usra01 != null) {
                 dto.setAge(usra01.getA0112());
                 dto.setBirthday(usra01.getA0111());
                 dto.setMajor(usra01.getA0130());
-                Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM,usra01.getA0134());
-                if (codeitem != null){//最高学历
+                Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, usra01.getA0134());
+                if (codeitem != null) {//最高学历
                     dto.setEducation(codeitem.getCodeitemdesc());
                 }
                 dto.setIdCard(usra01.getA0177());
                 //dto.setTitle("待定");
-                List<VZhicheng> vZhichengList  = memberService.getMemberVZhichengr(usra01.getA0144());
+                List<VZhicheng> vZhichengList = memberService.getMemberVZhichengr(usra01.getA0144());
                 String title = "";
-                for (VZhicheng v:vZhichengList) {
+                for (VZhicheng v : vZhichengList) {
                     title += v.getZcjb();
-                    if(v.getZcsj() != null){
-                        title += "(" + DateUtil.getFormatString(v.getZcsj())+")" + " ";
+                    if (v.getZcsj() != null) {
+                        title += "(" + DateUtil.getFormatString(v.getZcsj()) + ")" + " ";
                     }
                 }
                 dto.setTitle(title);
                 dto.setTitleTime(null);
                 dto.setName(usra01.getA0101());
-                Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX,usra01.getA0107());
-                if (codeitemSex != null){
+                Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX, usra01.getA0107());
+                if (codeitemSex != null) {
                     dto.setSex(codeitemSex.getCodeitemdesc());
                 }
                 Organization organization = organizationMapper.selectByPrimaryKey(usra01.getE0122());
-                if (organization != null){
+                if (organization != null) {
                     dto.setShopName(organization.getCodeitemdesc());
                 }
             }
@@ -134,12 +151,12 @@ public class DrugReportServiceImpl implements DrugReportService {
             dto.setTrainStatus(x.getTrainStatus());
             dto.setHealthStatus(x.getHealthStatus());
             Organization organization = organizationMapper.selectByPrimaryKey(x.getDrugShopId());
-            if (organization != null){
+            if (organization != null) {
                 dto.setDrugShopName(organization.getCodeitemdesc());
             }
 
-            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM,x.getDrugEducationId());
-            if (codeitem != null){//药监学历
+            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, x.getDrugEducationId());
+            if (codeitem != null) {//药监学历
                 dto.setDrugEducation(codeitem.getCodeitemdesc());
             }
 
@@ -171,20 +188,19 @@ public class DrugReportServiceImpl implements DrugReportService {
             dto.setDrugPositionAll(drugPositionAll);
 
 
-            Codeitem drugOrg = codeItemService.getOneCodeitem(BaseConst.DRUG_BZZC,x.getDrugOrgId());
-            if (drugOrg != null){//药监编制职称
+            Codeitem drugOrg = codeItemService.getOneCodeitem(BaseConst.DRUG_BZZC, x.getDrugOrgId());
+            if (drugOrg != null) {//药监编制职称
                 dto.setDrugOrg(drugOrg.getCodeitemdesc());
             }
 
-            Codeitem drugTitle = codeItemService.getOneCodeitem(BaseConst.DRUG_SBZC,x.getDrugTitleId());
-            if (drugTitle != null){//药监上报职称
+            Codeitem drugTitle = codeItemService.getOneCodeitem(BaseConst.DRUG_SBZC, x.getDrugTitleId());
+            if (drugTitle != null) {//药监上报职称
                 dto.setDrugTitle(drugTitle.getCodeitemdesc());
             }
             //虚挂
-            if (!StringUtils.isEmpty(x.getDrugShopId()) &&!x.getDrugShopId().equals(usra01.getE0122())) {
+            if (!StringUtils.isEmpty(x.getDrugShopId()) && !x.getDrugShopId().equals(usra01.getE0122())) {
                 dto.setIsInvitual("是");
-            }
-            else {
+            } else {
                 dto.setIsInvitual("否");
             }
             daoList.add(dto);
@@ -195,39 +211,39 @@ public class DrugReportServiceImpl implements DrugReportService {
     @Override
     public List<DrugReportMemberListDto> drugChangeReportMemberListToDto(List<DrugReportMember> list) {
         List<DrugReportMemberListDto> daoList = new ArrayList<>();
-        list.stream().forEach(x->{
-            DrugReportMemberListDto dto =  new DrugReportMemberListDto();
+        list.stream().forEach(x -> {
+            DrugReportMemberListDto dto = new DrugReportMemberListDto();
             dto.setId(x.getId());
             dto.setMemberId(x.getMemberId());
             //取记录表中的数据。
             Usra01 usra01 = usra01Mapper.selectByPrimaryKey(x.getRelationId());
-            if(usra01 != null){
+            if (usra01 != null) {
                 dto.setAge(usra01.getA0112());
                 dto.setBirthday(usra01.getA0111());
                 dto.setMajor(usra01.getA0130());
-                Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM,usra01.getA0134());
-                if (codeitem != null){//最高学历
+                Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, usra01.getA0134());
+                if (codeitem != null) {//最高学历
                     dto.setEducation(codeitem.getCodeitemdesc());
                 }
                 dto.setIdCard(usra01.getA0177());
                 //dto.setTitle("待定");
-                List<VZhicheng> vZhichengList  = memberService.getMemberVZhichengr(usra01.getA0144());
+                List<VZhicheng> vZhichengList = memberService.getMemberVZhichengr(usra01.getA0144());
                 String title = "";
-                for (VZhicheng v:vZhichengList) {
+                for (VZhicheng v : vZhichengList) {
                     title += v.getZcjb();
-                    if(v.getZcsj() != null){
-                        title += "(" + DateUtil.getFormatString(v.getZcsj())+")" + " ";
+                    if (v.getZcsj() != null) {
+                        title += "(" + DateUtil.getFormatString(v.getZcsj()) + ")" + " ";
                     }
                 }
                 dto.setTitle(title);
                 dto.setTitleTime(null);
                 dto.setName(usra01.getA0101());
-                Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX,usra01.getA0107());
-                if (codeitemSex != null){
+                Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX, usra01.getA0107());
+                if (codeitemSex != null) {
                     dto.setSex(codeitemSex.getCodeitemdesc());
                 }
                 Organization organization = organizationMapper.selectByPrimaryKey(usra01.getE0122());
-                if (organization != null){
+                if (organization != null) {
                     dto.setShopName(organization.getCodeitemdesc());
                 }
             }
@@ -237,12 +253,12 @@ public class DrugReportServiceImpl implements DrugReportService {
             dto.setTrainStatus(x.getTrainStatus());
             dto.setHealthStatus(x.getHealthStatus());
             Organization organization = organizationMapper.selectByPrimaryKey(x.getDrugShopId());
-            if (organization != null){
+            if (organization != null) {
                 dto.setDrugShopName(organization.getCodeitemdesc());
             }
 
-            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM,x.getDrugEducationId());
-            if (codeitem != null){//药监学历
+            Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, x.getDrugEducationId());
+            if (codeitem != null) {//药监学历
                 dto.setDrugEducation(codeitem.getCodeitemdesc());
             }
 
@@ -274,22 +290,22 @@ public class DrugReportServiceImpl implements DrugReportService {
             dto.setDrugPositionAll(drugPositionAll);
 
 
-            Codeitem drugOrg = codeItemService.getOneCodeitem(BaseConst.DRUG_BZZC,x.getDrugOrgId());
-            if (drugOrg != null){//药监编制职称
+            Codeitem drugOrg = codeItemService.getOneCodeitem(BaseConst.DRUG_BZZC, x.getDrugOrgId());
+            if (drugOrg != null) {//药监编制职称
                 dto.setDrugOrg(drugOrg.getCodeitemdesc());
             }
 
-            Codeitem drugTitle = codeItemService.getOneCodeitem(BaseConst.DRUG_SBZC,x.getDrugTitleId());
-            if (drugTitle != null){//药监上报职称
+            Codeitem drugTitle = codeItemService.getOneCodeitem(BaseConst.DRUG_SBZC, x.getDrugTitleId());
+            if (drugTitle != null) {//药监上报职称
                 dto.setDrugTitle(drugTitle.getCodeitemdesc());
             }
             //虚挂
-            if (!StringUtils.isEmpty(x.getDrugShopId()) &&!x.getDrugShopId().equals(usra01.getE0122())) {
+            if (!StringUtils.isEmpty(x.getDrugShopId()) && !x.getDrugShopId().equals(usra01.getE0122())) {
                 dto.setIsInvitual("是");
-            }
-            else {
+            } else {
                 dto.setIsInvitual("否");
             }
+            dto.setReportId(x.getReportId());
             daoList.add(dto);
         });
         return daoList;
@@ -302,23 +318,23 @@ public class DrugReportServiceImpl implements DrugReportService {
         DrugReportExample drugReportExample = new DrugReportExample();
         DrugReportExample.Criteria criteria = drugReportExample.createCriteria();
         criteria.andCheckStatusNotEqualTo(-1);
-        if (param.getCheckStatus() != null){
+        if (param.getCheckStatus() != null) {
             criteria.andCheckStatusEqualTo(param.getCheckStatus());
         }
-        if (!StringUtils.isEmpty(param.getShopId())){
-            criteria.andShopIdEqualTo(param.getShopId());
+        if (param.getShopIds() != null && param.getShopIds().size() > 0) {
+            criteria.andShopIdIn(param.getShopIds());
         }
-        if (!StringUtils.isEmpty(param.getOperatorId())){
+        if (!StringUtils.isEmpty(param.getOperatorId())) {
             criteria.andOperatorIdEqualTo(param.getOperatorId());
         }
-        if (!StringUtils.isEmpty(param.getReportId())){
+        if (!StringUtils.isEmpty(param.getReportId())) {
             criteria.andIdLike("%" + param.getReportId() + "%");
         }
-        if (param.getReportTimeBegin() != null){
+        if (param.getReportTimeBegin() != null) {
             param.setReportTimeBegin(DateUtil.getDateAddOneDay(param.getReportTimeBegin()));
             criteria.andReportTimeGreaterThanOrEqualTo(param.getReportTimeBegin());
         }
-        if (param.getReportTimeEnd() != null){
+        if (param.getReportTimeEnd() != null) {
             param.setReportTimeEnd(DateUtil.getDateAddOneDay(param.getReportTimeEnd()));
             criteria.andReportTimeLessThanOrEqualTo(param.getReportTimeEnd());
         }
@@ -330,18 +346,18 @@ public class DrugReportServiceImpl implements DrugReportService {
 
     @Override
     public List<DrugReportListDto> drugReportListToDto(List<DrugReport> list) {
-        List<DrugReportListDto> result  = new ArrayList<>();
-        list.stream().forEach(x->{
+        List<DrugReportListDto> result = new ArrayList<>();
+        list.stream().forEach(x -> {
             DrugReportListDto dto = new DrugReportListDto();
             dto.setId(x.getId());
             dto.setCheckStatus(x.getCheckStatus());
             dto.setReportTime(x.getReportTime());
             Organization organization = organizationMapper.selectByPrimaryKey(x.getShopId());
-            if (organization != null){
+            if (organization != null) {
                 dto.setShopName(organization.getCodeitemdesc());
             }
             UmsAdmin umsAdmin = umsAdminMapper.selectByPrimaryKey(new Long(x.getOperatorId()));
-            if (umsAdmin != null){
+            if (umsAdmin != null) {
                 dto.setOperatorName(umsAdmin.getUsername());
             }
             result.add(dto);
@@ -353,8 +369,8 @@ public class DrugReportServiceImpl implements DrugReportService {
     @Override
     public DrugReportListDto getDrugReportDto(String id) {
         DrugReport drugReport = drugReportMapper.selectByPrimaryKey(id);
-        if (drugReport == null){
-            return  null;
+        if (drugReport == null) {
+            return null;
         }
         DrugReportListDto dto = new DrugReportListDto();
         dto.setId(drugReport.getId());
@@ -362,7 +378,7 @@ public class DrugReportServiceImpl implements DrugReportService {
         dto.setCheckStatus(drugReport.getCheckStatus());
         dto.setReportTime(drugReport.getReportTime());
         Organization organization = organizationMapper.selectByPrimaryKey(drugReport.getShopId());
-        if (organization != null){
+        if (organization != null) {
             dto.setShopName(organization.getCodeitemdesc());
         }
         if (!StringUtils.isEmpty(drugReport.getOperatorId())) {
@@ -391,12 +407,12 @@ public class DrugReportServiceImpl implements DrugReportService {
                 }
                 /*                dto.setIdCard(usra01.getA0177());*/
                 //dto.setTitle("待定");
-                List<VZhicheng> vZhichengList  = memberService.getMemberVZhichengr(usra01.getA0144());
+                List<VZhicheng> vZhichengList = memberService.getMemberVZhichengr(usra01.getA0144());
                 String title = "";
-                for (VZhicheng v:vZhichengList) {
+                for (VZhicheng v : vZhichengList) {
                     title += v.getZcjb();
-                    if(v.getZcsj() != null){
-                        title += "(" + DateUtil.getFormatString(v.getZcsj())+")" + " ";
+                    if (v.getZcsj() != null) {
+                        title += "(" + DateUtil.getFormatString(v.getZcsj()) + ")" + " ";
                     }
                 }
                 dto.setTitle(title);
@@ -460,10 +476,9 @@ public class DrugReportServiceImpl implements DrugReportService {
                 dto.setDrugTitle(drugTitle.getCodeitemdesc());
             }
             //虚挂
-            if (!StringUtils.isEmpty(x.getDrugShopId()) &&!x.getDrugShopId().equals(usra01.getE0122())) {
+            if (!StringUtils.isEmpty(x.getDrugShopId()) && !x.getDrugShopId().equals(usra01.getE0122())) {
                 dto.setIsInvitual("是");
-            }
-            else {
+            } else {
                 dto.setIsInvitual("否");
             }
             daoList.add(dto);
@@ -509,8 +524,10 @@ public class DrugReportServiceImpl implements DrugReportService {
                     drugReportMember.setTrainStatus(member.getTrainStatus());*/
                     drugReportMember.setMemberId(x);
                     drugReportMember.setRelationId(member.getRelationId());
-         /*           drugReportMember.setWorkTime(member.getWorkTime());*/
+                    /*           drugReportMember.setWorkTime(member.getWorkTime());*/
                     drugReportMember.setReportId(dto.getReportId());
+                    //药监申报门店
+                    drugReportMember.setReportShopId(dto.getShopId());
                     drugReportMemberMapper.insertSelective(drugReportMember);
                 }
             } else {
@@ -519,6 +536,82 @@ public class DrugReportServiceImpl implements DrugReportService {
         }
         return 1;
     }
+
+
+    @Override
+    public int addReportChangeMember(AddReportChangeMemberDto dto) {
+        DrugReport drugReport = drugReportMapper.selectByPrimaryKey(dto.getReportId());
+
+        for (String x : dto.getMemberIds()) {
+            DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
+            DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
+            criteria.andReportIdEqualTo(dto.getReportId());
+            criteria.andMemberIdEqualTo(x);
+            List<DrugReportMember> list = drugReportMemberMapper.selectByExample(drugReportMemberExample);
+            if (list.size() == 0) {
+                // 插入药监人员详情表
+                Member member = memberMapper.selectByPrimaryKey(new Long(x));
+                if (member != null) {
+                    DrugReportMember drugReportMember = new DrugReportMember();
+                    drugReportMember.setDrugEducationId(member.getDrugEducationId());
+                    drugReportMember.setDrugMajorId(member.getDrugMajorId());
+                    drugReportMember.setDrugOrgId(member.getDrugOrgId());
+                    drugReportMember.setDrugPositionOneId(member.getDrugPositionOneId());
+                    drugReportMember.setDrugPositionTwoId(member.getDrugPositionTwoId());
+                    drugReportMember.setDrugPositionThreeId(member.getDrugPositionThreeId());
+                    drugReportMember.setDrugShopId(member.getDrugShopId());
+                    drugReportMember.setDrugTitleId(member.getDrugTitleId());
+                    drugReportMember.setEducationStatus(member.getEducationStatus());
+                    drugReportMember.setHealthStatus(member.getHealthStatus());
+                    drugReportMember.setTrainStatus(member.getTrainStatus());
+                    drugReportMember.setMemberId(x);
+                    drugReportMember.setWorkTime(member.getWorkTime());
+
+                    drugReportMember.setRelationId(member.getRelationId());
+                    drugReportMember.setReportId(dto.getReportId());
+                    //药监申报门店
+                    drugReportMember.setReportShopId(drugReport.getShopId());
+                    drugReportMemberMapper.insertSelective(drugReportMember);
+
+                    // 插入药监变更记录
+                    MemberRecord memberRecord = new MemberRecord();
+                    //变更原因
+                    memberRecord.setChangeReason(dto.getChangeReason());
+
+                    memberRecord.setMemberId(x);
+                    memberRecord.setRelationId(member.getRelationId());
+                    memberRecord.setReportId(dto.getReportId());
+
+                    memberRecord.setOperatorId(getCurrentAdminUser().getUmsAdmin().getId().toString());
+
+                    memberRecord.setDrugEducationId(member.getDrugEducationId());
+                    memberRecord.setWorkTime(member.getWorkTime());
+                    memberRecord.setDrugMajorId(member.getDrugMajorId());
+                    memberRecord.setDrugPositionOneId(member.getDrugPositionOneId());
+                    memberRecord.setDrugPositionTwoId(member.getDrugPositionTwoId());
+                    memberRecord.setDrugPositionThreeId(member.getDrugPositionThreeId());
+                    memberRecord.setDrugTitleId(member.getDrugTitleId());
+                    memberRecord.setDrugShopId(member.getDrugShopId());
+                    memberRecord.setDrugOrgId(member.getDrugOrgId());
+                    memberRecord.setEducationId(member.getEducationId());
+
+                    if (drugReport != null) {
+                        memberRecord.setReportShopId(drugReport.getShopId());
+                    }
+                    memberRecordMapper.insertSelective(memberRecord);
+                }
+                //修改审核状态
+                drugReport.setCheckStatus(0);
+                //操作人
+                drugReport.setOperatorId(getCurrentAdminUser().getUmsAdmin().getId().toString());
+                drugReportMapper.updateByPrimaryKeySelective(drugReport);
+            } else {
+                return 0;//重复插入
+            }
+        }
+        return 1;
+    }
+
 
     @Override
     public int choseShopAddDrugReportMember(String reportId, String ShopId) {
@@ -538,18 +631,18 @@ public class DrugReportServiceImpl implements DrugReportService {
             MemberExample memberExample = new MemberExample();
             memberExample.createCriteria().andDrugShopIdEqualTo(ShopId);
             List<Member> list = memberMapper.selectByExample(memberExample);
-            list.stream().forEach(x->{
+            list.stream().forEach(x -> {
                 DrugReportMember drugReportMember = new DrugReportMember();
                 drugReportMember.setMemberId(x.getId().toString());
                 drugReportMember.setRelationId(x.getRelationId());
                 /*           drugReportMember.setWorkTime(member.getWorkTime());*/
                 drugReportMember.setReportId(reportId);
+                drugReportMember.setReportShopId(ShopId);
                 drugReportMemberMapper.insertSelective(drugReportMember);
             });
             return 1;
-        }
-        else {
-            if (!drugReport.getShopId().equals(ShopId)){ //换门店了
+        } else {
+            if (!drugReport.getShopId().equals(ShopId)) { //换门店了
                 drugReport.setShopId(ShopId);
                 int i = drugReportMapper.updateByPrimaryKeySelective(drugReport);
                 DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
@@ -559,12 +652,13 @@ public class DrugReportServiceImpl implements DrugReportService {
                 MemberExample memberExample = new MemberExample();
                 memberExample.createCriteria().andDrugShopIdEqualTo(ShopId);
                 List<Member> list = memberMapper.selectByExample(memberExample);
-                list.stream().forEach(x->{
+                list.stream().forEach(x -> {
                     DrugReportMember drugReportMember = new DrugReportMember();
                     drugReportMember.setMemberId(x.getId().toString());
                     drugReportMember.setRelationId(x.getRelationId());
                     /*           drugReportMember.setWorkTime(member.getWorkTime());*/
                     drugReportMember.setReportId(reportId);
+                    drugReportMember.setReportShopId(ShopId);
                     drugReportMemberMapper.insertSelective(drugReportMember);//新增
                 });
                 return 1;
@@ -602,7 +696,7 @@ public class DrugReportServiceImpl implements DrugReportService {
             return -1; //没有内容不能确认
         }
         DrugReport drugReport = drugReportMapper.selectByPrimaryKey(reportId);
-        if (getDrugCountByShopId(drugReport.getShopId()) == null){
+        if (getDrugCountByShopId(drugReport.getShopId()) == null) {
             return -2; //没有药监数据不能确认
         }
         drugReport.setReportTime(reportTime);
@@ -616,10 +710,10 @@ public class DrugReportServiceImpl implements DrugReportService {
         DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
         DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
         criteria.andReportIdEqualTo(reportId);
-        List<DrugReportMember> list =  drugReportMemberMapper.selectByExample(drugReportMemberExample);
+        List<DrugReportMember> list = drugReportMemberMapper.selectByExample(drugReportMemberExample);
         List<DrugReportMemberListDto> toDtos = drugChangeReportMemberListToDto(list);
         List<ExportDrugReportMemberDto> result = new ArrayList<>();
-        toDtos.stream().forEach(x->{
+        toDtos.stream().forEach(x -> {
             ExportDrugReportMemberDto model = new ExportDrugReportMemberDto();
             model.setName(x.getName());
             //导出
@@ -639,8 +733,8 @@ public class DrugReportServiceImpl implements DrugReportService {
         DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
         DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
         criteria.andReportIdEqualTo(reportId);
-        List<DrugReportMember> list =  drugReportMemberMapper.selectByExample(drugReportMemberExample);
-        list.stream().forEach(x->{
+        List<DrugReportMember> list = drugReportMemberMapper.selectByExample(drugReportMemberExample);
+        list.stream().forEach(x -> {
             Member member = memberMapper.selectByPrimaryKey(new Long(x.getMemberId()));
             if (member != null) {
                 x.setDrugEducationId(member.getDrugEducationId());
@@ -658,12 +752,25 @@ public class DrugReportServiceImpl implements DrugReportService {
                 x.setRelationId(member.getRelationId());
                 x.setWorkTime(member.getWorkTime());
                 x.setReportId(reportId);
+                x.setReportShopId(drugReport.getShopId());
                 //新增字段
                 x.setEducationId(member.getEducationId());
                 drugReportMemberMapper.updateByPrimaryKeySelective(x);
             }
         });
         return 1;
+    }
+
+    @Override
+    public List<DrugCount> getDrugCountList(DrugCountListParam param) {
+        PageUtil.init(param);
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        DrugCountExample drugCountExample = new DrugCountExample();
+        DrugCountExample.Criteria criteria = drugCountExample.createCriteria();
+        if (param.getShopIds() != null && param.getShopIds().size() > 0) {
+            criteria.andShopIdIn(param.getShopIds());
+        }
+        return drugCountMapper.selectByExample(drugCountExample);
     }
 
     @Override

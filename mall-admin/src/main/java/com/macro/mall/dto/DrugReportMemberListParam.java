@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
- * 药监申报录入表查询
+ * 部门变更录入表查询
  * Created by macro on 2018/4/26.
  */
 @Data

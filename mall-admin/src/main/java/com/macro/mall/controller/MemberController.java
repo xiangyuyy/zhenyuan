@@ -220,6 +220,13 @@ public class MemberController {
         codeItemListDto17.setKey(DRUG_DRGW);
         dto.add(codeItemListDto17);
 
+        //变更理由
+        String DRUG_CHANGE_REASON = "DRCR";
+        CodeItemListDto codeItemListDto18 = new CodeItemListDto();
+        codeItemListDto18.setTitle("变更理由");
+        codeItemListDto18.setKey(DRUG_CHANGE_REASON);
+        dto.add(codeItemListDto18);
+
         return CommonResult.success(dto);
     }
 
@@ -396,6 +403,14 @@ public class MemberController {
     @ResponseBody
     public CommonResult<List<SelectDto>> getMemberMajor(@PathVariable String id) {
         List<SelectDto> dto = memberService.getMemberMajor(id);
+        return CommonResult.success(dto);
+    }
+
+    @ApiOperation("变更原因列表")
+    @RequestMapping(value = "/getAllDrugChangeReason", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SelectDto>> getAllDrugChangeReason() {
+        List<SelectDto> dto = memberService.getAllDrugChangeReason();
         return CommonResult.success(dto);
     }
 }

@@ -16,6 +16,9 @@ public class DrugReportMemberListDto {
     @ApiModelProperty(value = "id")
     private Long id;
 
+    @ApiModelProperty(value = "单号")
+    private String reportId;
+
     @ApiModelProperty(value = "人员id")
     private String memberId;
 

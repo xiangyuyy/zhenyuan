@@ -54,4 +54,14 @@ public class DataReportController {
         return CommonResult.success(dto);
     }
 
+    @ApiOperation("部门申报变更记录查询列表")
+    @RequestMapping(value = "/getShopMemberRecordList", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<MemberRecordListDto>> list(ShopMemberRecordListParam param) {
+        List<MemberRecord> list = memberRecordService.getShopMemberRecordList(param);
+        CommonPage commonPage = CommonPage.restPage(list);
+        commonPage.setList(memberRecordService.memberRecordListToDto(list));
+        return CommonResult.success(commonPage);
+    }
+
 }
