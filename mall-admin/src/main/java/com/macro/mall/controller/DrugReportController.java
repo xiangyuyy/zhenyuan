@@ -83,6 +83,16 @@ public class DrugReportController {
         return CommonResult.success(drugReportService.getDrugCountByShopId(shopId));
     }
 
+    @ApiOperation("药监计算结果查询")
+    @RequestMapping(value = "/getDrugCountList", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<DrugCount>> getDrugCountList(DrugCountListParam param) {
+        List<DrugCount> list  = drugReportService.getDrugCountList(param);
+        CommonPage commonPage = CommonPage.restPage(list);
+        commonPage.setList(list);
+        return CommonResult.success(commonPage);
+    }
+
 
     @ApiOperation("确定药监计算数据")
     @RequestMapping(value = "/sureDrugCount", method = RequestMethod.POST)
@@ -156,6 +166,25 @@ public class DrugReportController {
         }
         return CommonResult.failed();
     }
+
+    @ApiOperation("部门变更 判断添加人员是否有效")
+    @RequestMapping(value = "/getChangeReportId", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult getChangeReportId(String shopId) {
+        if (StringUtils.isEmpty(shopId)) {
+            return CommonResult.failed("shopId不能为空");
+        }
+        DrugReportListParam param = new DrugReportListParam();
+        List<String> shopIds = new ArrayList<>();
+        shopIds.add(shopId);
+        param.setShopIds(shopIds);
+        List<DrugReport> list = drugReportService.getDrugReportList(param);
+        if(list != null && list.size() > 0){
+            return CommonResult.success(list.get(0).getId());
+        }
+        return CommonResult.failed("没有可变更的数据");
+    }
+
 
     @ApiOperation("部门变更添加人员")
     @RequestMapping(value = "/addReportChangeMember", method = RequestMethod.POST)
@@ -276,9 +305,9 @@ public class DrugReportController {
     }
 
     @ApiOperation("药监申报控制台表")
-    @RequestMapping(value = "/getDrugReportList", method = RequestMethod.GET)
+    @RequestMapping(value = "/getDrugReportList", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<CommonPage<DrugReportListDto>> getDrugReportList(DrugReportListParam param) {
+    public CommonResult<CommonPage<DrugReportListDto>> getDrugReportList(@RequestBody DrugReportListParam param) {
         List<DrugReport> list = drugReportService.getDrugReportList(param);
         CommonPage commonPage = CommonPage.restPage(list);
         commonPage.setList(drugReportService.drugReportListToDto(list));

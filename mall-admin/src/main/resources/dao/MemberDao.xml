@@ -23,7 +23,7 @@
     <select id="getMemberList" resultMap="BaseResultMap">
         select m.* from member m LEFT JOIN usra01 u on m.relation_id = u.A0100
         <where>
-            <if test="shopIds != null">
+            <if test="shopIds != null and shopIds.size > 0">
                 AND u.E0122 in
                 <foreach collection="shopIds" index="index" item="shopId" open="(" separator="," close=")">
                     #{shopId}

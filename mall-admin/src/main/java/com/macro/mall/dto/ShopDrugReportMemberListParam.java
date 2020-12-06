@@ -11,6 +11,6 @@ import java.util.List;
  */
 @Data
 public class ShopDrugReportMemberListParam extends  ListParam{
-    @ApiModelProperty(value = "门店ids")
-    private List<String> shopIds;
+    @ApiModelProperty(value = "门店id")
+    private String shopId;
 }

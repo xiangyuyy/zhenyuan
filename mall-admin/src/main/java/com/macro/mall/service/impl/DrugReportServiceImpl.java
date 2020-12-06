@@ -99,8 +99,8 @@ public class DrugReportServiceImpl implements DrugReportService {
         DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
         DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
 
-        if (param.getShopIds() != null && param.getShopIds().size() > 0) {
-            criteria.andReportShopIdIn(param.getShopIds());
+        if (!StringUtils.isEmpty(param.getShopId())) {
+            criteria.andReportShopIdEqualTo(param.getShopId());
         }
         return drugReportMemberMapper.selectByExample(drugReportMemberExample);
     }
@@ -351,6 +351,7 @@ public class DrugReportServiceImpl implements DrugReportService {
             DrugReportListDto dto = new DrugReportListDto();
             dto.setId(x.getId());
             dto.setCheckStatus(x.getCheckStatus());
+            dto.setShopId(x.getShopId());
             dto.setReportTime(x.getReportTime());
             Organization organization = organizationMapper.selectByPrimaryKey(x.getShopId());
             if (organization != null) {
@@ -767,8 +768,8 @@ public class DrugReportServiceImpl implements DrugReportService {
         PageHelper.startPage(param.getPageNum(), param.getPageSize());
         DrugCountExample drugCountExample = new DrugCountExample();
         DrugCountExample.Criteria criteria = drugCountExample.createCriteria();
-        if (param.getShopIds() != null && param.getShopIds().size() > 0) {
-            criteria.andShopIdIn(param.getShopIds());
+        if (!StringUtils.isEmpty(param.getShopId())) {
+            criteria.andShopIdEqualTo(param.getShopId());
         }
         return drugCountMapper.selectByExample(drugCountExample);
     }

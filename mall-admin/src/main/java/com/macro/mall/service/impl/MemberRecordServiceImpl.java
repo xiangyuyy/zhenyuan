@@ -164,8 +164,8 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         MemberRecordExample memberRecordExample = new MemberRecordExample();
         MemberRecordExample.Criteria criteria = memberRecordExample.createCriteria();
 
-        if (param.getShopIds() != null && param.getShopIds().size() > 0) {
-            criteria.andReportShopIdIn(param.getShopIds());
+        if (!StringUtils.isEmpty(param.getShopId())) {
+            criteria.andReportShopIdEqualTo(param.getShopId());
         }
 
         if (!StringUtils.isEmpty(param.getChangeReason())) {

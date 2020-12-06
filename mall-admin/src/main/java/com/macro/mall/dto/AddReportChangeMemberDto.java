@@ -16,6 +16,9 @@ public class AddReportChangeMemberDto {
     @ApiModelProperty(value = "reportId-单号")
     private String reportId;
 
+    @ApiModelProperty(value = "shopId")
+    private String shopId;
+
     @ApiModelProperty(value = "变更原因")
     private String changeReason;
 

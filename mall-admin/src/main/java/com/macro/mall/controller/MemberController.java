@@ -255,9 +255,9 @@ public class MemberController {
     }
 
     @ApiOperation("人员管理列表")
-    @RequestMapping(value = "/getMemberList", method = RequestMethod.GET)
+    @RequestMapping(value = "/getMemberList", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<CommonPage<MemberListDto>> list(MemberListParam param) {
+    public CommonResult<CommonPage<MemberListDto>> list(@RequestBody MemberListParam param) {
         List<Member> list = memberService.getMemberList(param);
         CommonPage commonPage = CommonPage.restPage(list);
         commonPage.setList(memberService.MemberListToDto(list));
