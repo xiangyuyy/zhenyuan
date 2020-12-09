@@ -27,6 +27,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 //import com.macro.mall.service.UmsAdminCacheService;
 
@@ -94,15 +95,34 @@ public class DrugReportServiceImpl implements DrugReportService {
 
     @Override
     public List<DrugReportMember> getShopDrugReportMemberList(ShopDrugReportMemberListParam param) {
+        List<DrugReport> list1 = new ArrayList<>();
+        if (!StringUtils.isEmpty(param.getShopId())) {
+
+            DrugReportExample drugReportExample = new DrugReportExample();
+            DrugReportExample.Criteria criteria1 = drugReportExample.createCriteria();
+            criteria1.andShopIdEqualTo(param.getShopId());
+            criteria1.andCheckStatusEqualTo(1);//等于已审核的
+            list1 = drugReportMapper.selectByExample(drugReportExample);
+        }
         PageUtil.init(param);
         PageHelper.startPage(param.getPageNum(), param.getPageSize());
         DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
         DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
 
         if (!StringUtils.isEmpty(param.getShopId())) {
-            criteria.andReportShopIdEqualTo(param.getShopId());
+            List<String> listStr = list1.stream().map(DrugReport :: getId).collect(Collectors.toList());
+            if (listStr.size() > 0){
+                criteria.andReportShopIdEqualTo(param.getShopId());
+                criteria.andReportIdIn(listStr);
+            }
+            else{
+                criteria.andReportShopIdEqualTo("");
+            }
+            return drugReportMemberMapper.selectByExample(drugReportMemberExample);
         }
-        return drugReportMemberMapper.selectByExample(drugReportMemberExample);
+        else {
+            return  new ArrayList<>();
+        }
     }
 
     @Override
