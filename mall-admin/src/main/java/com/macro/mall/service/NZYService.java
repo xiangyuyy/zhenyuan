@@ -50,6 +50,8 @@ public interface NZYService {
 
     Boolean insertAllVZhicheng(List<VZhicheng> list);
 
+    Boolean insertDrugCount();
+
 
     Boolean updateOrganization(List<Organization> list);
 

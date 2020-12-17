@@ -791,6 +791,9 @@ public class DrugReportServiceImpl implements DrugReportService {
         if (!StringUtils.isEmpty(param.getShopId())) {
             criteria.andShopIdEqualTo(param.getShopId());
         }
+        else {
+            criteria.andShopIdIsNull(); //没有传shopId 默认不返回
+        }
         return drugCountMapper.selectByExample(drugCountExample);
     }
 

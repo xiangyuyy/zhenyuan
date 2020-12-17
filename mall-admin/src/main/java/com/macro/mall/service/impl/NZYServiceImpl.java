@@ -2,6 +2,8 @@ package com.macro.mall.service.impl;
 
 import com.macro.mall.model.*;
 import com.macro.mall.mapper.*;
+import com.macro.mall.msdao.ZYYjjgMapper;
+import com.macro.mall.msdao.ZYYjyqMapper;
 import com.macro.mall.msservice.ZYService;
 import com.macro.mall.service.NZYService;
 import org.slf4j.Logger;
@@ -57,6 +59,16 @@ public class NZYServiceImpl implements NZYService {
 
     @Autowired
     private ZYService zyService;
+
+    @Autowired
+    private DrugCountMapper drugCountMapper;
+
+    @Autowired
+    private ZYYjjgMapper yjjgMapper;
+
+    @Autowired
+    private ZYYjyqMapper yjyqMapper;
+
 
     @Override
     public List<Codeitem> getAllCodeItem() {
@@ -374,6 +386,8 @@ public class NZYServiceImpl implements NZYService {
 
             insertAllCodeItem(zyService.getAllCodeItem());
 
+            insertDrugCount();
+
             updateUsra04(zyService.getAllUsra04());
             updateUsra22(zyService.getAllUsra22());
             updateUsra64(zyService.getAllUsra64());
@@ -385,6 +399,53 @@ public class NZYServiceImpl implements NZYService {
             LOGGER.error("inintALL" + ex.getMessage() + ex.getStackTrace());
             return false;
         }
+        return true;
+    }
+
+    @Override
+    public Boolean insertDrugCount(){
+        YjjgExample yjjgExample = new YjjgExample();
+        List<Yjjg> list = yjjgMapper.selectByExample(yjjgExample);
+        list.stream().forEach(x->{
+            DrugCount record = new DrugCount();
+            record.setShopId(x.getJgbm());
+            record.setMechanic(x.getJg());
+            record.setPraPharmacist(x.getZyys());
+            record.setPraChinesePharmacist(x.getZyzys());
+            record.setPharmacist(x.getYs());
+
+            YjyqExample yjyqExample = new YjyqExample();
+            yjyqExample.createCriteria().andJgbmEqualTo(x.getJgbm()).andYcsfIsNotNull();
+            List<Yjyq> listyq = yjyqMapper.selectByExample(yjyqExample);
+            if (listyq.size() >  0 ){
+                Yjyq yjyq = listyq.get(0);
+                if (yjyq.getYcsf().contains("开通")){
+                    record.setLongRange(1);
+                }
+                else {
+                    record.setLongRange(0);
+                }
+
+                if (yjyq.getYwzy().contains("有")){
+                    record.setChineseMedicine(1);
+                }
+                else {
+                    record.setChineseMedicine(0);
+                }
+
+                if (yjyq.getLsgx().contains("市区")){
+                    record.setSubjection(1);
+                }
+                else if(yjyq.getLsgx().contains("乡镇")){
+                    record.setSubjection(2);
+                }
+                else {
+                    record.setSubjection(3);
+                }
+                record.setArea(yjyq.getMdmj());
+                drugCountMapper.insertSelective(record);
+            }
+        });
         return true;
     }
 }

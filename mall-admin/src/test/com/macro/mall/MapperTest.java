@@ -84,12 +84,13 @@ public class MapperTest {
    /*     List<SelectDto> list = memberService.getAllDrugTitle();
         Long a = new Long(1000000000);
         Member s = memberService.getMember(a);*/
-        List<Organization> list1 = zyOrganizationMapper.getInintOrganization();
+/*        List<Organization> list1 = zyOrganizationMapper.getInintOrganization();
         List<DepartmentDto> list2 = memberService.getAllDepartment();
-        List<DepartmentShopDto> list3 = memberService.getAllDepartmentShop();
+        List<DepartmentShopDto> list3 = memberService.getAllDepartmentShop();*/
 
+        nzyService.insertDrugCount();
 
-        LOGGER.info(JSONUtil.parseArray(list3).toString());
+        LOGGER.info("12");
     }
 
     @Test
