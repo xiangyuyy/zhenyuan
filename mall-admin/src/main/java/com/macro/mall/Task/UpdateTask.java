@@ -1,6 +1,7 @@
 package com.macro.mall.Task;
 
 
+import com.macro.mall.service.DrugReportService;
 import com.macro.mall.service.NZYService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.time.DateUtils;
@@ -26,12 +27,18 @@ public class UpdateTask {
     @Autowired
     NZYService nzyService;
 
-    @Scheduled(cron = "0 0/1 * * * ?")
+    @Autowired
+    DrugReportService drugReportService;
+
+    @Scheduled(cron = "0 0 1 * * ? ")
     public void task() {
         long start = System.currentTimeMillis();
-        nzyService.getAllCodeItem();
-        System.out.printf("UpdateTask任务" + nzyService.getAllCodeItem().size());
+        System.out.printf("UpdateTask任务每天1点执行" + nzyService.updataALL());
         long doTime = System.currentTimeMillis() - start;
-        log.info("UpdateTask任务结束;耗时：{}}", doTime);
+        log.info("UpdateTask任务每天1点执行;耗时：{}}", doTime);
+
+        System.out.printf("删除-1的drug_report任务每天1点执行" + drugReportService.deleteMoreDrugReport());
+        long doTime1 = System.currentTimeMillis() - start;
+        log.info("删除-1的drug_report任务每天1点执行;耗时：{}}", doTime);
     }
 }

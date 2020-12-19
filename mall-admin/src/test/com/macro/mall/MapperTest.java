@@ -88,8 +88,9 @@ public class MapperTest {
         List<DepartmentDto> list2 = memberService.getAllDepartment();
         List<DepartmentShopDto> list3 = memberService.getAllDepartmentShop();*/
 
-        nzyService.insertDrugCount();
+        //nzyService.insertDrugCount();
 
+        drugReportService.deleteMoreDrugReport();
         LOGGER.info("12");
     }
 

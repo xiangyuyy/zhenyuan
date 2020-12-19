@@ -836,4 +836,20 @@ public class DrugReportServiceImpl implements DrugReportService {
     public DrugReportMember getDrugReportMember(String id) {
         return drugReportMemberMapper.selectByPrimaryKey(new Long(id));
     }
+
+    @Override
+    public Boolean deleteMoreDrugReport() {
+        DrugReportExample drugReportExample = new DrugReportExample();
+        DrugReportExample.Criteria criteria = drugReportExample.createCriteria();
+        criteria.andCheckStatusEqualTo(-1);//待确认的
+        List<DrugReport> list = drugReportMapper.selectByExample(drugReportExample);
+        list.forEach(x->{
+            DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
+            DrugReportMemberExample.Criteria criteria1 = drugReportMemberExample.createCriteria();
+            criteria1.andReportIdEqualTo(x.getId());
+            drugReportMemberMapper.deleteByExample(drugReportMemberExample);
+            drugReportMapper.deleteByPrimaryKey(x.getId());
+        });
+        return true;
+    }
 }

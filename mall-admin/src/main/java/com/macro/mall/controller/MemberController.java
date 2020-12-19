@@ -8,6 +8,7 @@ import com.macro.mall.model.Member;
 import com.macro.mall.model.UmsMenu;
 import com.macro.mall.model.UmsRole;
 import com.macro.mall.service.MemberService;
+import com.macro.mall.service.NZYService;
 import com.macro.mall.service.UmsMenuService;
 import com.macro.mall.util.ExcelRead;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
@@ -34,6 +35,10 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    NZYService nzyService;
+
 
     @ApiOperation("组织机构")
     @RequestMapping(value = "/getAllDepartment", method = RequestMethod.GET)
@@ -412,5 +417,21 @@ public class MemberController {
     public CommonResult<List<SelectDto>> getAllDrugChangeReason() {
         List<SelectDto> dto = memberService.getAllDrugChangeReason();
         return CommonResult.success(dto);
+    }
+
+    @ApiOperation("初始化数据")
+    @RequestMapping(value = "/inintALL", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<Boolean> inintALL() {
+        Boolean result = nzyService.inintALL();
+        return CommonResult.success(result);
+    }
+
+    @ApiOperation("更新初始化数据")
+    @RequestMapping(value = "/updataALL", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<Boolean> updataALL() {
+        Boolean result = nzyService.updataALL();
+        return CommonResult.success(result);
     }
 }

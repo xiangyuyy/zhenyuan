@@ -66,4 +66,6 @@ public interface DrugReportService {
 
     DrugReportMember getDrugReportMember(String id);
 
+    Boolean deleteMoreDrugReport();
+
 }
