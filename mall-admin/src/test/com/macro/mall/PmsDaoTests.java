@@ -4,11 +4,9 @@ package com.macro.mall;
 import com.macro.mall.dto.MemberListDto;
 import com.macro.mall.dto.MemberListParam;
 import com.macro.mall.model.*;
-import com.macro.mall.msservice.TestService;
 import com.macro.mall.msservice.ZYService;
 import com.macro.mall.service.MemberService;
 import com.macro.mall.service.NZYService;
-import com.macro.mall.util.StringPinYinCodeUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -22,8 +20,6 @@ import java.util.List;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PmsDaoTests {
-    @Autowired
-    TestService testService;
 
     @Autowired
     MemberService memberService;
@@ -34,12 +30,6 @@ public class PmsDaoTests {
     @Autowired
     NZYService nzyService;
     private static final Logger LOGGER = LoggerFactory.getLogger(PmsDaoTests.class);
-
-    @Test
-    public void  testsql(){
-        List<com.macro.mall.msmodel.Test> list = testService.list("",1,10);
-        LOGGER.info(list.toString());
-    }
 
     @Test
     public void  testMember(){

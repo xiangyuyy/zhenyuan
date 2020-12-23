@@ -66,7 +66,7 @@ public class DrugReportController {
             return CommonResult.failed("行政隶属不能为空");
         }
         if (drugCount.getChineseMedicine() == null) {
-            return  CommonResult.failed("有无中药不能为空");
+            return CommonResult.failed("有无中药不能为空");
         }
         if (drugCount.getLongRange() == null) {
             return CommonResult.failed("是否远程不能为空");
@@ -87,7 +87,7 @@ public class DrugReportController {
     @RequestMapping(value = "/getDrugCountList", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<DrugCount>> getDrugCountList(DrugCountListParam param) {
-        List<DrugCount> list  = drugReportService.getDrugCountList(param);
+        List<DrugCount> list = drugReportService.getDrugCountList(param);
         CommonPage commonPage = CommonPage.restPage(list);
         commonPage.setList(list);
         return CommonResult.success(commonPage);
@@ -179,7 +179,7 @@ public class DrugReportController {
         shopIds.add(shopId);
         param.setShopIds(shopIds);
         List<DrugReport> list = drugReportService.getDrugReportList(param);
-        if(list != null && list.size() > 0){
+        if (list != null && list.size() > 0) {
             return CommonResult.success(list.get(0).getId());
         }
         return CommonResult.failed("没有可变更的数据");
@@ -257,6 +257,9 @@ public class DrugReportController {
         if (count == -2) {
             return CommonResult.failed("没有药监数据不能确认，请先通过药监计算工具确认");
         }
+        if (count == -3) {
+            return CommonResult.failed("门店已存在药监申报，请在药监控制台查看");
+        }
         if (count > 0) {
             return CommonResult.success(count);
         } else {
@@ -277,14 +280,16 @@ public class DrugReportController {
         if (count == -2) {
             return CommonResult.failed("没有药监数据不能确认，请先通过药监计算工具确认");
         }
+        if (count == -3) {
+            return CommonResult.failed("门店已存在药监申报，请在药监控制台查看");
+        }
         if (count > 0) {
-            List<DrugReportMember> list = new ArrayList<>();
             if (!StringUtils.isEmpty(sureDrugReportDto.getReportId())) {
                 List<ExportDrugReportMemberDto> result = drugReportService.exportDrugReportMember(sureDrugReportDto.getReportId());
-                ExportExcel<ExportDrugReportMemberDto> ee= new ExportExcel<ExportDrugReportMemberDto>();
-                String[] headers = {"收货人姓名","手机号码 ","收货地址 ","蟹卡类型","昵称","用户ID","蟹卡卡号 ","蟹卡密码","发货时间","登录电话"};
+                ExportExcel<ExportDrugReportMemberDto> ee = new ExportExcel<ExportDrugReportMemberDto>();
+                String[] headers = {"收货人姓名", "手机号码 ", "收货地址 ", "蟹卡类型", "昵称", "用户ID", "蟹卡卡号 ", "蟹卡密码", "发货时间", "登录电话"};
                 String fileName = "药监申报表" + sureDrugReportDto.getReportId();
-                ee.exportExcel(headers,result,fileName,response);
+                ee.exportExcel(headers, result, fileName, response);
             }
             return CommonResult.success(count);
         } else {
@@ -292,6 +297,19 @@ public class DrugReportController {
         }
     }
 
+    @ApiOperation("导出药监审核人员信息")
+    @RequestMapping(value = "/exportDrugReport", method = RequestMethod.GET)
+    public void testExport(HttpServletRequest request, HttpServletResponse response,String reportId) {
+        SureDrugReportDto sureDrugReportDto = new SureDrugReportDto();
+        sureDrugReportDto.setReportId(reportId);
+        if (!StringUtils.isEmpty(sureDrugReportDto.getReportId())) {
+            List<ExportDrugReportMemberDto> result = drugReportService.exportDrugReportMember(sureDrugReportDto.getReportId());
+            ExportExcel<ExportDrugReportMemberDto> ee = new ExportExcel<ExportDrugReportMemberDto>();
+            String[] headers = {"收货人姓名", "手机号码 ", "收货地址 ", "蟹卡类型", "昵称", "用户ID", "蟹卡卡号 ", "蟹卡密码", "发货时间", "登录电话"};
+            String fileName = "药监申报表" + reportId;
+            ee.exportExcel(headers, result, fileName, response);
+        }
+    }
     @ApiOperation("审核")
     @RequestMapping(value = "/passDrugReport/{reportId}", method = RequestMethod.POST)
     @ResponseBody
@@ -381,6 +399,17 @@ public class DrugReportController {
     @RequestMapping(value = "/isCanSH", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult isCanSH() {
+        List<UmsMenu> list = roleService.getMenuList(drugReportService.getCurrentAdminUser().getUmsAdmin().getId());
+        if (list.stream().anyMatch(x -> x.getTitle().contains("药监审核"))) {
+            return CommonResult.success(true);
+        }
+        return CommonResult.success(false);
+    }
+
+    @ApiOperation(value = "是否在变更中")
+    @RequestMapping(value = "/isChangeStatus", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult isChangeStatus(String reportId) {
         List<UmsMenu> list = roleService.getMenuList(drugReportService.getCurrentAdminUser().getUmsAdmin().getId());
         if (list.stream().anyMatch(x -> x.getTitle().contains("药监审核"))) {
             return CommonResult.success(true);

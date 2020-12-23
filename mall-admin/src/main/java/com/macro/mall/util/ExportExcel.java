@@ -3,6 +3,7 @@ package com.macro.mall.util;
 import java.io.BufferedOutputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Iterator;
@@ -102,8 +103,9 @@ public class ExportExcel<T> {
         BufferedOutputStream fos = null;
         try {
             String fileName = name + ".xlsx";
-            response.setContentType("application/x-msdownload");
-            response.setHeader("Content-Disposition", "attachment;filename=" + new String( fileName.getBytes("gb2312"), "ISO8859-1" ));
+            fileName = URLEncoder.encode(fileName, "UTF-8");
+            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
             fos = new BufferedOutputStream(response.getOutputStream());
             workbook.write(fos);
         } catch (Exception e) {

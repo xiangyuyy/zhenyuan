@@ -621,8 +621,8 @@ public class DrugReportServiceImpl implements DrugReportService {
                     }
                     memberRecordMapper.insertSelective(memberRecord);
                 }
-                //修改审核状态
-                drugReport.setCheckStatus(0);
+                //修改审核状态 变更中
+                drugReport.setCheckStatus(2);
                 //操作人
                 drugReport.setOperatorId(getCurrentAdminUser().getUmsAdmin().getId().toString());
                 drugReportMapper.updateByPrimaryKeySelective(drugReport);
@@ -720,6 +720,14 @@ public class DrugReportServiceImpl implements DrugReportService {
         if (getDrugCountByShopId(drugReport.getShopId()) == null) {
             return -2; //没有药监数据不能确认
         }
+        DrugReportExample drugReportExample = new DrugReportExample();
+        DrugReportExample.Criteria criteria1 = drugReportExample.createCriteria();
+        criteria1.andShopIdEqualTo(drugReport.getShopId());
+        List<DrugReport> list1 = drugReportMapper.selectByExample(drugReportExample);
+        if (list1.size() >= 2) {
+            return -3; //门店已存在药监申报，请在药监控制台查看。
+        }
+
         drugReport.setReportTime(reportTime);
         drugReport.setOperatorId(getCurrentAdminUser().getUmsAdmin().getId().toString());
         drugReport.setCheckStatus(0);
@@ -755,7 +763,7 @@ public class DrugReportServiceImpl implements DrugReportService {
         DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
         criteria.andReportIdEqualTo(reportId);
         List<DrugReportMember> list = drugReportMemberMapper.selectByExample(drugReportMemberExample);
-        list.stream().forEach(x -> {
+        list.forEach(x -> {
             Member member = memberMapper.selectByPrimaryKey(new Long(x.getMemberId()));
             if (member != null) {
                 x.setDrugEducationId(member.getDrugEducationId());
@@ -779,6 +787,41 @@ public class DrugReportServiceImpl implements DrugReportService {
                 drugReportMemberMapper.updateByPrimaryKeySelective(x);
             }
         });
+        //插入变更记录表 如果member_record 中没有此reportId 插入
+        MemberRecordExample memberRecordExample = new MemberRecordExample();
+        MemberRecordExample.Criteria criteria1 = memberRecordExample.createCriteria();
+        criteria1.andReportIdEqualTo(reportId);
+        List<MemberRecord> list1 = memberRecordMapper.selectByExample(memberRecordExample);
+        if (list1.size() == 0){
+            list.stream().forEach(x->{
+                // 插入药监变更记录
+                MemberRecord memberRecord = new MemberRecord();
+                //变更原因
+                //memberRecord.setChangeReason(dto.getChangeReason());
+
+                memberRecord.setMemberId(x.getMemberId());
+                memberRecord.setRelationId(x.getRelationId());
+                memberRecord.setReportId(reportId);
+
+                memberRecord.setOperatorId(getCurrentAdminUser().getUmsAdmin().getId().toString());
+
+                memberRecord.setDrugEducationId(x.getDrugEducationId());
+                memberRecord.setWorkTime(x.getWorkTime());
+                memberRecord.setDrugMajorId(x.getDrugMajorId());
+                memberRecord.setDrugPositionOneId(x.getDrugPositionOneId());
+                memberRecord.setDrugPositionTwoId(x.getDrugPositionTwoId());
+                memberRecord.setDrugPositionThreeId(x.getDrugPositionThreeId());
+                memberRecord.setDrugTitleId(x.getDrugTitleId());
+                memberRecord.setDrugShopId(x.getDrugShopId());
+                memberRecord.setDrugOrgId(x.getDrugOrgId());
+                memberRecord.setEducationId(x.getEducationId());
+
+                if (drugReport != null) {
+                    memberRecord.setReportShopId(drugReport.getShopId());
+                }
+                memberRecordMapper.insertSelective(memberRecord);
+            });
+        }
         return 1;
     }
 

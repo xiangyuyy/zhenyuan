@@ -5,7 +5,6 @@ import com.macro.mall.security.component.DynamicSecurityService;
 import com.macro.mall.security.config.SecurityConfig;
 import com.macro.mall.service.UmsAdminService;
 import com.macro.mall.service.UmsResourceService;
-import com.macro.mall.msservice.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,9 +32,6 @@ public class MallSecurityConfig extends SecurityConfig {
     @Autowired
     private UmsResourceService resourceService;
 
-    @Autowired
-    TestService testService;
-
     @Bean
     public UserDetailsService userDetailsService() {
         //获取登录用户信息
@@ -50,7 +46,6 @@ public class MallSecurityConfig extends SecurityConfig {
                 Map<String, ConfigAttribute> map = new ConcurrentHashMap<>();
                 List<UmsResource> resourceList = new ArrayList<>();
                 //List<UmsResource> resourceList = resourceService.listAll();
-                List<com.macro.mall.msmodel.Test> list = testService.list("",1,10);
                 for (UmsResource resource : resourceList) {
                     map.put(resource.getUrl(), new org.springframework.security.access.SecurityConfig(resource.getId() + ":" + resource.getName()));
                 }

@@ -107,8 +107,8 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         }
         memberRecordMapper.insertSelective(memberRecord);
 
-        //修改审核状态
-        drugReport.setCheckStatus(0);
+        //修改审核状态 变更中
+        drugReport.setCheckStatus(2);
         //操作人
         drugReport.setOperatorId(drugReportService.getCurrentAdminUser().getUmsAdmin().getId().toString());
         return  drugReportMapper.updateByPrimaryKeySelective(drugReport);

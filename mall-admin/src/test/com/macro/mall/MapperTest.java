@@ -1,15 +1,8 @@
 package com.macro.mall;
 
-import cn.hutool.json.JSONUtil;
-import com.alibaba.druid.support.json.JSONParser;
 import com.macro.mall.bo.BaseConst;
-import com.macro.mall.dto.DepartmentDto;
-import com.macro.mall.dto.DepartmentShopDto;
-import com.macro.mall.dto.MemberListParam;
-import com.macro.mall.dto.SelectDto;
 import com.macro.mall.model.*;
 import com.macro.mall.msdao.ZYOrganizationMapper;
-import com.macro.mall.msservice.TestService;
 import com.macro.mall.msservice.ZYService;
 import com.macro.mall.service.CodeItemService;
 import com.macro.mall.service.DrugReportService;
@@ -22,8 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import springfox.documentation.spring.web.json.Json;
-import springfox.documentation.spring.web.json.JsonSerializer;
 
 import java.math.BigDecimal;
 import java.util.List;
