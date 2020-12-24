@@ -284,13 +284,6 @@ public class DrugReportController {
             return CommonResult.failed("门店已存在药监申报，请在药监控制台查看");
         }
         if (count > 0) {
-            if (!StringUtils.isEmpty(sureDrugReportDto.getReportId())) {
-                List<ExportDrugReportMemberDto> result = drugReportService.exportDrugReportMember(sureDrugReportDto.getReportId());
-                ExportExcel<ExportDrugReportMemberDto> ee = new ExportExcel<ExportDrugReportMemberDto>();
-                String[] headers = {"收货人姓名", "手机号码 ", "收货地址 ", "蟹卡类型", "昵称", "用户ID", "蟹卡卡号 ", "蟹卡密码", "发货时间", "登录电话"};
-                String fileName = "药监申报表" + sureDrugReportDto.getReportId();
-                ee.exportExcel(headers, result, fileName, response);
-            }
             return CommonResult.success(count);
         } else {
             return CommonResult.failed();
@@ -299,17 +292,21 @@ public class DrugReportController {
 
     @ApiOperation("导出药监审核人员信息")
     @RequestMapping(value = "/exportDrugReport", method = RequestMethod.GET)
-    public void testExport(HttpServletRequest request, HttpServletResponse response,String reportId) {
+    public void exportDrugReport(HttpServletRequest request, HttpServletResponse response, String reportId) {
         SureDrugReportDto sureDrugReportDto = new SureDrugReportDto();
         sureDrugReportDto.setReportId(reportId);
         if (!StringUtils.isEmpty(sureDrugReportDto.getReportId())) {
             List<ExportDrugReportMemberDto> result = drugReportService.exportDrugReportMember(sureDrugReportDto.getReportId());
             ExportExcel<ExportDrugReportMemberDto> ee = new ExportExcel<ExportDrugReportMemberDto>();
-            String[] headers = {"收货人姓名", "手机号码 ", "收货地址 ", "蟹卡类型", "昵称", "用户ID", "蟹卡卡号 ", "蟹卡密码", "发货时间", "登录电话"};
+            String[] headers = {"姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "职称（获得时间）", "学历 ", "专业", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
             String fileName = "药监申报表" + reportId;
-            ee.exportExcel(headers, result, fileName, response);
+
+            //String shopId  = result.get(0).getShopName()
+            String sheetName = "xx药店";
+            ee.exportExcel(headers, result, sheetName,fileName, response);
         }
     }
+
     @ApiOperation("审核")
     @RequestMapping(value = "/passDrugReport/{reportId}", method = RequestMethod.POST)
     @ResponseBody
@@ -409,13 +406,26 @@ public class DrugReportController {
     @ApiOperation(value = "是否在变更中")
     @RequestMapping(value = "/isChangeStatus", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult isChangeStatus(String reportId) {
-        List<UmsMenu> list = roleService.getMenuList(drugReportService.getCurrentAdminUser().getUmsAdmin().getId());
-        if (list.stream().anyMatch(x -> x.getTitle().contains("药监审核"))) {
-            return CommonResult.success(true);
+    public CommonResult isChangeStatus(String shopId) {
+        List<MemberRecord> list = memberRecordService.getMemberRecordListByShopId(shopId);
+        if (list.stream().anyMatch(x -> x.getStatus().equals(0))) {
+            return CommonResult.success(true);//变更中
         }
         return CommonResult.success(false);
     }
+
+    @ApiOperation("提交变更")
+    @RequestMapping(value = "/sureChanges", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult sureChanges(String shopId) {
+        Boolean result = drugReportService.sureChanges(shopId);
+        if (result) {
+            return CommonResult.success("提交成功");
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
 
     @ApiOperation("获取搜索中操作员的下拉框取值")
     @RequestMapping(value = "/getAllOperator", method = RequestMethod.GET)

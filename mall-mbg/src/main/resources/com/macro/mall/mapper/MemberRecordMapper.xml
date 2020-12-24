@@ -18,6 +18,7 @@
     <result column="drug_position_three_id" jdbcType="VARCHAR" property="drugPositionThreeId" />
     <result column="work_time" jdbcType="TIMESTAMP" property="workTime" />
     <result column="change_reason" jdbcType="VARCHAR" property="changeReason" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="operator_id" jdbcType="VARCHAR" property="operatorId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
@@ -83,7 +84,7 @@
   <sql id="Base_Column_List">
     id, report_id, report_shop_id, relation_id, member_id, drug_shop_id, drug_title_id, 
     drug_org_id, education_id, drug_education_id, drug_major_id, drug_position_one_id, 
-    drug_position_two_id, drug_position_three_id, work_time, change_reason, operator_id, 
+    drug_position_two_id, drug_position_three_id, work_time, change_reason, status, operator_id, 
     create_time, modify_time
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.MemberRecordExample" resultMap="BaseResultMap">
@@ -125,15 +126,15 @@
       drug_org_id, education_id, drug_education_id, 
       drug_major_id, drug_position_one_id, drug_position_two_id, 
       drug_position_three_id, work_time, change_reason, 
-      operator_id, create_time, modify_time
-      )
+      status, operator_id, create_time, 
+      modify_time)
     values (#{reportId,jdbcType=VARCHAR}, #{reportShopId,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, 
       #{memberId,jdbcType=VARCHAR}, #{drugShopId,jdbcType=VARCHAR}, #{drugTitleId,jdbcType=VARCHAR}, 
       #{drugOrgId,jdbcType=VARCHAR}, #{educationId,jdbcType=VARCHAR}, #{drugEducationId,jdbcType=VARCHAR}, 
       #{drugMajorId,jdbcType=VARCHAR}, #{drugPositionOneId,jdbcType=VARCHAR}, #{drugPositionTwoId,jdbcType=VARCHAR}, 
       #{drugPositionThreeId,jdbcType=VARCHAR}, #{workTime,jdbcType=TIMESTAMP}, #{changeReason,jdbcType=VARCHAR}, 
-      #{operatorId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
-      )
+      #{status,jdbcType=INTEGER}, #{operatorId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.MemberRecord">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -185,6 +186,9 @@
       </if>
       <if test="changeReason != null">
         change_reason,
+      </if>
+      <if test="status != null">
+        status,
       </if>
       <if test="operatorId != null">
         operator_id,
@@ -241,6 +245,9 @@
       </if>
       <if test="changeReason != null">
         #{changeReason,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="operatorId != null">
         #{operatorId,jdbcType=VARCHAR},
@@ -310,6 +317,9 @@
       <if test="record.changeReason != null">
         change_reason = #{record.changeReason,jdbcType=VARCHAR},
       </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
       <if test="record.operatorId != null">
         operator_id = #{record.operatorId,jdbcType=VARCHAR},
       </if>
@@ -342,6 +352,7 @@
       drug_position_three_id = #{record.drugPositionThreeId,jdbcType=VARCHAR},
       work_time = #{record.workTime,jdbcType=TIMESTAMP},
       change_reason = #{record.changeReason,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
       operator_id = #{record.operatorId,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       modify_time = #{record.modifyTime,jdbcType=TIMESTAMP}
@@ -397,6 +408,9 @@
       <if test="changeReason != null">
         change_reason = #{changeReason,jdbcType=VARCHAR},
       </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
       <if test="operatorId != null">
         operator_id = #{operatorId,jdbcType=VARCHAR},
       </if>
@@ -426,6 +440,7 @@
       drug_position_three_id = #{drugPositionThreeId,jdbcType=VARCHAR},
       work_time = #{workTime,jdbcType=TIMESTAMP},
       change_reason = #{changeReason,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
       operator_id = #{operatorId,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}

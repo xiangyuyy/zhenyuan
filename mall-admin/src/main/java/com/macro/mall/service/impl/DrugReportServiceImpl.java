@@ -110,18 +110,16 @@ public class DrugReportServiceImpl implements DrugReportService {
         DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
 
         if (!StringUtils.isEmpty(param.getShopId())) {
-            List<String> listStr = list1.stream().map(DrugReport :: getId).collect(Collectors.toList());
-            if (listStr.size() > 0){
+            List<String> listStr = list1.stream().map(DrugReport::getId).collect(Collectors.toList());
+            if (listStr.size() > 0) {
                 criteria.andReportShopIdEqualTo(param.getShopId());
                 criteria.andReportIdIn(listStr);
-            }
-            else{
+            } else {
                 criteria.andReportShopIdEqualTo("");
             }
             return drugReportMemberMapper.selectByExample(drugReportMemberExample);
-        }
-        else {
-            return  new ArrayList<>();
+        } else {
+            return new ArrayList<>();
         }
     }
 
@@ -615,17 +613,19 @@ public class DrugReportServiceImpl implements DrugReportService {
                     memberRecord.setDrugShopId(member.getDrugShopId());
                     memberRecord.setDrugOrgId(member.getDrugOrgId());
                     memberRecord.setEducationId(member.getEducationId());
+                    //变更中
+                    memberRecord.setStatus(0);
 
                     if (drugReport != null) {
                         memberRecord.setReportShopId(drugReport.getShopId());
                     }
                     memberRecordMapper.insertSelective(memberRecord);
                 }
-                //修改审核状态 变更中
-                drugReport.setCheckStatus(2);
+       /*         //修改审核状态
+                drugReport.setCheckStatus(0);
                 //操作人
                 drugReport.setOperatorId(getCurrentAdminUser().getUmsAdmin().getId().toString());
-                drugReportMapper.updateByPrimaryKeySelective(drugReport);
+                drugReportMapper.updateByPrimaryKeySelective(drugReport);*/
             } else {
                 return 0;//重复插入
             }
@@ -792,13 +792,14 @@ public class DrugReportServiceImpl implements DrugReportService {
         MemberRecordExample.Criteria criteria1 = memberRecordExample.createCriteria();
         criteria1.andReportIdEqualTo(reportId);
         List<MemberRecord> list1 = memberRecordMapper.selectByExample(memberRecordExample);
-        if (list1.size() == 0){
-            list.stream().forEach(x->{
+        if (list1.size() == 0) {
+            list.stream().forEach(x -> {
                 // 插入药监变更记录
                 MemberRecord memberRecord = new MemberRecord();
                 //变更原因
                 //memberRecord.setChangeReason(dto.getChangeReason());
-
+                //memberRecord.setChangeReason("1608816513961");
+                memberRecord.setChangeReason("1608818350908");
                 memberRecord.setMemberId(x.getMemberId());
                 memberRecord.setRelationId(x.getRelationId());
                 memberRecord.setReportId(reportId);
@@ -833,8 +834,7 @@ public class DrugReportServiceImpl implements DrugReportService {
         DrugCountExample.Criteria criteria = drugCountExample.createCriteria();
         if (!StringUtils.isEmpty(param.getShopId())) {
             criteria.andShopIdEqualTo(param.getShopId());
-        }
-        else {
+        } else {
             criteria.andShopIdIsNull(); //没有传shopId 默认不返回
         }
         return drugCountMapper.selectByExample(drugCountExample);
@@ -886,7 +886,7 @@ public class DrugReportServiceImpl implements DrugReportService {
         DrugReportExample.Criteria criteria = drugReportExample.createCriteria();
         criteria.andCheckStatusEqualTo(-1);//待确认的
         List<DrugReport> list = drugReportMapper.selectByExample(drugReportExample);
-        list.forEach(x->{
+        list.forEach(x -> {
             DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
             DrugReportMemberExample.Criteria criteria1 = drugReportMemberExample.createCriteria();
             criteria1.andReportIdEqualTo(x.getId());
@@ -894,5 +894,35 @@ public class DrugReportServiceImpl implements DrugReportService {
             drugReportMapper.deleteByPrimaryKey(x.getId());
         });
         return true;
+    }
+
+    @Override
+    public Boolean sureChanges(String shopId) {
+        DrugReportExample drugReportExample = new DrugReportExample();
+        DrugReportExample.Criteria criteria = drugReportExample.createCriteria();
+        criteria.andShopIdEqualTo(shopId);
+        List<DrugReport> list = drugReportMapper.selectByExample(drugReportExample);
+        if (list.size() > 0) {
+            DrugReport drugReport = list.get(0);
+            //修改变更记录状态
+            MemberRecordExample memberRecordExample = new MemberRecordExample();
+            MemberRecordExample.Criteria criteria1 = memberRecordExample.createCriteria();
+            criteria1.andReportShopIdEqualTo(shopId);
+            criteria1.andStatusEqualTo(0);//变更中
+            List<MemberRecord> list1 = memberRecordMapper.selectByExample(memberRecordExample);
+            if (list1.size() > 0){
+                list1.forEach(x->{
+                    x.setStatus(1);
+                    memberRecordMapper.updateByPrimaryKeySelective(x);
+                });
+            }
+            //修改审核状态
+            drugReport.setCheckStatus(0);
+            //操作人
+            drugReport.setOperatorId(getCurrentAdminUser().getUmsAdmin().getId().toString());
+            drugReportMapper.updateByPrimaryKeySelective(drugReport);
+        }
+        return true;
+
     }
 }

@@ -68,4 +68,6 @@ public interface DrugReportService {
 
     Boolean deleteMoreDrugReport();
 
+    Boolean sureChanges(String shopId);
+
 }

@@ -25,4 +25,6 @@ public interface MemberRecordService {
     //部门申报变更记录查询
     List<MemberRecord> getShopMemberRecordList(ShopMemberRecordListParam param);
 
+    List<MemberRecord> getMemberRecordListByShopId(String shopId);
+
 }

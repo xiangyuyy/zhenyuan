@@ -99,19 +99,30 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         memberRecord.setDrugOrgId(updateMemberRecordDto.getDrugOrgId());
         memberRecord.setChangeReason(updateMemberRecordDto.getChangeReason());
         memberRecord.setEducationId(updateMemberRecordDto.getEducationId());
+        // 变更中
+        memberRecord.setStatus(0);
+
 
         //药监申报门店
         DrugReport drugReport = drugReportMapper.selectByPrimaryKey(updateMemberRecordDto.getReportId());
         if (drugReport != null){
             memberRecord.setReportShopId(drugReport.getShopId());
         }
-        memberRecordMapper.insertSelective(memberRecord);
-
-        //修改审核状态 变更中
-        drugReport.setCheckStatus(2);
+/*        //修改审核状态
+        drugReport.setCheckStatus(0);
         //操作人
         drugReport.setOperatorId(drugReportService.getCurrentAdminUser().getUmsAdmin().getId().toString());
-        return  drugReportMapper.updateByPrimaryKeySelective(drugReport);
+        drugReportMapper.updateByPrimaryKeySelective(drugReport);*/
+        MemberRecordExample memberRecordExample  = new MemberRecordExample();
+        MemberRecordExample.Criteria criteria = memberRecordExample.createCriteria();
+        criteria.andMemberIdEqualTo(updateMemberRecordDto.getMemberId());
+        criteria.andStatusEqualTo(0);
+        criteria.andReportIdEqualTo(updateMemberRecordDto.getReportId());
+        List<MemberRecord> list = memberRecordMapper.selectByExample(memberRecordExample);
+        if (list.size() > 0){
+            memberRecordMapper.deleteByExample(memberRecordExample);
+        }
+        return memberRecordMapper.insertSelective(memberRecord);
     }
 
     @Override
@@ -145,6 +156,7 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         MemberRecordExample memberRecordExample = new MemberRecordExample();
         MemberRecordExample.Criteria criteria = memberRecordExample.createCriteria();
         criteria.andMemberIdEqualTo(param.getMemberId());
+        criteria.andStatusEqualTo(1);//正常的 排除变更中的
         if (param.getCreateTimeBegin() != null){
             param.setCreateTimeBegin(DateUtil.getDateAddOneDay(param.getCreateTimeBegin()));
             criteria.andCreateTimeGreaterThanOrEqualTo(param.getCreateTimeBegin());
@@ -163,7 +175,7 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         PageHelper.startPage(param.getPageNum(), param.getPageSize());
         MemberRecordExample memberRecordExample = new MemberRecordExample();
         MemberRecordExample.Criteria criteria = memberRecordExample.createCriteria();
-
+        criteria.andStatusEqualTo(1);//正常的 排除变更中的
         if (!StringUtils.isEmpty(param.getShopId())) {
             criteria.andReportShopIdEqualTo(param.getShopId());
         }
@@ -181,6 +193,14 @@ public class MemberRecordServiceImpl implements MemberRecordService {
             criteria.andCreateTimeLessThanOrEqualTo(param.getCreateTimeEnd());
         }
         memberRecordExample.setOrderByClause("modify_time desc");
+        return memberRecordMapper.selectByExample(memberRecordExample);
+    }
+
+    @Override
+    public List<MemberRecord> getMemberRecordListByShopId(String shopId) {
+        MemberRecordExample memberRecordExample = new MemberRecordExample();
+        MemberRecordExample.Criteria criteria = memberRecordExample.createCriteria();
+        criteria.andReportShopIdEqualTo(shopId);
         return memberRecordMapper.selectByExample(memberRecordExample);
     }
 

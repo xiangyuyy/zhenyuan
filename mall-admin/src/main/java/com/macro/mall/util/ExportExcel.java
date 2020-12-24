@@ -22,11 +22,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExportExcel<T> {
     private SimpleDateFormat sdf =  new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
-    public void exportExcel(String[] headers,Collection<T> dataset, String fileName,HttpServletResponse response) {
+    public void exportExcel(String[] headers,Collection<T> dataset,String sheetName, String fileName,HttpServletResponse response) {
         // 声明一个工作薄
         XSSFWorkbook workbook = new XSSFWorkbook();
         // 生成一个表格
-        XSSFSheet sheet = workbook.createSheet(fileName);
+        XSSFSheet sheet = workbook.createSheet(sheetName);
         XSSFCellStyle style = workbook.createCellStyle();
         // 基础样式
         // 设置自动换行

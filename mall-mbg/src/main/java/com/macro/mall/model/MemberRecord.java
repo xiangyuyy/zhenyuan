@@ -52,6 +52,9 @@ public class MemberRecord implements Serializable {
     @ApiModelProperty(value = "变更原因")
     private String changeReason;
 
+    @ApiModelProperty(value = "变更状态：1->正常;0->变更中")
+    private Integer status;
+
     @ApiModelProperty(value = "操作人id")
     private String operatorId;
 
@@ -191,6 +194,14 @@ public class MemberRecord implements Serializable {
         this.changeReason = changeReason;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public String getOperatorId() {
         return operatorId;
     }
@@ -237,6 +248,7 @@ public class MemberRecord implements Serializable {
         sb.append(", drugPositionThreeId=").append(drugPositionThreeId);
         sb.append(", workTime=").append(workTime);
         sb.append(", changeReason=").append(changeReason);
+        sb.append(", status=").append(status);
         sb.append(", operatorId=").append(operatorId);
         sb.append(", createTime=").append(createTime);
         sb.append(", modifyTime=").append(modifyTime);
