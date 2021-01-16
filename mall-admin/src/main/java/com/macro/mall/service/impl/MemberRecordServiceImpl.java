@@ -137,7 +137,7 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         member.setMemberId(model.getMemberId());
 
         member.setDrugEducationId(model.getDrugEducationId());
-        member.setWorkTime(model.getWorkTime());
+        member.setWorkTime(DateUtil.getFormateDate(model.getWorkTime()));
         member.setDrugMajorId(model.getDrugMajorId());
         member.setDrugPositionOneId(model.getDrugPositionOneId());
         member.setDrugPositionTwoId(model.getDrugPositionTwoId());
@@ -215,7 +215,7 @@ public class MemberRecordServiceImpl implements MemberRecordService {
             Usra01 usra01 = usra01Mapper.selectByPrimaryKey(x.getRelationId());
             if(usra01 != null){
                 dto.setAge(usra01.getA0112());
-                dto.setBirthday(usra01.getA0111());
+                dto.setBirthday(DateUtil.getFormateDate(usra01.getA0111()));
                 dto.setMajor(usra01.getA0130());
                 Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM,usra01.getA0134());
                 if (codeitem != null){//最高学历
@@ -244,7 +244,7 @@ public class MemberRecordServiceImpl implements MemberRecordService {
                 }
             }
 
-            dto.setWorkTime(x.getWorkTime());
+            dto.setWorkTime(DateUtil.getFormateDate(x.getWorkTime()));
             dto.setEducationStatus(1);
             dto.setTrainStatus(1);
             dto.setHealthStatus(1);

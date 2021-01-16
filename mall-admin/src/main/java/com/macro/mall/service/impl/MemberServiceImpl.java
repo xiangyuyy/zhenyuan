@@ -317,7 +317,7 @@ public class MemberServiceImpl implements MemberService {
         Usra01 usra01 = usra01Mapper.selectByPrimaryKey(x.getRelationId());
         if (usra01 != null) {
             dto.setAge(usra01.getA0112());
-            dto.setBirthday(usra01.getA0111());
+            dto.setBirthday(DateUtil.getFormateDate(usra01.getA0111()));
             dto.setMajor(usra01.getA0130());
             Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, usra01.getA0134());
             if (codeitem != null) {//最高学历
@@ -347,7 +347,7 @@ public class MemberServiceImpl implements MemberService {
             }
         }
 
-        dto.setWorkTime(x.getWorkTime());
+        dto.setWorkTime(DateUtil.getFormateDate(x.getWorkTime()));
         dto.setEducationStatus(x.getEducationStatus());
         dto.setTrainStatus(x.getTrainStatus());
         dto.setHealthStatus(x.getHealthStatus());
@@ -474,8 +474,8 @@ public class MemberServiceImpl implements MemberService {
         if (organization != null) {
             memberBaseInforDto.setCompany(organization.getCodeitemdesc());
         }
-        memberBaseInforDto.setBirthday(usra01.getA0111());
-        memberBaseInforDto.setWorkTime(usra01.getA0141());
+        memberBaseInforDto.setBirthday(DateUtil.getFormateDate(usra01.getA0111()));
+        memberBaseInforDto.setWorkTime(DateUtil.getFormateDate(usra01.getA0141()));
         Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX,usra01.getA0107());
         if (codeitemSex != null){
             memberBaseInforDto.setSex(codeitemSex.getCodeitemdesc());
@@ -504,7 +504,7 @@ public class MemberServiceImpl implements MemberService {
         if (codeitemLb != null){
             memberBaseInforDto.setPkind(codeitemLb.getCodeitemdesc());
         }
-        memberBaseInforDto.setWorkTime(usra01.getA0142());
+        memberBaseInforDto.setWorkTime(DateUtil.getFormateDate(usra01.getA0142()));
         memberBaseInforDto.setEmail(usra01.getA0146());
         memberBaseInforDto.setPnum(usra01.getA0144());
         Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, usra01.getA0134());

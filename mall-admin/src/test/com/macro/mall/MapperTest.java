@@ -8,6 +8,7 @@ import com.macro.mall.service.CodeItemService;
 import com.macro.mall.service.DrugReportService;
 import com.macro.mall.service.MemberService;
 import com.macro.mall.service.NZYService;
+import com.macro.mall.util.DateUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -17,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -71,7 +74,7 @@ public class MapperTest {
     }
 
     @Test
-    public void  testsql1(){
+    public void  testsql1() throws ParseException {
    /*     List<SelectDto> list = memberService.getAllDrugTitle();
         Long a = new Long(1000000000);
         Member s = memberService.getMember(a);*/
@@ -81,7 +84,8 @@ public class MapperTest {
 
         //nzyService.insertDrugCount();
 
-        drugReportService.deleteMoreDrugReport();
+        //drugReportService.deleteMoreDrugReport();
+        Date date = DateUtil.getFormateDate(new Date());
         LOGGER.info("12");
     }
 

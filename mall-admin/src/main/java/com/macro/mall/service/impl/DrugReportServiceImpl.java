@@ -135,7 +135,7 @@ public class DrugReportServiceImpl implements DrugReportService {
             Usra01 usra01 = usra01Mapper.selectByPrimaryKey(x.getRelationId());
             if (usra01 != null) {
                 dto.setAge(usra01.getA0112());
-                dto.setBirthday(usra01.getA0111());
+                dto.setBirthday(DateUtil.getFormateDate(usra01.getA0111()));
                 dto.setMajor(usra01.getA0130());
                 Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, usra01.getA0134());
                 if (codeitem != null) {//最高学历
@@ -164,7 +164,7 @@ public class DrugReportServiceImpl implements DrugReportService {
                 }
             }
 
-            dto.setWorkTime(x.getWorkTime());
+            dto.setWorkTime(DateUtil.getFormateDate(DateUtil.getFormateDate(x.getWorkTime())));
             dto.setEducationStatus(x.getEducationStatus());
             dto.setTrainStatus(x.getTrainStatus());
             dto.setHealthStatus(x.getHealthStatus());
@@ -237,7 +237,7 @@ public class DrugReportServiceImpl implements DrugReportService {
             Usra01 usra01 = usra01Mapper.selectByPrimaryKey(x.getRelationId());
             if (usra01 != null) {
                 dto.setAge(usra01.getA0112());
-                dto.setBirthday(usra01.getA0111());
+                dto.setBirthday(DateUtil.getFormateDate(usra01.getA0111()));
                 dto.setMajor(usra01.getA0130());
                 Codeitem codeitem = codeItemService.getOneCodeitem(BaseConst.MEMBER_AM, usra01.getA0134());
                 if (codeitem != null) {//最高学历
@@ -266,7 +266,7 @@ public class DrugReportServiceImpl implements DrugReportService {
                 }
             }
 
-            dto.setWorkTime(x.getWorkTime());
+            dto.setWorkTime(DateUtil.getFormateDate(x.getWorkTime()));
             dto.setEducationStatus(x.getEducationStatus());
             dto.setTrainStatus(x.getTrainStatus());
             dto.setHealthStatus(x.getHealthStatus());
@@ -798,8 +798,8 @@ public class DrugReportServiceImpl implements DrugReportService {
                 MemberRecord memberRecord = new MemberRecord();
                 //变更原因
                 //memberRecord.setChangeReason(dto.getChangeReason());
-                //memberRecord.setChangeReason("1608816513961");
-                memberRecord.setChangeReason("1608818350908");
+                memberRecord.setChangeReason("1608816513961");
+                //memberRecord.setChangeReason("1608818350908");
                 memberRecord.setMemberId(x.getMemberId());
                 memberRecord.setRelationId(x.getRelationId());
                 memberRecord.setReportId(reportId);
