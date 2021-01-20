@@ -43,6 +43,8 @@ public interface MemberService {
 
     List<SelectDto> getAllOperator();
 
+    List<SelectDto> getPeopleKindSelect();
+
     List<SelectDto> getAllDrugPosition();
 
     List<SelectDto> getAllDrugTitle();

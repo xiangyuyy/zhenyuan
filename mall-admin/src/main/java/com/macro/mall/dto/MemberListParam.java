@@ -15,12 +15,27 @@ public class MemberListParam  extends  ListParam{
     private List<String> shopIds;
     @ApiModelProperty(value = "姓名")
     private String name;
-    @ApiModelProperty(value = "职称id")
-    private String titleId;
+    @ApiModelProperty(value = "职称ids")
+    private List<String>  titleIds;
     @ApiModelProperty(value = "专业")
     private String major;
     @ApiModelProperty(value = "职务id")
     private String drugPositionId;
     @ApiModelProperty(value = "药监门店是否为空 0 空 1 不为空")
     private String isNullDrugShopId;
+
+    @ApiModelProperty(value = "药监门店ids")
+    private List<String> drugShopIds;
+
+    @ApiModelProperty(value = "药监学历id")
+    private String drugEducationId;
+
+    @ApiModelProperty(value = "药监专业id")
+    private String drugMajorId;
+
+    @ApiModelProperty(value = "学历")
+    private String educationId;
+
+    @ApiModelProperty(value = "人员类别")
+    private String peopleKindId;
 }

@@ -7,6 +7,9 @@ import java.util.Date;
 public class DrugReportMember implements Serializable {
     private Long id;
 
+    @ApiModelProperty(value = "排列序号")
+    private Integer sort;
+
     @ApiModelProperty(value = "单号")
     private String reportId;
 
@@ -66,6 +69,14 @@ public class DrugReportMember implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 
     public String getReportId() {
@@ -211,6 +222,7 @@ public class DrugReportMember implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", sort=").append(sort);
         sb.append(", reportId=").append(reportId);
         sb.append(", reportShopId=").append(reportShopId);
         sb.append(", relationId=").append(relationId);

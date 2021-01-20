@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
@@ -45,8 +46,26 @@ public class ExportExcel<T> {
         style.setFont(baseFont);
         // 设置表格默认列宽度为15个字节
         sheet.setDefaultColumnWidth((short) 20);
+
+        //第一行
+
+        //创建一个字体
+        Font font=workbook.createFont();
+        font.setFontHeightInPoints((short) 24);
+        font.setFontName("宋体");
+/*        font.setItalic(true);
+        font.setStrikeout(true);*/
+        CellStyle style1=workbook.createCellStyle();
+        style1.setFont(font);
+
+        XSSFRow rowHead = sheet.createRow(0);
+        XSSFCell cellHead  = rowHead.createCell(0);
+        XSSFRichTextString textHead = new XSSFRichTextString(sheetName);
+        cellHead.setCellValue(textHead);
+        cellHead.setCellStyle(style1);
+
         // 产生表格标题行
-        XSSFRow row = sheet.createRow(0);
+        XSSFRow row = sheet.createRow(1);
         for (short i = 0; i < headers.length; i++) {
             XSSFCell cell = row.createCell(i);
             XSSFRichTextString text = new XSSFRichTextString(headers[i]);
@@ -55,7 +74,7 @@ public class ExportExcel<T> {
         try {
             // 遍历集合数据，产生数据行
             Iterator<T> it = dataset.iterator();
-            int index = 0;
+            int index = 1;
             while (it.hasNext()) {
                 index++;
                 row = sheet.createRow(index);

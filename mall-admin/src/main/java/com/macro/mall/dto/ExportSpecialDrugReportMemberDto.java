@@ -3,17 +3,14 @@ package com.macro.mall.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.Date;
-
 
 /**
- * 药监申报录入表 普通导出
+ * 药监申报录入表 特殊导出
  * Created by macro on 2018/4/26.
  */
 
 @Data
-public class ExportDrugReportMemberDto {
-
+public class ExportSpecialDrugReportMemberDto {
     @ApiModelProperty(value = "排列序号")
     private Integer sort;
 
@@ -40,6 +37,9 @@ public class ExportDrugReportMemberDto {
 
     @ApiModelProperty(value = "专业")
     private String major;
+
+    @ApiModelProperty(value = "药监学校")
+    private String drugSchool;
 
     @ApiModelProperty(value = "职务或岗位集合")
     private String drugPositionAll;

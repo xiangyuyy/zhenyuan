@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 药监申报管理ontroller
@@ -238,6 +240,18 @@ public class DrugReportController {
         }
     }
 
+    @ApiOperation("根据id修改排列序号")
+    @RequestMapping(value = "/changeDrugReportMemberSort", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult changeDrugReportMemberSort(String id,int sort) {
+        int count = drugReportService.changeDrugReportMemberSort(id,sort);
+        if (count > 0) {
+            return CommonResult.success(count);
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
     @ApiOperation("清空当前人员信息")
     @RequestMapping(value = "/deleteAllDrugReportMember/{reportId}", method = RequestMethod.POST)
     @ResponseBody
@@ -298,12 +312,25 @@ public class DrugReportController {
         if (!StringUtils.isEmpty(sureDrugReportDto.getReportId())) {
             List<ExportDrugReportMemberDto> result = drugReportService.exportDrugReportMember(sureDrugReportDto.getReportId());
             ExportExcel<ExportDrugReportMemberDto> ee = new ExportExcel<ExportDrugReportMemberDto>();
-            String[] headers = {"姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "职称（获得时间）", "学历 ", "专业", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
-            String fileName = "药监申报表" + reportId;
+            String[] headers = {"排列序号","姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "职称（获得时间）", "学历 ", "专业", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
+            String fileName = reportId;
+            String shopName  =  drugReportService.getDrugReportDto(reportId).getShopName();
+            ee.exportExcel(headers, result, shopName,fileName, response);
+        }
+    }
 
-            //String shopId  = result.get(0).getShopName()
-            String sheetName = "xx药店";
-            ee.exportExcel(headers, result, sheetName,fileName, response);
+    @ApiOperation("特殊导出药监审核人员信息")
+    @RequestMapping(value = "/exportSpecialDrugReport", method = RequestMethod.GET)
+    public void exportSpecialDrugReport(HttpServletRequest request, HttpServletResponse response, String reportId) {
+        SureDrugReportDto sureDrugReportDto = new SureDrugReportDto();
+        sureDrugReportDto.setReportId(reportId);
+        if (!StringUtils.isEmpty(sureDrugReportDto.getReportId())) {
+            List<ExportSpecialDrugReportMemberDto> result = drugReportService.exportSpecialDrugReportMember(sureDrugReportDto.getReportId());
+            ExportExcel<ExportSpecialDrugReportMemberDto> ee = new ExportExcel<ExportSpecialDrugReportMemberDto>();
+            String[] headers = {"排列序号","姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "职称（获得时间）", "学历 ", "专业", "药监学校", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
+            String fileName = reportId;
+            String shopName  =  drugReportService.getDrugReportDto(reportId).getShopName();
+            ee.exportExcel(headers, result, shopName,fileName, response);
         }
     }
 

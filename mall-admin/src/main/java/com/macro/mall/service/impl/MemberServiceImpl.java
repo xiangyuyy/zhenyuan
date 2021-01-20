@@ -204,6 +204,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<SelectDto> getPeopleKindSelect() {
+        return getItemSelectDtoByType(BaseConst.PEOPLE_KIND);
+    }
+
+    @Override
     public List<SelectDto> getAllDrugPosition() {
         return getItemSelectDtoByType(BaseConst.DRUG_DRGW);
     }

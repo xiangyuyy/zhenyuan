@@ -8,6 +8,9 @@ import java.util.Date;
 
 public class DateUtil {
     public static String getFormatString(Date date) {
+        if (date == null){
+            return "";
+        }
         SimpleDateFormat format0 = new SimpleDateFormat("yyyy-MM-dd");
         String time = format0.format(date.getTime());
         return time;

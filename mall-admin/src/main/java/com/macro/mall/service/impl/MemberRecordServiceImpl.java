@@ -21,6 +21,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 //import com.macro.mall.service.UmsAdminCacheService;
 
@@ -99,6 +100,11 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         memberRecord.setDrugOrgId(updateMemberRecordDto.getDrugOrgId());
         memberRecord.setChangeReason(updateMemberRecordDto.getChangeReason());
         memberRecord.setEducationId(updateMemberRecordDto.getEducationId());
+
+        //变更时间
+        if (Objects.nonNull(updateMemberRecordDto.getCreateTime())){
+            memberRecord.setCreateTime(updateMemberRecordDto.getCreateTime());
+        }
         // 变更中
         memberRecord.setStatus(0);
 

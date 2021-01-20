@@ -22,7 +22,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 组织人员管理ontroller
@@ -408,6 +410,16 @@ public class MemberController {
     @ResponseBody
     public CommonResult<List<SelectDto>> getMemberMajor(@PathVariable String id) {
         List<SelectDto> dto = memberService.getMemberMajor(id);
+        return CommonResult.success(dto);
+    }
+
+    @ApiOperation("获取人员类别的下拉框取值")
+    @RequestMapping(value = "/getPeopleKindSelect", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SelectDto>> getPeopleKindSelect() {
+        List<SelectDto> dto = memberService.getPeopleKindSelect();
+        List<String> list = Arrays.asList("0104","0105","0107","0108","0501","0502","050","0504");
+        dto = dto.stream().filter(x->!list.contains(x.getValue())).collect(Collectors.toList());
         return CommonResult.success(dto);
     }
 

@@ -51,6 +51,8 @@ public interface DrugReportService {
 
     List<ExportDrugReportMemberDto> exportDrugReportMember(String reportId);
 
+    List<ExportSpecialDrugReportMemberDto> exportSpecialDrugReportMember(String reportId);
+
     int passDrugReport(String reportId);
 
     //药监计算结果查询
@@ -70,4 +72,6 @@ public interface DrugReportService {
 
     Boolean sureChanges(String shopId);
 
+    //修改序号
+    int changeDrugReportMemberSort(String id,int sort);
 }

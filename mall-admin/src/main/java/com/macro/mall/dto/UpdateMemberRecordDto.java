@@ -51,4 +51,7 @@ public class UpdateMemberRecordDto {
 
     @ApiModelProperty(value = "变更原因")
     private String changeReason;
+
+    @ApiModelProperty(value = "变更日期")
+    private Date createTime;
 }

@@ -61,6 +61,9 @@ public class DrugReportServiceImpl implements DrugReportService {
     private Usra01Mapper usra01Mapper;
 
     @Autowired
+    private Usra04Mapper usra04Mapper;
+
+    @Autowired
     private OrganizationMapper organizationMapper;
 
     @Autowired
@@ -90,6 +93,7 @@ public class DrugReportServiceImpl implements DrugReportService {
         DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
         DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
         criteria.andReportIdEqualTo(param.getReportId());
+        drugReportMemberExample.setOrderByClause("sort asc,id desc");
         return drugReportMemberMapper.selectByExample(drugReportMemberExample);
     }
 
@@ -117,6 +121,7 @@ public class DrugReportServiceImpl implements DrugReportService {
             } else {
                 criteria.andReportShopIdEqualTo("");
             }
+            drugReportMemberExample.setOrderByClause("sort asc,id desc");
             return drugReportMemberMapper.selectByExample(drugReportMemberExample);
         } else {
             return new ArrayList<>();
@@ -134,6 +139,15 @@ public class DrugReportServiceImpl implements DrugReportService {
             Member x = memberMapper.selectByPrimaryKey(new Long(y.getMemberId()));
             Usra01 usra01 = usra01Mapper.selectByPrimaryKey(x.getRelationId());
             if (usra01 != null) {
+                // 药监学校
+                Usra04Example usra04Example = new Usra04Example();
+                Usra04Example.Criteria criteria = usra04Example.createCriteria();
+                criteria.andA0100EqualTo(x.getRelationId());
+                List<Usra04>  usra04List = usra04Mapper.selectByExample(usra04Example);
+                if (usra04List.size() > 0){
+                    dto.setDrugSchool(usra04List.get(0).getA0435());
+                }
+
                 dto.setAge(usra01.getA0112());
                 dto.setBirthday(DateUtil.getFormateDate(usra01.getA0111()));
                 dto.setMajor(usra01.getA0130());
@@ -221,6 +235,8 @@ public class DrugReportServiceImpl implements DrugReportService {
             } else {
                 dto.setIsInvitual("否");
             }
+            //序号
+            dto.setSort(y.getSort());
             daoList.add(dto);
         });
         return daoList;
@@ -323,7 +339,18 @@ public class DrugReportServiceImpl implements DrugReportService {
             } else {
                 dto.setIsInvitual("否");
             }
+            //序号
+            dto.setSort(x.getSort());
             dto.setReportId(x.getReportId());
+
+            // 药监学校
+            Usra04Example usra04Example = new Usra04Example();
+            Usra04Example.Criteria criteria = usra04Example.createCriteria();
+            criteria.andA0100EqualTo(x.getRelationId());
+            List<Usra04>  usra04List = usra04Mapper.selectByExample(usra04Example);
+            if (usra04List.size() > 0){
+                dto.setDrugSchool(usra04List.get(0).getA0435());
+            }
             daoList.add(dto);
         });
         return daoList;
@@ -520,6 +547,7 @@ public class DrugReportServiceImpl implements DrugReportService {
                 return -1;
             }
         }
+        int sort = 1;
         for (String x : dto.getMemberIds()) {
             DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
             DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
@@ -547,7 +575,9 @@ public class DrugReportServiceImpl implements DrugReportService {
                     drugReportMember.setReportId(dto.getReportId());
                     //药监申报门店
                     drugReportMember.setReportShopId(dto.getShopId());
+                    drugReportMember.setSort(sort);
                     drugReportMemberMapper.insertSelective(drugReportMember);
+                    sort  = sort + 1;
                 }
             } else {
                 return 0;//重复插入
@@ -694,6 +724,13 @@ public class DrugReportServiceImpl implements DrugReportService {
     }
 
     @Override
+    public int changeDrugReportMemberSort(String id,int sort) {
+        DrugReportMember drugReportMember = drugReportMemberMapper.selectByPrimaryKey(new Long(id));
+        drugReportMember.setSort(sort);
+        return drugReportMemberMapper.updateByPrimaryKeySelective(drugReportMember);
+    }
+
+    @Override
     public Boolean deleteAllDrugReportMember(String reportId) {
         DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
         DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
@@ -744,7 +781,51 @@ public class DrugReportServiceImpl implements DrugReportService {
         List<ExportDrugReportMemberDto> result = new ArrayList<>();
         toDtos.stream().forEach(x -> {
             ExportDrugReportMemberDto model = new ExportDrugReportMemberDto();
+            model.setIdCard(x.getIdCard());
             model.setName(x.getName());
+            model.setAge(x.getAge());
+            model.setTitle(x.getTitle());
+            model.setDrugPositionAll(x.getDrugPositionAll());
+            model.setEducation(x.getEducation());
+            model.setMajor(x.getMajor());
+            model.setWorkTime(DateUtil.getFormatString(x.getWorkTime()));
+            model.setBirthday(DateUtil.getFormatString(x.getBirthday()));
+            model.setSex(x.getSex());
+            model.setEducationStatus("是");
+            model.setHealthStatus("健康");
+            model.setTrainStatus("是");
+            model.setSort(x.getSort());
+            //导出
+            result.add(model);
+        });
+        return result;
+    }
+
+    @Override
+    public List<ExportSpecialDrugReportMemberDto> exportSpecialDrugReportMember(String reportId) {
+        DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
+        DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
+        criteria.andReportIdEqualTo(reportId);
+        List<DrugReportMember> list = drugReportMemberMapper.selectByExample(drugReportMemberExample);
+        List<DrugReportMemberListDto> toDtos = drugChangeReportMemberListToDto(list);
+        List<ExportSpecialDrugReportMemberDto> result = new ArrayList<>();
+        toDtos.stream().forEach(x -> {
+            ExportSpecialDrugReportMemberDto model = new ExportSpecialDrugReportMemberDto();
+            model.setIdCard(x.getIdCard());
+            model.setName(x.getName());
+            model.setAge(x.getAge());
+            model.setTitle(x.getTitle());
+            model.setDrugPositionAll(x.getDrugPositionAll());
+            model.setEducation(x.getEducation());
+            model.setMajor(x.getMajor());
+            model.setWorkTime(DateUtil.getFormatString(x.getWorkTime()));
+            model.setBirthday(DateUtil.getFormatString(x.getBirthday()));
+            model.setSex(x.getSex());
+            model.setEducationStatus("是");
+            model.setHealthStatus("健康");
+            model.setTrainStatus("是");
+            model.setSort(x.getSort());
+            model.setDrugSchool(x.getDrugSchool());
             //导出
             result.add(model);
         });

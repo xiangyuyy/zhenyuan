@@ -97,4 +97,10 @@ public class DrugReportMemberListDto {
     @ApiModelProperty(value = "是否虚挂")
     private String isInvitual;
 
+    @ApiModelProperty(value = "排列序号")
+    private int sort;
+
+    @ApiModelProperty(value = "药监学校")
+    private String drugSchool;
+
 }

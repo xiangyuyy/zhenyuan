@@ -56,5 +56,8 @@ public class BaseConst {
     //变更理由
     public static final String DRUG_CHANGE_REASON = "DRCR";
 
+    //人员类型
+    public static final String PEOPLE_KIND  = "XL";
+
 
 }

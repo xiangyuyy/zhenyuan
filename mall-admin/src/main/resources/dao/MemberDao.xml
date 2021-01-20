@@ -29,22 +29,44 @@
                     #{shopId}
                 </foreach>
             </if>
-            <if test="name != null and name !=''">
+            <if test="drugShopIds != null and drugShopIds.size > 0">
+                AND m.drugShopId in
+                <foreach collection="drugShopIds" index="index" item="drugShopId" open="(" separator="," close=")">
+                    #{drugShopId}
+                </foreach>
+            </if>
+            <if test="name != null">
                 AND u.A0101 LIKE CONCAT('%',#{name},'%')
             </if>
+            <if test="peopleKindId != null">
+                AND u.A0183 = #{peopleKindId}
+            </if>
+            <if test="educationId != null">
+                AND u.a0134 = #{educationId}
+            </if>
             <if test="isNullDrugShopId =='0'">
-                AND (m.drug_shop_id = null or drug_shop_id ='')
+                AND (m.drug_shop_id = null or m.drug_shop_id ='')
             </if>
             <if test="isNullDrugShopId =='1'">
-                AND (m.drug_shop_id != null or drug_shop_id !='')
+                AND (m.drug_shop_id != null or m.drug_shop_id !='')
             </if>
-            <if test="major != null and major !=''">
+            <if test="major != null">
                 AND u.a0130 = #{major}
             </if>
-            <if test="titleId != null and titleId !=''">
-                AND u.a0144 in (SELECT v.gh from v_zhicheng v where v.zcjb=#{titleId})
+            <if test="drugEducationId != null">
+                AND m.drugEducationId = #{drugEducationId}
             </if>
-            <if test="drugPositionId != null and drugPositionId !=''">
+            <if test="drugMajorId != null">
+                AND m.drugMajorId = #{drugMajorId}
+            </if>
+            <if test="titleIds != null and titleIds.size > 0">
+                AND u.a0144 in (SELECT v.gh from v_zhicheng v where v.zcjb in
+                <foreach collection="titleIds" index="index" item="titleId" open="(" separator="," close=")">
+                    #{titleId}
+                </foreach>
+                )
+            </if>
+            <if test="drugPositionId != null">
                 AND (m.drug_position_one_id = #{drugPositionId} or m.drug_position_two_id = #{drugPositionId}
                 or m.drug_position_three_id = #{drugPositionId})
             </if>
@@ -66,14 +88,37 @@
 <!--            <if test="shopId != null and shopId !=''">
                 AND (u.E0122 = #{shopId} or m.drug_shop_id = #{shopId})
             </if>-->
-            <if test="educationId != null  and educationId !=''">
+            <if test="educationId != null">
                 AND u.a0134 = #{educationId}
             </if>
-            <if test="titleId != null  and titleId !=''">
-                AND u.a0144 in (SELECT v.gh from v_zhicheng v where v.zcjb = #{titleId})
+            <if test="major != null">
+                AND u.a0130 = #{major}
             </if>
-            <if test="name != null and name !=''">
+            <if test="drugEducationId != null">
+                AND m.drugEducationId = #{drugEducationId}
+            </if>
+            <if test="drugMajorId != null">
+                AND m.drugMajorId = #{drugMajorId}
+            </if>
+            <if test="isNullDrugShopId =='0'">
+                AND (m.drug_shop_id = null or m.drug_shop_id ='')
+            </if>
+            <if test="isNullDrugShopId =='1'">
+                AND (m.drug_shop_id != null or m.drug_shop_id !='')
+            </if>
+            <if test="peopleKindId != null">
+                AND u.A0183 = #{peopleKindId}
+            </if>
+            <if test="name != null">
                 AND u.A0101 LIKE CONCAT('%',#{name},'%')
+            </if>
+
+            <if test="titleIds != null and titleIds.size > 0">
+                AND u.a0144 in (SELECT v.gh from v_zhicheng v where v.zcjb in
+                <foreach collection="titleIds" index="index" item="titleId" open="(" separator="," close=")">
+                    #{titleId}
+                </foreach>
+                )
             </if>
 
             <if test="drugPositionId != null and drugPositionId !=''">
