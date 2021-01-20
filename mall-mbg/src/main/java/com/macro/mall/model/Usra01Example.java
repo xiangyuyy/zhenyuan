@@ -175,6 +175,76 @@ public class Usra01Example {
             return (Criteria) this;
         }
 
+        public Criteria andNbaseIsNull() {
+            addCriterion("nbase is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNbaseIsNotNull() {
+            addCriterion("nbase is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNbaseEqualTo(String value) {
+            addCriterion("nbase =", value, "nbase");
+            return (Criteria) this;
+        }
+
+        public Criteria andNbaseNotEqualTo(String value) {
+            addCriterion("nbase <>", value, "nbase");
+            return (Criteria) this;
+        }
+
+        public Criteria andNbaseGreaterThan(String value) {
+            addCriterion("nbase >", value, "nbase");
+            return (Criteria) this;
+        }
+
+        public Criteria andNbaseGreaterThanOrEqualTo(String value) {
+            addCriterion("nbase >=", value, "nbase");
+            return (Criteria) this;
+        }
+
+        public Criteria andNbaseLessThan(String value) {
+            addCriterion("nbase <", value, "nbase");
+            return (Criteria) this;
+        }
+
+        public Criteria andNbaseLessThanOrEqualTo(String value) {
+            addCriterion("nbase <=", value, "nbase");
+            return (Criteria) this;
+        }
+
+        public Criteria andNbaseLike(String value) {
+            addCriterion("nbase like", value, "nbase");
+            return (Criteria) this;
+        }
+
+        public Criteria andNbaseNotLike(String value) {
+            addCriterion("nbase not like", value, "nbase");
+            return (Criteria) this;
+        }
+
+        public Criteria andNbaseIn(List<String> values) {
+            addCriterion("nbase in", values, "nbase");
+            return (Criteria) this;
+        }
+
+        public Criteria andNbaseNotIn(List<String> values) {
+            addCriterion("nbase not in", values, "nbase");
+            return (Criteria) this;
+        }
+
+        public Criteria andNbaseBetween(String value1, String value2) {
+            addCriterion("nbase between", value1, value2, "nbase");
+            return (Criteria) this;
+        }
+
+        public Criteria andNbaseNotBetween(String value1, String value2) {
+            addCriterion("nbase not between", value1, value2, "nbase");
+            return (Criteria) this;
+        }
+
         public Criteria andB0110IsNull() {
             addCriterion("B0110 is null");
             return (Criteria) this;

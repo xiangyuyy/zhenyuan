@@ -73,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    A0100, a6501, a6502, a6503, A6504, A6507, CreateTime, ModTime
+    A0100, a6501, a6502, a6503, A6504, A6507
   </sql>
   <sql id="Blob_Column_List">
     A6506
@@ -86,7 +86,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from usra65
+    from v_usra65
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -100,7 +100,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from usra65
+    from v_usra65
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -113,7 +113,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from usra65
+    from v_usra65
     where A0100 = #{a0100,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

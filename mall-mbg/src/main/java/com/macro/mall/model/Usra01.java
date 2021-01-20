@@ -8,6 +8,9 @@ public class Usra01 implements Serializable {
     @ApiModelProperty(value = "人员id")
     private String a0100;
 
+    @ApiModelProperty(value = "数据来源")
+    private String nbase;
+
     @ApiModelProperty(value = "组织机构id")
     private String b0110;
 
@@ -88,6 +91,14 @@ public class Usra01 implements Serializable {
 
     public void setA0100(String a0100) {
         this.a0100 = a0100;
+    }
+
+    public String getNbase() {
+        return nbase;
+    }
+
+    public void setNbase(String nbase) {
+        this.nbase = nbase;
     }
 
     public String getB0110() {
@@ -289,6 +300,7 @@ public class Usra01 implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", a0100=").append(a0100);
+        sb.append(", nbase=").append(nbase);
         sb.append(", b0110=").append(b0110);
         sb.append(", e0122=").append(e0122);
         sb.append(", a0111=").append(a0111);

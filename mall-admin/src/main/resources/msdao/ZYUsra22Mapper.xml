@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    A0100, A2210, A2205, A2230, CreateTime, ModTime
+    A0100, A2210, A2205, A2230
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.Usra22Example" resultMap="BaseResultMap">
     select
@@ -76,7 +76,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from usra22
+    from v_usra22
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,7 +87,7 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from usra22
+    from v_usra22
     where A0100 = #{a0100,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
