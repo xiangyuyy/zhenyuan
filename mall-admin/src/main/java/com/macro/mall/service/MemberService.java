@@ -78,4 +78,10 @@ public interface MemberService {
 
     MemberInforDto getMemberInforDto(String id);
 
+    List<Member> getsjxgMemberList(ReportMemberListParam param, Boolean paging);
+
+    List<Member> getbdxgMemberList(ReportMemberListParam param, Boolean paging);
+
+    List<Member> getbzxtMemberList(ReportMemberListParam param, Boolean paging);
+
 }

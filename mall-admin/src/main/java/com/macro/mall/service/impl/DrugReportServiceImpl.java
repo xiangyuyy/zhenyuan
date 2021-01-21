@@ -760,8 +760,9 @@ public class DrugReportServiceImpl implements DrugReportService {
         DrugReportExample drugReportExample = new DrugReportExample();
         DrugReportExample.Criteria criteria1 = drugReportExample.createCriteria();
         criteria1.andShopIdEqualTo(drugReport.getShopId());
+        criteria1.andCheckStatusNotEqualTo(-1);//排除待确认的
         List<DrugReport> list1 = drugReportMapper.selectByExample(drugReportExample);
-        if (list1.size() >= 2) {
+        if (list1.size() >= 1 && drugReport.getCheckStatus().equals(-1)) {
             return -3; //门店已存在药监申报，请在药监控制台查看。
         }
 

@@ -41,7 +41,7 @@
             <if test="peopleKindId != null">
                 AND u.A0183 = #{peopleKindId}
             </if>
-            <if test="educationId != null">
+            <if test="educationId != null and educationId != ''">
                 AND u.a0134 = #{educationId}
             </if>
             <if test="isNullDrugShopId =='0'">
@@ -50,7 +50,7 @@
             <if test="isNullDrugShopId =='1'">
                 AND (m.drug_shop_id != null or m.drug_shop_id !='')
             </if>
-            <if test="major != null">
+            <if test="major != null and major != ''">
                 AND u.a0130 = #{major}
             </if>
             <if test="drugEducationId != null">
@@ -66,11 +66,29 @@
                 </foreach>
                 )
             </if>
-            <if test="drugPositionId != null">
+            <if test="drugPositionId != null and drugPositionId != ''">
                 AND (m.drug_position_one_id = #{drugPositionId} or m.drug_position_two_id = #{drugPositionId}
                 or m.drug_position_three_id = #{drugPositionId})
             </if>
         </where>
+        order by m.relation_id desc
+    </select>
+
+    <select id="getsjxgMemberList" resultMap="BaseResultMap">
+        select m.* from member m LEFT JOIN usra01 u on m.relation_id = u.A0100 where m.drug_shop_id !="" and
+        m.drug_shop_id != u.e0122 and u.e0122 = #{shopId})
+        order by m.relation_id desc
+    </select>
+
+    <select id="getbdxgMemberList" resultMap="BaseResultMap">
+        select m.* from member m LEFT JOIN usra01 u on m.relation_id = u.A0100 where m.drug_shop_id !="" and
+        m.drug_shop_id != u.e0122 and m.drug_shop_id = #{shopId})
+        order by m.relation_id desc
+    </select>
+
+    <select id="getbzxtMemberList" resultMap="BaseResultMap">
+        select m.* from member m LEFT JOIN usra01 u on m.relation_id = u.A0100 where m.drug_shop_id !="" and
+        m.drug_shop_id = u.e0122 and u.e0122 = #{shopId})
         order by m.relation_id desc
     </select>
 
@@ -88,10 +106,10 @@
 <!--            <if test="shopId != null and shopId !=''">
                 AND (u.E0122 = #{shopId} or m.drug_shop_id = #{shopId})
             </if>-->
-            <if test="educationId != null">
+            <if test="educationId != null and educationId != ''">
                 AND u.a0134 = #{educationId}
             </if>
-            <if test="major != null">
+            <if test="major != null and major != ''">
                 AND u.a0130 = #{major}
             </if>
             <if test="drugEducationId != null">
@@ -121,7 +139,7 @@
                 )
             </if>
 
-            <if test="drugPositionId != null and drugPositionId !=''">
+            <if test="drugPositionId != null and drugPositionId != ''">
                 AND (m.drug_position_one_id = #{drugPositionId} or m.drug_position_two_id = #{drugPositionId}
                 or m.drug_position_three_id = #{drugPositionId})
             </if>

@@ -318,7 +318,13 @@ public class MemberController {
     @ResponseBody
     public CommonResult<List<SelectDto>> getAllmajor() {
         List<SelectDto> dto = memberService.getAllmajor();
-        return CommonResult.success(dto);
+        List<SelectDto> result = new ArrayList<>();
+        dto.stream().forEach(x->{
+            if (!x.getValue().equals("")){
+                result.add(x);
+            }
+        });
+        return CommonResult.success(result);
     }
 
     @ApiOperation("获取人员搜索中职称的下拉框取值")
@@ -326,7 +332,17 @@ public class MemberController {
     @ResponseBody
     public CommonResult<List<SelectDto>> getAllTitle() {
         List<SelectDto> dto = memberService.getAllTitle();
-        return CommonResult.success(dto);
+        List<SelectDto> result = new ArrayList<>();
+        dto.stream().forEach(x->{
+            if (!x.getValue().equals("")){
+                result.add(x);
+            }
+        });
+        SelectDto dto1 = new SelectDto();
+        dto1.setLabel(" ");
+        dto1.setValue(" ");
+        result.add(dto1);
+        return CommonResult.success(result);
     }
 
 

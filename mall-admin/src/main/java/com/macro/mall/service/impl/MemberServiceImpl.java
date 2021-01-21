@@ -674,6 +674,33 @@ public class MemberServiceImpl implements MemberService {
         return memberInforDto;
     }
 
+    @Override
+    public List<Member> getsjxgMemberList(ReportMemberListParam param, Boolean paging) {
+        if (paging){
+            PageUtil.init(param);
+            PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        }
+        return memberDao.getsjxgMemberList(param.getShopId());
+    }
+
+    @Override
+    public List<Member> getbdxgMemberList(ReportMemberListParam param, Boolean paging) {
+        if (paging){
+            PageUtil.init(param);
+            PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        }
+        return memberDao.getbdxgMemberList(param.getShopId());
+    }
+
+    @Override
+    public List<Member> getbzxtMemberList(ReportMemberListParam param, Boolean paging) {
+        if (paging){
+            PageUtil.init(param);
+            PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        }
+        return memberDao.getbzxtMemberList(param.getShopId());
+    }
+
     private static List<DepartmentDto> getThree(List<DepartmentDto> list, String parentId) {
         //获取所有子节点
         List<DepartmentDto> childTreeList = getChildTree(list, parentId);

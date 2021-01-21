@@ -411,7 +411,7 @@ public class DrugReportController {
         }
         int count = memberRecordService.updateMemberRecord(UpdateMemberRecordDto);
         if (count == -1) {
-            return CommonResult.failed("没有找到定人员信息");
+            return CommonResult.failed("没有找到人员信息");
         }
         if (count > 0) {
             return CommonResult.success(count);
