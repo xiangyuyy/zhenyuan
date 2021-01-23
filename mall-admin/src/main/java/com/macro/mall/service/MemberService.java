@@ -84,4 +84,6 @@ public interface MemberService {
 
     List<Member> getbzxtMemberList(ReportMemberListParam param, Boolean paging);
 
+    List<VReport> getgybzMemberList(VReportListParam param, Boolean paging);
+
 }

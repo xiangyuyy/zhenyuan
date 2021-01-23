@@ -527,6 +527,11 @@ public class DrugReportServiceImpl implements DrugReportService {
             } else {
                 dto.setIsInvitual("否");
             }
+            // 人员类别
+            Codeitem codeitemLb = codeItemService.getOneCodeitem(BaseConst.MEMBER_XL,usra01.getA0183());
+            if (codeitemLb != null){
+                dto.setPeopleKind(codeitemLb.getCodeitemdesc());
+            }
             daoList.add(dto);
         });
         return daoList;

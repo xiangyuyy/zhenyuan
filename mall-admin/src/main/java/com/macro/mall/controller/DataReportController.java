@@ -3,8 +3,10 @@ package com.macro.mall.controller;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.*;
+import com.macro.mall.model.DrugCount;
 import com.macro.mall.model.Member;
 import com.macro.mall.model.MemberRecord;
+import com.macro.mall.model.VReport;
 import com.macro.mall.service.DrugReportService;
 import com.macro.mall.service.MemberRecordService;
 import com.macro.mall.service.MemberService;
@@ -22,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 数据报表查询ontroller
@@ -142,9 +145,18 @@ public class DataReportController {
         return CommonResult.success(commonPage);
     }
 
+    @ApiOperation("高于编制人员")
+    @RequestMapping(value = "/getgybzMemberList", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<CommonPage<VReport>> getgybzMemberList(VReportListParam param) {
+        List<VReport> list = memberService.getgybzMemberList(param,true);
+        CommonPage commonPage = CommonPage.restPage(list);
+        commonPage.setList(list);
+        return CommonResult.success(commonPage);
+    }
     @ApiOperation("导出实际虚挂人员")
     @RequestMapping(value = "/exportsjxgMemberList", method = RequestMethod.GET)
-    public void exportSpecialDrugReport(HttpServletRequest request, HttpServletResponse response, String shopId) {
+    public void exportsjxgMemberList(HttpServletRequest request, HttpServletResponse response, String shopId) {
         ReportMemberListParam param = new ReportMemberListParam();
         param.setShopId(shopId);
         List<Member> list = memberService.getsjxgMemberList(param,false);
@@ -223,4 +235,39 @@ public class DataReportController {
         }
     }
 
+    @ApiOperation("导出高于编制人员")
+    @RequestMapping(value = "/exportgybzMemberList", method = RequestMethod.GET)
+    public void exportgybzMemberList(HttpServletRequest request, HttpServletResponse response, String shopId) {
+        VReportListParam param = new VReportListParam();
+        List<String> shopIds = new ArrayList<>();
+        if (StringUtils.isNotEmpty(shopId)){
+            shopIds.add(shopId);
+        }
+        param.setShopIds(shopIds);
+        List<VReport> list = memberService.getgybzMemberList(param,false);
+        List<ExportVRportDto> listDtos = new ArrayList<>();
+        list.stream().forEach(x->{
+            ExportVRportDto dto = new ExportVRportDto();
+            dto.setShopname(x.getShopname());
+            dto.setType(x.getType());
+            dto.setNum(x.getNum());
+            dto.setNownum(x.getNownum());
+            dto.setDiff(x.getDiff());
+
+            DrugCount drugCount = drugReportService.getDrugCountByShopId(x.getShopId());
+            if (Objects.nonNull(drugCount)){
+                dto.setArea(drugCount.getArea());
+                dto.setChineseMedicine(drugCount.getChineseMedicine());
+                dto.setLongRange(drugCount.getLongRange());
+                dto.setSubjection(drugCount.getSubjection());
+            }
+            listDtos.add(dto);
+        });
+        ExportExcel<ExportVRportDto> ee = new ExportExcel<ExportVRportDto>();
+        String[] headers = {"门店", "行政隶属", "有无中药", "是否远程", "经营面积","编制要求职称", "编制要求职称对应人数", "实际配置人数", "差异"};
+        String fileName = new Date().toLocaleString();
+        String shopName = "实际高于编制";
+        ee.exportExcel(headers, listDtos, shopName, fileName, response);
+
+    }
 }

@@ -44,11 +44,11 @@
             <if test="educationId != null and educationId != ''">
                 AND u.a0134 = #{educationId}
             </if>
-            <if test="isNullDrugShopId =='0'">
-                AND (m.drug_shop_id = null or m.drug_shop_id ='')
+            <if test='isNullDrugShopId == "0"'>
+                AND m.drug_shop_id =''
             </if>
-            <if test="isNullDrugShopId =='1'">
-                AND (m.drug_shop_id != null or m.drug_shop_id !='')
+            <if test='isNullDrugShopId == "1"'>
+                AND m.drug_shop_id !=''
             </if>
             <if test="major != null and major != ''">
                 AND u.a0130 = #{major}
@@ -118,11 +118,11 @@
             <if test="drugMajorId != null">
                 AND m.drugMajorId = #{drugMajorId}
             </if>
-            <if test="isNullDrugShopId =='0'">
-                AND (m.drug_shop_id = null or m.drug_shop_id ='')
+            <if test='isNullDrugShopId == "0"'>
+                AND m.drug_shop_id =''
             </if>
-            <if test="isNullDrugShopId =='1'">
-                AND (m.drug_shop_id != null or m.drug_shop_id !='')
+            <if test='isNullDrugShopId == "1"'>
+                AND m.drug_shop_id !=''
             </if>
             <if test="peopleKindId != null">
                 AND u.A0183 = #{peopleKindId}

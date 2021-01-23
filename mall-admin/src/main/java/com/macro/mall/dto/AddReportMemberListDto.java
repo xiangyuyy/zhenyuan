@@ -60,4 +60,7 @@ public class AddReportMemberListDto {
     @ApiModelProperty(value = "是否虚挂")
     private String isInvitual;
 
+    @ApiModelProperty(value = "人员类别")
+    private String peopleKind;
+
 }

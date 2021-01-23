@@ -112,9 +112,9 @@ public class DrugReportController {
 
 
     @ApiOperation("药监人员新增列表")
-    @RequestMapping(value = "/getMemberList", method = RequestMethod.GET)
+    @RequestMapping(value = "/getMemberList", method = RequestMethod.POST)
     @ResponseBody
-    public CommonResult<CommonPage<AddReportMemberListDto>> getMemberList(AddReportMemberListParam param) {
+    public CommonResult<CommonPage<AddReportMemberListDto>> getMemberList(@RequestBody AddReportMemberListParam param) {
         if (StringUtils.isEmpty(param.getShopId())) {
             return CommonResult.failed("ShopId不能为空");
         }

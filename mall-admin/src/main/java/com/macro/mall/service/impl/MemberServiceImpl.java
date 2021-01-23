@@ -19,9 +19,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 //import com.macro.mall.service.UmsAdminCacheService;
@@ -74,6 +76,9 @@ public class MemberServiceImpl implements MemberService {
 
     @Autowired
     private UmsAdminMapper adminMapper;
+
+    @Autowired
+    VReportMapper vReportMapper;
 
 
 
@@ -409,6 +414,12 @@ public class MemberServiceImpl implements MemberService {
         else {
             dto.setIsInvitual("否");
         }
+
+        // 人员类别
+        Codeitem codeitemLb = codeItemService.getOneCodeitem(BaseConst.MEMBER_XL,usra01.getA0183());
+        if (codeitemLb != null){
+            dto.setPeopleKind(codeitemLb.getCodeitemdesc());
+        }
         return dto;
     }
 
@@ -690,6 +701,20 @@ public class MemberServiceImpl implements MemberService {
             PageHelper.startPage(param.getPageNum(), param.getPageSize());
         }
         return memberDao.getbdxgMemberList(param.getShopId());
+    }
+
+    @Override
+    public List<VReport> getgybzMemberList(VReportListParam param, Boolean paging){
+        if (paging){
+            PageUtil.init(param);
+            PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        }
+        VReportExample vReportExample = new VReportExample();
+        VReportExample.Criteria criteria = vReportExample.createCriteria();
+        if (!CollectionUtils.isEmpty(param.getShopIds())){
+            criteria.andShopIdIn(param.getShopIds());
+        }
+        return vReportMapper.selectByExample(vReportExample);
     }
 
     @Override
