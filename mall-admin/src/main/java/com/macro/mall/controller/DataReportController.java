@@ -80,11 +80,11 @@ public class DataReportController {
         if (StringUtils.isEmpty(param.getShopId())) {
             return CommonResult.failed("请选择门店");
         }
-        List<Member> list = memberService.getsjxgMemberList(param,true);
+        List<Member> list = memberService.getsjxgMemberList(param, true);
         CommonPage commonPage = CommonPage.restPage(list);
         List<MemberListDto> result = memberService.MemberListToDto(list);
         List<ReportMemberListDto> listDtos = new ArrayList<>();
-        result.stream().forEach(x->{
+        result.stream().forEach(x -> {
             ReportMemberListDto dto = new ReportMemberListDto();
             dto.setDrugShopName(x.getDrugShopName());
             dto.setIdCard(x.getIdCard());
@@ -104,11 +104,11 @@ public class DataReportController {
         if (StringUtils.isEmpty(param.getShopId())) {
             return CommonResult.failed("请选择门店");
         }
-        List<Member> list = memberService.getbdxgMemberList(param,true);
+        List<Member> list = memberService.getbdxgMemberList(param, true);
         CommonPage commonPage = CommonPage.restPage(list);
         List<MemberListDto> result = memberService.MemberListToDto(list);
         List<ReportMemberListDto> listDtos = new ArrayList<>();
-        result.stream().forEach(x->{
+        result.stream().forEach(x -> {
             ReportMemberListDto dto = new ReportMemberListDto();
             dto.setDrugShopName(x.getDrugShopName());
             dto.setIdCard(x.getIdCard());
@@ -128,11 +128,11 @@ public class DataReportController {
         if (StringUtils.isEmpty(param.getShopId())) {
             return CommonResult.failed("请选择门店");
         }
-        List<Member> list = memberService.getbzxtMemberList(param,true);
+        List<Member> list = memberService.getbzxtMemberList(param, true);
         CommonPage commonPage = CommonPage.restPage(list);
         List<MemberListDto> result = memberService.MemberListToDto(list);
         List<ReportMemberListDto> listDtos = new ArrayList<>();
-        result.stream().forEach(x->{
+        result.stream().forEach(x -> {
             ReportMemberListDto dto = new ReportMemberListDto();
             dto.setDrugShopName(x.getDrugShopName());
             dto.setIdCard(x.getIdCard());
@@ -149,20 +149,21 @@ public class DataReportController {
     @RequestMapping(value = "/getgybzMemberList", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<VReport>> getgybzMemberList(VReportListParam param) {
-        List<VReport> list = memberService.getgybzMemberList(param,true);
+        List<VReport> list = memberService.getgybzMemberList(param, true);
         CommonPage commonPage = CommonPage.restPage(list);
         commonPage.setList(list);
         return CommonResult.success(commonPage);
     }
+
     @ApiOperation("导出实际虚挂人员")
     @RequestMapping(value = "/exportsjxgMemberList", method = RequestMethod.GET)
     public void exportsjxgMemberList(HttpServletRequest request, HttpServletResponse response, String shopId) {
         ReportMemberListParam param = new ReportMemberListParam();
         param.setShopId(shopId);
-        List<Member> list = memberService.getsjxgMemberList(param,false);
+        List<Member> list = memberService.getsjxgMemberList(param, false);
         List<MemberListDto> result = memberService.MemberListToDto(list);
         List<ReportMemberListDto> listDtos = new ArrayList<>();
-        result.stream().forEach(x->{
+        result.stream().forEach(x -> {
             ReportMemberListDto dto = new ReportMemberListDto();
             dto.setDrugShopName(x.getDrugShopName());
             dto.setIdCard(x.getIdCard());
@@ -173,11 +174,13 @@ public class DataReportController {
         });
 
         if (!StringUtils.isEmpty(shopId)) {
-            ExportExcel<ReportMemberListDto> ee = new ExportExcel<ReportMemberListDto>();
-            String[] headers = {"实际门店","药监门店（虚挂）","姓名","身份证号码 ", "性别 "};
-            String fileName = new Date().toLocaleString();
-            String shopName  = "实际虚挂人员";
-            ee.exportExcel(headers, listDtos, shopName,fileName, response);
+            if (listDtos.size() > 0) {
+                ExportExcel<ReportMemberListDto> ee = new ExportExcel<ReportMemberListDto>();
+                String[] headers = {"实际门店", "药监门店（虚挂）", "姓名", "身份证号码 ", "性别 "};
+                String fileName = new Date().toLocaleString();
+                String shopName = "实际虚挂人员";
+                ee.exportExcel(headers, listDtos, shopName, fileName, response);
+            }
         }
     }
 
@@ -186,10 +189,10 @@ public class DataReportController {
     public void exportbdxgMemberList(HttpServletRequest request, HttpServletResponse response, String shopId) {
         ReportMemberListParam param = new ReportMemberListParam();
         param.setShopId(shopId);
-        List<Member> list = memberService.getbdxgMemberList(param,false);
+        List<Member> list = memberService.getbdxgMemberList(param, false);
         List<MemberListDto> result = memberService.MemberListToDto(list);
         List<ReportMemberListDto> listDtos = new ArrayList<>();
-        result.stream().forEach(x->{
+        result.stream().forEach(x -> {
             ReportMemberListDto dto = new ReportMemberListDto();
             dto.setDrugShopName(x.getDrugShopName());
             dto.setIdCard(x.getIdCard());
@@ -200,11 +203,13 @@ public class DataReportController {
         });
 
         if (!StringUtils.isEmpty(shopId)) {
-            ExportExcel<ReportMemberListDto> ee = new ExportExcel<ReportMemberListDto>();
-            String[] headers = {"虚挂人员实际门店","门店名称","姓名","身份证号码 ", "性别 "};
-            String fileName = new Date().toLocaleString();
-            String shopName  = "本店虚挂人员";
-            ee.exportExcel(headers, listDtos, shopName,fileName, response);
+            if (listDtos.size() > 0) {
+                ExportExcel<ReportMemberListDto> ee = new ExportExcel<ReportMemberListDto>();
+                String[] headers = {"虚挂人员实际门店", "门店名称", "姓名", "身份证号码 ", "性别 "};
+                String fileName = new Date().toLocaleString();
+                String shopName = "本店虚挂人员";
+                ee.exportExcel(headers, listDtos, shopName, fileName, response);
+            }
         }
     }
 
@@ -213,10 +218,10 @@ public class DataReportController {
     public void exportbzxtMemberList(HttpServletRequest request, HttpServletResponse response, String shopId) {
         ReportMemberListParam param = new ReportMemberListParam();
         param.setShopId(shopId);
-        List<Member> list = memberService.getbzxtMemberList(param,false);
+        List<Member> list = memberService.getbzxtMemberList(param, false);
         List<MemberListDto> result = memberService.MemberListToDto(list);
         List<ReportMemberListDto> listDtos = new ArrayList<>();
-        result.stream().forEach(x->{
+        result.stream().forEach(x -> {
             ReportMemberListDto dto = new ReportMemberListDto();
             dto.setDrugShopName(x.getDrugShopName());
             dto.setIdCard(x.getIdCard());
@@ -227,11 +232,13 @@ public class DataReportController {
         });
 
         if (!StringUtils.isEmpty(shopId)) {
-            ExportExcel<ReportMemberListDto> ee = new ExportExcel<ReportMemberListDto>();
-            String[] headers = {"实际门店","虚挂门店","姓名","身份证号码 ", "性别 "};
-            String fileName = new Date().toLocaleString();
-            String shopName  = "实际与编制相同人员";
-            ee.exportExcel(headers, listDtos, shopName,fileName, response);
+            if (listDtos.size() > 0) {
+                ExportExcel<ReportMemberListDto> ee = new ExportExcel<ReportMemberListDto>();
+                String[] headers = {"实际门店", "虚挂门店", "姓名", "身份证号码 ", "性别 "};
+                String fileName = new Date().toLocaleString();
+                String shopName = "实际与编制相同人员";
+                ee.exportExcel(headers, listDtos, shopName, fileName, response);
+            }
         }
     }
 
@@ -240,13 +247,13 @@ public class DataReportController {
     public void exportgybzMemberList(HttpServletRequest request, HttpServletResponse response, String shopId) {
         VReportListParam param = new VReportListParam();
         List<String> shopIds = new ArrayList<>();
-        if (StringUtils.isNotEmpty(shopId)){
+        if (StringUtils.isNotEmpty(shopId)) {
             shopIds.add(shopId);
         }
-        param.setShopIds(shopIds);
-        List<VReport> list = memberService.getgybzMemberList(param,false);
+        param.setShopId(shopId);
+        List<VReport> list = memberService.getgybzMemberList(param, false);
         List<ExportVRportDto> listDtos = new ArrayList<>();
-        list.stream().forEach(x->{
+        list.stream().forEach(x -> {
             ExportVRportDto dto = new ExportVRportDto();
             dto.setShopname(x.getShopname());
             dto.setType(x.getType());
@@ -255,19 +262,34 @@ public class DataReportController {
             dto.setDiff(x.getDiff());
 
             DrugCount drugCount = drugReportService.getDrugCountByShopId(x.getShopId());
-            if (Objects.nonNull(drugCount)){
+            if (Objects.nonNull(drugCount)) {
                 dto.setArea(drugCount.getArea());
-                dto.setChineseMedicine(drugCount.getChineseMedicine());
-                dto.setLongRange(drugCount.getLongRange());
-                dto.setSubjection(drugCount.getSubjection());
+                dto.setChineseMedicine("有");
+                if (drugCount.getChineseMedicine().equals(0)) {
+                    dto.setChineseMedicine("无");
+                }
+                dto.setLongRange("有");
+                if (drugCount.getLongRange().equals(0)) {
+                    dto.setLongRange("无");
+                }
+
+                dto.setSubjection("市区");
+                if (drugCount.getSubjection().equals(2)) {
+                    dto.setLongRange("乡镇");
+                }
+                if (drugCount.getSubjection().equals(3)) {
+                    dto.setLongRange("村");
+                }
             }
             listDtos.add(dto);
         });
-        ExportExcel<ExportVRportDto> ee = new ExportExcel<ExportVRportDto>();
-        String[] headers = {"门店", "行政隶属", "有无中药", "是否远程", "经营面积","编制要求职称", "编制要求职称对应人数", "实际配置人数", "差异"};
-        String fileName = new Date().toLocaleString();
-        String shopName = "实际高于编制";
-        ee.exportExcel(headers, listDtos, shopName, fileName, response);
+        if (listDtos.size() > 0) {
+            ExportExcel<ExportVRportDto> ee = new ExportExcel<ExportVRportDto>();
+            String[] headers = {"门店", "行政隶属", "有无中药", "是否远程", "经营面积", "编制要求职称", "编制要求职称对应人数", "实际配置人数", "差异"};
+            String fileName = new Date().toLocaleString();
+            String shopName = "实际高于编制";
+            ee.exportExcel(headers, listDtos, shopName, fileName, response);
+        }
 
     }
 }

@@ -711,8 +711,8 @@ public class MemberServiceImpl implements MemberService {
         }
         VReportExample vReportExample = new VReportExample();
         VReportExample.Criteria criteria = vReportExample.createCriteria();
-        if (!CollectionUtils.isEmpty(param.getShopIds())){
-            criteria.andShopIdIn(param.getShopIds());
+        if (!StringUtils.isEmpty(param.getShopId())){
+            criteria.andShopIdEqualTo(param.getShopId());
         }
         return vReportMapper.selectByExample(vReportExample);
     }

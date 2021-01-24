@@ -1,6 +1,7 @@
 package com.macro.mall.util;
 
 import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
@@ -8,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Iterator;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -119,13 +121,13 @@ public class ExportExcel<T> {
      * @return
      */
     public void getExportedFile(XSSFWorkbook workbook, String name,HttpServletResponse response) throws Exception {
-        BufferedOutputStream fos = null;
+        ServletOutputStream fos = null;
         try {
             String fileName = name + ".xlsx";
             fileName = URLEncoder.encode(fileName, "UTF-8");
-            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            response.setContentType("application/vnd.ms-excel;charset=UTF-8");
             response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
-            fos = new BufferedOutputStream(response.getOutputStream());
+            fos = response.getOutputStream();
             workbook.write(fos);
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,5 +137,6 @@ public class ExportExcel<T> {
             }
         }
     }
+
 }
 

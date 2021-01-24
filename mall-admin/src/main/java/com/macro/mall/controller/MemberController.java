@@ -333,15 +333,15 @@ public class MemberController {
     public CommonResult<List<SelectDto>> getAllTitle() {
         List<SelectDto> dto = memberService.getAllTitle();
         List<SelectDto> result = new ArrayList<>();
+        SelectDto dto1 = new SelectDto();
+        dto1.setLabel(" ");
+        dto1.setValue(" ");
+        result.add(dto1);
         dto.stream().forEach(x->{
             if (!x.getValue().equals("")){
                 result.add(x);
             }
         });
-        SelectDto dto1 = new SelectDto();
-        dto1.setLabel(" ");
-        dto1.setValue(" ");
-        result.add(dto1);
         return CommonResult.success(result);
     }
 

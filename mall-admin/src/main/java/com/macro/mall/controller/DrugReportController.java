@@ -311,11 +311,13 @@ public class DrugReportController {
         sureDrugReportDto.setReportId(reportId);
         if (!StringUtils.isEmpty(sureDrugReportDto.getReportId())) {
             List<ExportDrugReportMemberDto> result = drugReportService.exportDrugReportMember(sureDrugReportDto.getReportId());
-            ExportExcel<ExportDrugReportMemberDto> ee = new ExportExcel<ExportDrugReportMemberDto>();
-            String[] headers = {"排列序号","姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "职称（获得时间）", "学历 ", "专业", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
-            String fileName = reportId;
-            String shopName  =  drugReportService.getDrugReportDto(reportId).getShopName();
-            ee.exportExcel(headers, result, shopName,fileName, response);
+            if(result.size() > 0) {
+                ExportExcel<ExportDrugReportMemberDto> ee = new ExportExcel<ExportDrugReportMemberDto>();
+                String[] headers = {"排列序号", "姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "职称（获得时间）", "学历 ", "专业", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
+                String fileName = reportId;
+                String shopName = drugReportService.getDrugReportDto(reportId).getShopName();
+                ee.exportExcel(headers, result, shopName, fileName, response);
+            }
         }
     }
 
@@ -326,11 +328,13 @@ public class DrugReportController {
         sureDrugReportDto.setReportId(reportId);
         if (!StringUtils.isEmpty(sureDrugReportDto.getReportId())) {
             List<ExportSpecialDrugReportMemberDto> result = drugReportService.exportSpecialDrugReportMember(sureDrugReportDto.getReportId());
-            ExportExcel<ExportSpecialDrugReportMemberDto> ee = new ExportExcel<ExportSpecialDrugReportMemberDto>();
-            String[] headers = {"排列序号","姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "职称（获得时间）", "学历 ", "专业", "药监学校", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
-            String fileName = reportId;
-            String shopName  =  drugReportService.getDrugReportDto(reportId).getShopName();
-            ee.exportExcel(headers, result, shopName,fileName, response);
+            if(result.size() > 0) {
+                ExportExcel<ExportSpecialDrugReportMemberDto> ee = new ExportExcel<ExportSpecialDrugReportMemberDto>();
+                String[] headers = {"排列序号", "姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "职称（获得时间）", "学历 ", "专业", "药监学校", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
+                String fileName = reportId;
+                String shopName = drugReportService.getDrugReportDto(reportId).getShopName();
+                ee.exportExcel(headers, result, shopName, fileName, response);
+            }
         }
     }
 

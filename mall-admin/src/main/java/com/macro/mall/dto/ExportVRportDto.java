@@ -18,13 +18,13 @@ public class ExportVRportDto {
     private String shopname;
 
     @ApiModelProperty(value = "行政隶属：1->市区；2->乡镇；3->村")
-    private Integer subjection;
+    private String subjection;
 
     @ApiModelProperty(value = "有无中药：0->无；1->有")
-    private Integer chineseMedicine;
+    private String chineseMedicine;
 
     @ApiModelProperty(value = "是否远程：0->无；1->有")
-    private Integer longRange;
+    private String longRange;
 
     @ApiModelProperty(value = "经营面积")
     private BigDecimal area;

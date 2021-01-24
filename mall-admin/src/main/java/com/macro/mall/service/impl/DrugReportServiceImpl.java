@@ -885,8 +885,9 @@ public class DrugReportServiceImpl implements DrugReportService {
                 MemberRecord memberRecord = new MemberRecord();
                 //变更原因
                 //memberRecord.setChangeReason(dto.getChangeReason());
-                memberRecord.setChangeReason("1608816513961");
-                //memberRecord.setChangeReason("1608818350908");
+                memberRecord.setChangeReason("1608457634502");
+                //memberRecord.setChangeReason("1608816513961");
+                //memberRecord.setChangeReason("1608818350908");s
                 memberRecord.setMemberId(x.getMemberId());
                 memberRecord.setRelationId(x.getRelationId());
                 memberRecord.setReportId(reportId);
