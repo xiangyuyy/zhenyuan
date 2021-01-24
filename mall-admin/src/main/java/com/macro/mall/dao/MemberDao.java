@@ -39,10 +39,10 @@ public interface MemberDao {
     List<Member> getAddReportMemberList(AddReportMemberListParam param);
 
 
-    List<Member> getsjxgMemberList(String shopId);
+    List<Member> getsjxgMemberList(@Param("shopId")String shopId);
 
-    List<Member> getbdxgMemberList(String shopId);
+    List<Member> getbdxgMemberList(@Param("shopId")String shopId);
 
-    List<Member> getbzxtMemberList(String shopId);
+    List<Member> getbzxtMemberList(@Param("shopId")String shopId);
 
 }

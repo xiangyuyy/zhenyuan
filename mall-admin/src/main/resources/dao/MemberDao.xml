@@ -76,19 +76,19 @@
 
     <select id="getsjxgMemberList" resultMap="BaseResultMap">
         select m.* from member m LEFT JOIN usra01 u on m.relation_id = u.A0100 where m.drug_shop_id !="" and
-        m.drug_shop_id != u.e0122 and u.e0122 = #{shopId})
+        m.drug_shop_id != u.e0122 and u.e0122 = #{shopId}
         order by m.relation_id desc
     </select>
 
     <select id="getbdxgMemberList" resultMap="BaseResultMap">
         select m.* from member m LEFT JOIN usra01 u on m.relation_id = u.A0100 where m.drug_shop_id !="" and
-        m.drug_shop_id != u.e0122 and m.drug_shop_id = #{shopId})
+        m.drug_shop_id != u.e0122 and m.drug_shop_id = #{shopId}
         order by m.relation_id desc
     </select>
 
     <select id="getbzxtMemberList" resultMap="BaseResultMap">
         select m.* from member m LEFT JOIN usra01 u on m.relation_id = u.A0100 where m.drug_shop_id !="" and
-        m.drug_shop_id = u.e0122 and u.e0122 = #{shopId})
+        m.drug_shop_id = u.e0122 and u.e0122 = #{shopId}
         order by m.relation_id desc
     </select>
 
