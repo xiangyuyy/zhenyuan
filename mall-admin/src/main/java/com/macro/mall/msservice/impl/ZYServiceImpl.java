@@ -95,9 +95,10 @@ public class ZYServiceImpl implements ZYService {
     @Override
     public List<Usra01> getUpdateUsra01() {
         List<Usra01> list = getAllUsra01();
-        Date yesterday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24);
+        return list;
+/*        Date yesterday = new Date(System.currentTimeMillis() - 1000 * 60 * 60 * 24);
         Date tomarror = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24);
-        return list.stream().filter(x->x.getModtime().before(tomarror) && x.getModtime().after(yesterday)).collect(Collectors.toList());
+        return list.stream().filter(x->x.getModtime().before(tomarror) && x.getModtime().after(yesterday)).collect(Collectors.toList());*/
     }
 
     public List<Usra01> getInintUsra01() {

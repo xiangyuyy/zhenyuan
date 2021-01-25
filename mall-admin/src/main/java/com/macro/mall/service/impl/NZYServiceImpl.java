@@ -259,9 +259,9 @@ public class NZYServiceImpl implements NZYService {
         list.parallelStream().forEach(x -> {
             Organization organization = organizationMapper.selectByPrimaryKey(x.getCodeitemid());
             if (organization == null) {
-                organizationMapper.insertSelective(organization);
+                organizationMapper.insertSelective(x);
             } else {
-                organizationMapper.updateByPrimaryKeySelective(organization);
+                organizationMapper.updateByPrimaryKeySelective(x);
             }
 
         });
@@ -274,9 +274,12 @@ public class NZYServiceImpl implements NZYService {
         list.parallelStream().forEach(x -> {
             Usra01 usra01 = usra01Mapper.selectByPrimaryKey(x.getA0100());
             if (usra01 == null) {
-                usra01Mapper.insertSelective(usra01);
+                Member member = new Member();
+                member.setRelationId(x.getA0100());
+                usra01Mapper.insertSelective(x);
+                memberMapper.insertSelective(member);
             } else {
-                usra01Mapper.updateByPrimaryKeySelective(usra01);
+                usra01Mapper.updateByPrimaryKeySelective(x);
             }
 
         });
