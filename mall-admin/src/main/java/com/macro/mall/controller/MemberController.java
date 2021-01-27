@@ -462,4 +462,12 @@ public class MemberController {
         Boolean result = nzyService.updataALL();
         return CommonResult.success(result);
     }
+
+    @ApiOperation("删除多余的人员数据")
+    @RequestMapping(value = "/updataMore", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<Boolean> updataMore() {
+        Boolean result = nzyService.updataMore();
+        return CommonResult.success(result);
+    }
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 //import com.macro.mall.service.UmsAdminCacheService;
 
@@ -378,6 +379,22 @@ public class NZYServiceImpl implements NZYService {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public Boolean updataMore() {
+        List<String> list = zyService.getUpdateUsra01().stream().map(Usra01::getA0100).collect(Collectors.toList());
+        System.out.printf("list-----" + list.size());
+        Usra01Example usra01Example = new Usra01Example();
+        Usra01Example.Criteria criteria1 = usra01Example.createCriteria();
+        criteria1.andA0100NotIn(list);
+        usra01Mapper.deleteByExample(usra01Example);
+
+        MemberExample memberExample = new MemberExample();
+        MemberExample.Criteria criteria = memberExample.createCriteria();
+        criteria.andRelationIdNotIn(list);
+        memberMapper.deleteByExample(memberExample);
+        return false;
     }
 
 

@@ -75,4 +75,6 @@ public interface NZYService {
 
     Boolean inintALL();
 
+    Boolean updataMore();
+
 }
