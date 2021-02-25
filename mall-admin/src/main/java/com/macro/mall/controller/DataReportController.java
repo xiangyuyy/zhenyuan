@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * 数据报表查询ontroller
@@ -67,6 +68,14 @@ public class DataReportController {
     @RequestMapping(value = "/getShopMemberRecordList", method = RequestMethod.GET)
     @ResponseBody
     public CommonResult<CommonPage<MemberRecordListDto>> list(ShopMemberRecordListParam param) {
+        MemberListParam param1 = new MemberListParam();
+        param1.setName(param.getName());
+        List<Member> memberId = memberService.getAllMemberList(param1);
+        List<String> memberIds = new ArrayList<>();
+        memberId.forEach(x->{
+            memberIds.add(x.getId().toString());
+        });
+        param.setMemberIds(memberIds);
         List<MemberRecord> list = memberRecordService.getShopMemberRecordList(param);
         CommonPage commonPage = CommonPage.restPage(list);
         commonPage.setList(memberRecordService.memberRecordListToDto(list));
@@ -247,6 +256,9 @@ public class DataReportController {
     public void exportgybzMemberList(HttpServletRequest request, HttpServletResponse response, String shopId) {
         VReportListParam param = new VReportListParam();
         List<String> shopIds = new ArrayList<>();
+        if (shopId.equals("undefined")){
+            shopId = null;
+        }
         if (StringUtils.isNotEmpty(shopId)) {
             shopIds.add(shopId);
         }

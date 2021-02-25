@@ -23,7 +23,7 @@ public interface MemberService {
     /**
      *s 所有人员信息
      */
-    List<Member> getAllMemberList();
+    List<Member> getAllMemberList(MemberListParam param);
 
     List<DepartmentDto> getAllDepartment();
 

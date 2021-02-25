@@ -90,9 +90,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<Member> getAllMemberList() {
-        MemberExample memberExample = new MemberExample();
-        return memberMapper.selectByExample(memberExample);
+    public List<Member> getAllMemberList(MemberListParam param) {
+        return memberDao.getMemberList(param);
     }
 
     @Override
@@ -389,12 +388,12 @@ public class MemberServiceImpl implements MemberService {
         Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionTwoId());
         if (drugPositionTwo != null) {//岗位2
             dto.setDrugPositionTwo(drugPositionTwo.getCodeitemdesc());
-            drugPositionAll += " " + drugPositionTwo.getCodeitemdesc();
+            drugPositionAll += "兼" + drugPositionTwo.getCodeitemdesc();
         }
         Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionThreeId());
         if (drugPositionThree != null) {//岗位3
             dto.setDrugPositionThree(drugPositionThree.getCodeitemdesc());
-            drugPositionAll += " " + drugPositionThree.getCodeitemdesc();
+            drugPositionAll += "兼" + drugPositionThree.getCodeitemdesc();
         }
         dto.setDrugPositionAll(drugPositionAll);
 

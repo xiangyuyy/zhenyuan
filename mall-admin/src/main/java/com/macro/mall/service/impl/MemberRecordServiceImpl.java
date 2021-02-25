@@ -185,11 +185,12 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         if (!StringUtils.isEmpty(param.getShopId())) {
             criteria.andReportShopIdEqualTo(param.getShopId());
         }
-
+        if (param.getMemberIds().size() > 0) {
+            criteria.andMemberIdIn(param.getMemberIds());
+        }
         if (!StringUtils.isEmpty(param.getChangeReason())) {
             criteria.andChangeReasonEqualTo(param.getChangeReason());
         }
-
         if (param.getCreateTimeBegin() != null){
             param.setCreateTimeBegin(DateUtil.getDateAddOneDay(param.getCreateTimeBegin()));
             criteria.andCreateTimeGreaterThanOrEqualTo(param.getCreateTimeBegin());
@@ -282,12 +283,12 @@ public class MemberRecordServiceImpl implements MemberRecordService {
             Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionTwoId());
             if (drugPositionTwo != null) {//岗位2
                 dto.setDrugPositionTwo(drugPositionTwo.getCodeitemdesc());
-                drugPositionAll += " " + drugPositionTwo.getCodeitemdesc();
+                drugPositionAll += "兼" + drugPositionTwo.getCodeitemdesc();
             }
             Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionThreeId());
             if (drugPositionThree != null) {//岗位3
                 dto.setDrugPositionThree(drugPositionThree.getCodeitemdesc());
-                drugPositionAll += " " + drugPositionThree.getCodeitemdesc();
+                drugPositionAll += "兼" + drugPositionThree.getCodeitemdesc();
             }
             dto.setDrugPositionAll(drugPositionAll);
 

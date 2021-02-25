@@ -27,4 +27,10 @@ public class ShopMemberRecordListParam extends ListParam {
     @ApiModelProperty(value = "变更日期  日期结束")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date createTimeEnd;
+
+    @ApiModelProperty(value = "姓名")
+    private String name;
+
+    @ApiModelProperty(value = "memberIds")
+    private List<String> memberIds;
 }

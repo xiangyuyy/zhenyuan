@@ -210,12 +210,12 @@ public class DrugReportServiceImpl implements DrugReportService {
             Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionTwoId());
             if (drugPositionTwo != null) {//岗位2
                 dto.setDrugPositionTwo(drugPositionTwo.getCodeitemdesc());
-                drugPositionAll += " " + drugPositionTwo.getCodeitemdesc();
+                drugPositionAll += "兼" + drugPositionTwo.getCodeitemdesc();
             }
             Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionThreeId());
             if (drugPositionThree != null) {//岗位3
                 dto.setDrugPositionThree(drugPositionThree.getCodeitemdesc());
-                drugPositionAll += " " + drugPositionThree.getCodeitemdesc();
+                drugPositionAll += "兼" + drugPositionThree.getCodeitemdesc();
             }
             dto.setDrugPositionAll(drugPositionAll);
 
@@ -314,12 +314,12 @@ public class DrugReportServiceImpl implements DrugReportService {
             Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionTwoId());
             if (drugPositionTwo != null) {//岗位2
                 dto.setDrugPositionTwo(drugPositionTwo.getCodeitemdesc());
-                drugPositionAll += " " + drugPositionTwo.getCodeitemdesc();
+                drugPositionAll += "兼" + drugPositionTwo.getCodeitemdesc();
             }
             Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionThreeId());
             if (drugPositionThree != null) {//岗位3
                 dto.setDrugPositionThree(drugPositionThree.getCodeitemdesc());
-                drugPositionAll += " " + drugPositionThree.getCodeitemdesc();
+                drugPositionAll += "兼" + drugPositionThree.getCodeitemdesc();
             }
             dto.setDrugPositionAll(drugPositionAll);
 
@@ -502,12 +502,12 @@ public class DrugReportServiceImpl implements DrugReportService {
             Codeitem drugPositionTwo = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionTwoId());
             if (drugPositionTwo != null) {//岗位2
                 dto.setDrugPositionTwo(drugPositionTwo.getCodeitemdesc());
-                drugPositionAll += " " + drugPositionTwo.getCodeitemdesc();
+                drugPositionAll += "兼" + drugPositionTwo.getCodeitemdesc();
             }
             Codeitem drugPositionThree = codeItemService.getOneCodeitem(BaseConst.DRUG_DRGW, x.getDrugPositionThreeId());
             if (drugPositionThree != null) {//岗位3
                 dto.setDrugPositionThree(drugPositionThree.getCodeitemdesc());
-                drugPositionAll += " " + drugPositionThree.getCodeitemdesc();
+                drugPositionAll += "兼" + drugPositionThree.getCodeitemdesc();
             }
             dto.setDrugPositionAll(drugPositionAll);
 
@@ -783,7 +783,15 @@ public class DrugReportServiceImpl implements DrugReportService {
         DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
         criteria.andReportIdEqualTo(reportId);
         List<DrugReportMember> list = drugReportMemberMapper.selectByExample(drugReportMemberExample);
-        List<DrugReportMemberListDto> toDtos = drugChangeReportMemberListToDto(list);
+
+        List<DrugReportMemberListDto> toDtos = new ArrayList<>();
+        DrugReport drugReport = drugReportMapper.selectByPrimaryKey(reportId);
+        if (drugReport.getCheckStatus().equals(0)) { //待确定
+            toDtos = drugReportMemberListToDto(list);
+        }
+        else {
+            toDtos = drugChangeReportMemberListToDto(list);
+        }
         List<ExportDrugReportMemberDto> result = new ArrayList<>();
         toDtos.stream().forEach(x -> {
             ExportDrugReportMemberDto model = new ExportDrugReportMemberDto();
@@ -813,7 +821,15 @@ public class DrugReportServiceImpl implements DrugReportService {
         DrugReportMemberExample.Criteria criteria = drugReportMemberExample.createCriteria();
         criteria.andReportIdEqualTo(reportId);
         List<DrugReportMember> list = drugReportMemberMapper.selectByExample(drugReportMemberExample);
-        List<DrugReportMemberListDto> toDtos = drugChangeReportMemberListToDto(list);
+
+        List<DrugReportMemberListDto> toDtos = new ArrayList<>();
+        DrugReport drugReport = drugReportMapper.selectByPrimaryKey(reportId);
+        if (drugReport.getCheckStatus().equals(0)) { //待确定
+            toDtos = drugReportMemberListToDto(list);
+        }
+        else {
+            toDtos = drugChangeReportMemberListToDto(list);
+        }
         List<ExportSpecialDrugReportMemberDto> result = new ArrayList<>();
         toDtos.stream().forEach(x -> {
             ExportSpecialDrugReportMemberDto model = new ExportSpecialDrugReportMemberDto();
