@@ -21,10 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -76,7 +73,7 @@ public class DataReportController {
             memberIds.add(x.getId().toString());
         });
         param.setMemberIds(memberIds);
-        List<MemberRecord> list = memberRecordService.getShopMemberRecordList(param);
+        List<MemberRecord> list = memberRecordService.getShopMemberRecordList(param,true);
         CommonPage commonPage = CommonPage.restPage(list);
         commonPage.setList(memberRecordService.memberRecordListToDto(list));
         return CommonResult.success(commonPage);
@@ -287,10 +284,10 @@ public class DataReportController {
 
                 dto.setSubjection("市区");
                 if (drugCount.getSubjection().equals(2)) {
-                    dto.setLongRange("乡镇");
+                    dto.setSubjection("乡镇");
                 }
                 if (drugCount.getSubjection().equals(3)) {
-                    dto.setLongRange("村");
+                    dto.setSubjection("村");
                 }
             }
             listDtos.add(dto);
@@ -302,6 +299,48 @@ public class DataReportController {
             String shopName = "实际高于编制";
             ee.exportExcel(headers, listDtos, shopName, fileName, response);
         }
+    }
 
+    @ApiOperation("导出部门申报变更记录查询列表")
+    @RequestMapping(value = "/exportShopMemberRecordList", method = RequestMethod.GET)
+    public void exportgybzMemberList(HttpServletRequest request, HttpServletResponse response, ShopMemberRecordListParam param) {
+        MemberListParam param1 = new MemberListParam();
+        param1.setName(param.getName());
+        List<Member> memberId = memberService.getAllMemberList(param1);
+        List<String> memberIds = new ArrayList<>();
+        memberId.forEach(x->{
+            memberIds.add(x.getId().toString());
+        });
+        param.setMemberIds(memberIds);
+        List<MemberRecord> list = memberRecordService.getShopMemberRecordList(param,false);
+        List<ReportMemberRecordListDto> listDto = Collections.synchronizedList(new ArrayList<>());
+        memberRecordService.memberRecordListToDto(list).parallelStream().forEach(x -> {
+            ReportMemberRecordListDto dto = new ReportMemberRecordListDto();
+            dto.setAge(x.getAge());
+            dto.setName(x.getName());
+            dto.setBirthday(x.getBirthday());
+            dto.setChangeReason(x.getChangeReason());
+            dto.setCreateTime(x.getCreateTime());
+            dto.setDrugEducation(x.getDrugEducation());
+            dto.setDrugMajor(x.getDrugMajor());
+            dto.setDrugOrg(x.getDrugOrg());
+            dto.setDrugPositionAll(x.getDrugPositionAll());
+            dto.setWorkTime(x.getWorkTime());
+            dto.setShopName(x.getShopName());
+            dto.setReportId(x.getReportId());
+            dto.setSex(x.getSex());
+            dto.setIdCard(x.getIdCard());
+            dto.setEducationStatus("是");
+            dto.setHealthStatus("健康");
+            dto.setTrainStatus("是");
+            listDto.add(dto);
+        });
+        if (listDto.size() > 0) {
+            ExportExcel<ReportMemberRecordListDto> ee = new ExportExcel<ReportMemberRecordListDto>();
+            String[] headers = {"单号", "门店", "姓名", "变更原因", "变更时间", "身份证号码", "性别", "出生年月", "年龄", "药监职称", "药监学历", "药监专业", "职务或岗位集合", "参加专业工作时间", "健康状况", "是否继续教育", "是否参加培训"};
+            String fileName = new Date().toLocaleString();
+            String shopName = "申报变更记录";
+            ee.exportExcel(headers, listDto, shopName, fileName, response);
+        }
     }
 }

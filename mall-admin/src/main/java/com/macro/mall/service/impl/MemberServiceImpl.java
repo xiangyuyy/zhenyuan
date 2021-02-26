@@ -324,8 +324,8 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<MemberListDto> MemberListToDto(List<Member> list) {
-        List<MemberListDto> daoList = new ArrayList<>();
-        list.stream().forEach(x -> {
+        List<MemberListDto> daoList = Collections.synchronizedList(new ArrayList<>());
+        list.parallelStream().forEach(x -> {
             MemberListDto dto = doToDto(x);
             daoList.add(dto);
         });
@@ -435,6 +435,7 @@ public class MemberServiceImpl implements MemberService {
         if (codeitemLb != null) {
             dto.setPeopleKind(codeitemLb.getCodeitemdesc());
         }
+        dto.setDrugSchool(x.getDrugSchool());
         return dto;
     }
 

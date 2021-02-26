@@ -177,8 +177,11 @@ public class MemberRecordServiceImpl implements MemberRecordService {
     }
 
     @Override
-    public List<MemberRecord> getShopMemberRecordList(ShopMemberRecordListParam param) {
-        PageUtil.init(param);
+    public List<MemberRecord> getShopMemberRecordList(ShopMemberRecordListParam param, Boolean paging) {
+        if (paging) {
+            PageUtil.init(param);
+            PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        }
         PageHelper.startPage(param.getPageNum(), param.getPageSize());
         MemberRecordExample memberRecordExample = new MemberRecordExample();
         MemberRecordExample.Criteria criteria = memberRecordExample.createCriteria();

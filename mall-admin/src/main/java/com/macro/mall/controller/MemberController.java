@@ -11,6 +11,7 @@ import com.macro.mall.service.MemberService;
 import com.macro.mall.service.NZYService;
 import com.macro.mall.service.UmsMenuService;
 import com.macro.mall.util.ExcelRead;
+import com.macro.mall.util.ExportExcel;
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,10 +21,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -477,5 +478,44 @@ public class MemberController {
     public CommonResult<Boolean> updataMore() {
         Boolean result = nzyService.updataMore();
         return CommonResult.success(result);
+    }
+    @ApiOperation("导出人员管理列表")
+    @RequestMapping(value = "/exportMemberList", method = RequestMethod.GET)
+    @ResponseBody
+    public void exportMemberList(HttpServletRequest request, HttpServletResponse response) {
+        MemberListParam param1 = new MemberListParam();
+        List<Member> list = memberService.getAllMemberList(param1);
+        List<ReportMemberDto> listDto = Collections.synchronizedList(new ArrayList<>());
+        memberService.MemberListToDto(list).parallelStream().forEach(x->{
+            ReportMemberDto dto = new ReportMemberDto();
+            dto.setTitle(x.getTitle());
+            dto.setAge(x.getAge());
+            dto.setBirthday(x.getBirthday());
+            dto.setDrugEducation(x.getDrugEducation());
+            dto.setDrugMajor(x.getDrugMajor());
+            dto.setDrugOrg(x.getDrugOrg());
+            dto.setDrugPositionAll(x.getDrugPositionAll());
+            dto.setDrugShopName(x.getDrugShopName());
+            dto.setDrugTitle(x.getDrugTitle());
+            dto.setEducationStatus("是");
+            dto.setTrainStatus("是");
+            dto.setHealthStatus("健康");
+            dto.setWorkTime(x.getWorkTime());
+            dto.setIdCard(x.getIdCard());
+            dto.setShopName(x.getShopName());
+            dto.setPeopleKind(x.getPeopleKind());
+            dto.setName(x.getName());
+            dto.setMajor(x.getMajor());
+            dto.setSex(x.getSex());
+            dto.setEducation(x.getEducation());
+            listDto.add(dto);
+        });
+        if (listDto.size() > 0) {
+            ExportExcel<ReportMemberDto> ee = new ExportExcel<ReportMemberDto>();
+            String[] headers = {"门店", "药监门店", "姓名", "身份证号码", "性别", "出生年月", "年龄", "职称(时间)", "学历", "专业","药监上报职称", "药监编制职称", "药监学历", "药监专业", "职务或岗位集合", "人员类别", "参加专业工作时间", "健康状况", "是否继续教育", "是否参加培训"};
+            String fileName = new Date().toLocaleString();
+            String shopName = "人员列表";
+            ee.exportExcel(headers, listDto, shopName, fileName, response);
+        }
     }
 }

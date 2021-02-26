@@ -4,6 +4,7 @@ import cn.hutool.core.collection.ListUtil;
 import com.macro.mall.common.api.CommonPage;
 import com.macro.mall.common.api.CommonResult;
 import com.macro.mall.dto.*;
+import com.macro.mall.mapper.OrganizationMapper;
 import com.macro.mall.model.*;
 import com.macro.mall.service.DrugReportService;
 import com.macro.mall.service.MemberRecordService;
@@ -23,10 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -49,6 +47,9 @@ public class DrugReportController {
 
     @Autowired
     private UmsRoleService roleService;
+
+    @Autowired
+    private OrganizationMapper organizationMapper;
 
     @ApiOperation("获得单号")
     @RequestMapping(value = "/getReportId", method = RequestMethod.GET)
@@ -313,7 +314,7 @@ public class DrugReportController {
             List<ExportDrugReportMemberDto> result = drugReportService.exportDrugReportMember(sureDrugReportDto.getReportId());
             if(result.size() > 0) {
                 ExportExcel<ExportDrugReportMemberDto> ee = new ExportExcel<ExportDrugReportMemberDto>();
-                String[] headers = {"排列序号", "姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "职称（获得时间）", "学历 ", "专业", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
+                String[] headers = {"排列序号", "姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "药监编制职称", "药监学历 ", "药监专业", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
                 String fileName = reportId;
                 String shopName = drugReportService.getDrugReportDto(reportId).getShopName();
                 ee.exportExcel(headers, result, shopName, fileName, response);
@@ -330,7 +331,7 @@ public class DrugReportController {
             List<ExportSpecialDrugReportMemberDto> result = drugReportService.exportSpecialDrugReportMember(sureDrugReportDto.getReportId());
             if(result.size() > 0) {
                 ExportExcel<ExportSpecialDrugReportMemberDto> ee = new ExportExcel<ExportSpecialDrugReportMemberDto>();
-                String[] headers = {"排列序号", "姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "职称（获得时间）", "学历 ", "专业", "药监学校", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
+                String[] headers = {"排列序号", "姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "职药监编制职称", "药监学历 ", "药监专业", "药监学校", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
                 String fileName = reportId;
                 String shopName = drugReportService.getDrugReportDto(reportId).getShopName();
                 ee.exportExcel(headers, result, shopName, fileName, response);
@@ -464,5 +465,51 @@ public class DrugReportController {
     public CommonResult<List<SelectDto>> getAllOperator() {
         List<SelectDto> dto = memberService.getAllOperator();
         return CommonResult.success(dto);
+    }
+
+    @ApiOperation("导出药监技术结果")
+    @RequestMapping(value = "/exportDrugCountList", method = RequestMethod.GET)
+    @ResponseBody
+    public void exportDrugCountList(HttpServletRequest request, HttpServletResponse response) {
+        List<DrugCount> list = drugReportService.getDrugCountAll();
+        List<ReportDrugCountDto> listDto = Collections.synchronizedList(new ArrayList<>());
+        list.parallelStream().forEach(x->{
+            ReportDrugCountDto dto = new ReportDrugCountDto();
+            if (Objects.nonNull(x)) {
+                dto.setChineseMedicine("有");
+                if (x.getChineseMedicine().equals(0)) {
+                    dto.setChineseMedicine("无");
+                }
+                dto.setLongRange("有");
+                if (x.getLongRange().equals(0)) {
+                    dto.setLongRange("无");
+                }
+
+                dto.setSubjection("市区");
+                if (x.getSubjection().equals(2)) {
+                    dto.setSubjection("乡镇");
+                }
+                if (x.getSubjection().equals(3)) {
+                    dto.setSubjection("村");
+                }
+                dto.setArea(x.getArea());
+                dto.setMechanic(x.getMechanic());
+                dto.setPharmacist(x.getPharmacist());
+                dto.setPraPharmacist(x.getPraPharmacist());
+                dto.setPraChinesePharmacist(x.getPraChinesePharmacist());
+                Organization organization = organizationMapper.selectByPrimaryKey(x.getShopId());
+                if (organization != null) {
+                    dto.setShopName(organization.getCodeitemdesc());
+                }
+            }
+            listDto.add(dto);
+        });
+        if (listDto.size() > 0) {
+            ExportExcel<ReportDrugCountDto> ee = new ExportExcel<ReportDrugCountDto>();
+            String[] headers = {"门店", "行政隶属", "有无中药", "是否远程", "经营面积", "执业药师", "执业中药师", "药师", "技工"};
+            String fileName = new Date().toLocaleString();
+            String shopName = "药监计算结果";
+            ee.exportExcel(headers, listDto, shopName, fileName, response);
+        }
     }
 }

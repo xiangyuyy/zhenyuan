@@ -140,13 +140,7 @@ public class DrugReportServiceImpl implements DrugReportService {
             Usra01 usra01 = usra01Mapper.selectByPrimaryKey(x.getRelationId());
             if (usra01 != null) {
                 // 药监学校
-                Usra04Example usra04Example = new Usra04Example();
-                Usra04Example.Criteria criteria = usra04Example.createCriteria();
-                criteria.andA0100EqualTo(x.getRelationId());
-                List<Usra04>  usra04List = usra04Mapper.selectByExample(usra04Example);
-                if (usra04List.size() > 0){
-                    dto.setDrugSchool(usra04List.get(0).getA0435());
-                }
+                dto.setDrugSchool(x.getDrugSchool());
 
                 dto.setAge(usra01.getA0112());
                 dto.setBirthday(DateUtil.getFormateDate(usra01.getA0111()));
@@ -344,13 +338,8 @@ public class DrugReportServiceImpl implements DrugReportService {
             dto.setReportId(x.getReportId());
 
             // 药监学校
-            Usra04Example usra04Example = new Usra04Example();
-            Usra04Example.Criteria criteria = usra04Example.createCriteria();
-            criteria.andA0100EqualTo(x.getRelationId());
-            List<Usra04>  usra04List = usra04Mapper.selectByExample(usra04Example);
-            if (usra04List.size() > 0){
-                dto.setDrugSchool(usra04List.get(0).getA0435());
-            }
+            dto.setDrugSchool(x.getDrugSchool());
+
             daoList.add(dto);
         });
         return daoList;
@@ -532,6 +521,7 @@ public class DrugReportServiceImpl implements DrugReportService {
             if (codeitemLb != null){
                 dto.setPeopleKind(codeitemLb.getCodeitemdesc());
             }
+            dto.setDrugSchool(x.getDrugSchool());
             daoList.add(dto);
         });
         return daoList;
@@ -802,10 +792,10 @@ public class DrugReportServiceImpl implements DrugReportService {
             model.setIdCard(x.getIdCard());
             model.setName(x.getName());
             model.setAge(x.getAge());
-            model.setTitle(x.getTitle());
+            model.setDrugOrg(x.getDrugOrg());
             model.setDrugPositionAll(x.getDrugPositionAll());
-            model.setEducation(x.getEducation());
-            model.setMajor(x.getMajor());
+            model.setDrugMajor(x.getDrugMajor());
+            model.setDrugEducation(x.getDrugEducation());
             model.setWorkTime(DateUtil.getFormatString(x.getWorkTime()));
             model.setBirthday(DateUtil.getFormatString(x.getBirthday()));
             model.setSex(x.getSex());
@@ -840,10 +830,10 @@ public class DrugReportServiceImpl implements DrugReportService {
             model.setIdCard(x.getIdCard());
             model.setName(x.getName());
             model.setAge(x.getAge());
-            model.setTitle(x.getTitle());
+            model.setDrugOrg(x.getDrugOrg());
             model.setDrugPositionAll(x.getDrugPositionAll());
-            model.setEducation(x.getEducation());
-            model.setMajor(x.getMajor());
+            model.setDrugMajor(x.getDrugMajor());
+            model.setDrugEducation(x.getDrugEducation());
             model.setWorkTime(DateUtil.getFormatString(x.getWorkTime()));
             model.setBirthday(DateUtil.getFormatString(x.getBirthday()));
             model.setSex(x.getSex());
@@ -947,6 +937,12 @@ public class DrugReportServiceImpl implements DrugReportService {
         } else {
             criteria.andShopIdIsNull(); //没有传shopId 默认不返回
         }
+        return drugCountMapper.selectByExample(drugCountExample);
+    }
+
+    @Override
+    public List<DrugCount> getDrugCountAll() {
+        DrugCountExample drugCountExample = new DrugCountExample();
         return drugCountMapper.selectByExample(drugCountExample);
     }
 

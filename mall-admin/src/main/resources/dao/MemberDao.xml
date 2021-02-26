@@ -9,6 +9,7 @@
         <result column="drug_org_id" jdbcType="VARCHAR" property="drugOrgId"/>
         <result column="drug_education_id" jdbcType="VARCHAR" property="drugEducationId"/>
         <result column="drug_major_id" jdbcType="VARCHAR" property="drugMajorId"/>
+        <result column="drug_school" jdbcType="VARCHAR" property="drugSchool"/>
         <result column="drug_position_one_id" jdbcType="VARCHAR" property="drugPositionOneId"/>
         <result column="drug_position_two_id" jdbcType="VARCHAR" property="drugPositionTwoId"/>
         <result column="drug_position_three_id" jdbcType="VARCHAR" property="drugPositionThreeId"/>

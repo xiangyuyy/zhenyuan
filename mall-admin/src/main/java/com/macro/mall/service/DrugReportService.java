@@ -58,6 +58,8 @@ public interface DrugReportService {
     //药监计算结果查询
     List<DrugCount> getDrugCountList(DrugCountListParam param);
 
+    List<DrugCount> getDrugCountAll();
+
     DrugCount getDrugCountByShopId(String shopId);
 
     int addOrUpdateDrugCount(DrugCount drugCount);

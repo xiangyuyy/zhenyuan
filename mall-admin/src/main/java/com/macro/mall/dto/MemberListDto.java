@@ -94,4 +94,7 @@ public class MemberListDto {
     @ApiModelProperty(value = "人员类别")
     private String peopleKind;
 
+    @ApiModelProperty(value = "药监学校")
+    private String drugSchool;
+
 }

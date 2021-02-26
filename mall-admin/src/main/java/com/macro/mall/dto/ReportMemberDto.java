@@ -3,16 +3,21 @@ package com.macro.mall.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.util.Date;
+
 
 /**
- * 药监申报录入表 特殊导出
+ * 导出所有人员
  * Created by macro on 2018/4/26.
  */
-
 @Data
-public class ExportSpecialDrugReportMemberDto {
-    @ApiModelProperty(value = "排列序号")
-    private Integer sort;
+public class ReportMemberDto {
+
+    @ApiModelProperty(value = "门店")
+    private String shopName;
+
+    @ApiModelProperty(value = "药监门店")
+    private String drugShopName;
 
     @ApiModelProperty(value = "姓名")
     private String name;
@@ -24,10 +29,22 @@ public class ExportSpecialDrugReportMemberDto {
     private String sex;
 
     @ApiModelProperty(value = "出生年月")
-    private String birthday;
+    private Date birthday;
 
     @ApiModelProperty(value = "年龄")
     private Integer age;
+
+    @ApiModelProperty(value = "职称(时间)")
+    private String title;
+
+    @ApiModelProperty(value = "学历")
+    private String education;
+
+    @ApiModelProperty(value = "专业")
+    private String major;
+
+    @ApiModelProperty(value = "药监上报职称")
+    private String drugTitle;
 
     @ApiModelProperty(value = "药监编制职称")
     private String drugOrg;
@@ -38,14 +55,15 @@ public class ExportSpecialDrugReportMemberDto {
     @ApiModelProperty(value = "药监专业")
     private String drugMajor;
 
-    @ApiModelProperty(value = "药监学校")
-    private String drugSchool;
-
     @ApiModelProperty(value = "职务或岗位集合")
     private String drugPositionAll;
 
+    @ApiModelProperty(value = "人员类别")
+    private String peopleKind;
+
+
     @ApiModelProperty(value = "参加专业工作时间")
-    private String workTime;
+    private Date workTime;
 
     @ApiModelProperty(value = "健康状况：0->不健康；1->健康")
     private String healthStatus;
@@ -56,5 +74,7 @@ public class ExportSpecialDrugReportMemberDto {
     @ApiModelProperty(value = "是否参加培训：0->否；1->是")
     private String trainStatus;
 
+/*    @ApiModelProperty(value = "药监学校")
+    private String drugSchool;*/
 
 }
