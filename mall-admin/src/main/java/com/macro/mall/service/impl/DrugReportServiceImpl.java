@@ -625,6 +625,8 @@ public class DrugReportServiceImpl implements DrugReportService {
                     drugReportMember.setReportId(dto.getReportId());
                     //药监申报门店
                     drugReportMember.setReportShopId(drugReport.getShopId());
+
+                    drugReportMember.setDrugSchool(member.getDrugSchool());
                     drugReportMemberMapper.insertSelective(drugReportMember);
 
                     // 插入药监变更记录
@@ -648,6 +650,8 @@ public class DrugReportServiceImpl implements DrugReportService {
                     memberRecord.setDrugShopId(member.getDrugShopId());
                     memberRecord.setDrugOrgId(member.getDrugOrgId());
                     memberRecord.setEducationId(member.getEducationId());
+
+                    memberRecord.setDrugSchool(member.getDrugSchool());
                     //变更中
                     memberRecord.setStatus(0);
 
@@ -887,6 +891,7 @@ public class DrugReportServiceImpl implements DrugReportService {
                 x.setReportShopId(drugReport.getShopId());
                 //新增字段
                 x.setEducationId(member.getEducationId());
+                x.setDrugSchool(member.getDrugSchool());
                 drugReportMemberMapper.updateByPrimaryKeySelective(x);
             }
         });
@@ -920,6 +925,7 @@ public class DrugReportServiceImpl implements DrugReportService {
                 memberRecord.setDrugShopId(x.getDrugShopId());
                 memberRecord.setDrugOrgId(x.getDrugOrgId());
                 memberRecord.setEducationId(x.getEducationId());
+                memberRecord.setDrugSchool(x.getDrugSchool());
 
                 if (drugReport != null) {
                     memberRecord.setReportShopId(drugReport.getShopId());

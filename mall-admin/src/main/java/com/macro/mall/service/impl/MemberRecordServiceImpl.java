@@ -152,6 +152,7 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         member.setDrugShopId(model.getDrugShopId());
         member.setDrugOrgId(model.getDrugOrgId());
         member.setEducationId(model.getEducationId());
+        member.setDrugSchool(model.getDrugSchool());
         return member;
     }
 

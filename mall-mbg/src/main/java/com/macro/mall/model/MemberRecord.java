@@ -46,6 +46,9 @@ public class MemberRecord implements Serializable {
     @ApiModelProperty(value = "职务或岗位3")
     private String drugPositionThreeId;
 
+    @ApiModelProperty(value = "药监学校")
+    private String drugSchool;
+
     @ApiModelProperty(value = "参加专业工作时间")
     private Date workTime;
 
@@ -178,6 +181,14 @@ public class MemberRecord implements Serializable {
         this.drugPositionThreeId = drugPositionThreeId;
     }
 
+    public String getDrugSchool() {
+        return drugSchool;
+    }
+
+    public void setDrugSchool(String drugSchool) {
+        this.drugSchool = drugSchool;
+    }
+
     public Date getWorkTime() {
         return workTime;
     }
@@ -246,6 +257,7 @@ public class MemberRecord implements Serializable {
         sb.append(", drugPositionOneId=").append(drugPositionOneId);
         sb.append(", drugPositionTwoId=").append(drugPositionTwoId);
         sb.append(", drugPositionThreeId=").append(drugPositionThreeId);
+        sb.append(", drugSchool=").append(drugSchool);
         sb.append(", workTime=").append(workTime);
         sb.append(", changeReason=").append(changeReason);
         sb.append(", status=").append(status);

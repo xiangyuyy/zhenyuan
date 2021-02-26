@@ -404,7 +404,8 @@ public class NZYServiceImpl implements NZYService {
             insertAllOrganization(zyService.getInintOrganization());
             insertAllUsra01(zyService.getInintUsra01());
 
-            insertAllCodeItem(zyService.getAllCodeItem());
+            //2021 -2-25 特殊处理
+            //insertAllCodeItem(zyService.getAllCodeItem());
 
             insertDrugCount();
 

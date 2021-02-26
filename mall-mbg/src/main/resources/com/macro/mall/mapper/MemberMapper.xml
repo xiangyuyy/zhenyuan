@@ -13,6 +13,7 @@
     <result column="drug_position_one_id" jdbcType="VARCHAR" property="drugPositionOneId" />
     <result column="drug_position_two_id" jdbcType="VARCHAR" property="drugPositionTwoId" />
     <result column="drug_position_three_id" jdbcType="VARCHAR" property="drugPositionThreeId" />
+    <result column="drug_school" jdbcType="VARCHAR" property="drugSchool" />
     <result column="work_time" jdbcType="TIMESTAMP" property="workTime" />
     <result column="health_status" jdbcType="INTEGER" property="healthStatus" />
     <result column="education_status" jdbcType="INTEGER" property="educationStatus" />
@@ -81,7 +82,8 @@
   <sql id="Base_Column_List">
     id, relation_id, drug_shop_id, drug_title_id, education_id, drug_org_id, drug_education_id, 
     drug_major_id, drug_position_one_id, drug_position_two_id, drug_position_three_id, 
-    work_time, health_status, education_status, train_status, create_time, modify_time
+    drug_school, work_time, health_status, education_status, train_status, create_time, 
+    modify_time
   </sql>
   <select id="selectByExample" parameterType="com.macro.mall.model.MemberExample" resultMap="BaseResultMap">
     select
@@ -120,15 +122,15 @@
     insert into member (relation_id, drug_shop_id, drug_title_id, 
       education_id, drug_org_id, drug_education_id, 
       drug_major_id, drug_position_one_id, drug_position_two_id, 
-      drug_position_three_id, work_time, health_status, 
-      education_status, train_status, create_time, 
-      modify_time)
+      drug_position_three_id, drug_school, work_time, 
+      health_status, education_status, train_status, 
+      create_time, modify_time)
     values (#{relationId,jdbcType=VARCHAR}, #{drugShopId,jdbcType=VARCHAR}, #{drugTitleId,jdbcType=VARCHAR}, 
       #{educationId,jdbcType=VARCHAR}, #{drugOrgId,jdbcType=VARCHAR}, #{drugEducationId,jdbcType=VARCHAR}, 
       #{drugMajorId,jdbcType=VARCHAR}, #{drugPositionOneId,jdbcType=VARCHAR}, #{drugPositionTwoId,jdbcType=VARCHAR}, 
-      #{drugPositionThreeId,jdbcType=VARCHAR}, #{workTime,jdbcType=TIMESTAMP}, #{healthStatus,jdbcType=INTEGER}, 
-      #{educationStatus,jdbcType=INTEGER}, #{trainStatus,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{modifyTime,jdbcType=TIMESTAMP})
+      #{drugPositionThreeId,jdbcType=VARCHAR}, #{drugSchool,jdbcType=VARCHAR}, #{workTime,jdbcType=TIMESTAMP}, 
+      #{healthStatus,jdbcType=INTEGER}, #{educationStatus,jdbcType=INTEGER}, #{trainStatus,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.macro.mall.model.Member">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -165,6 +167,9 @@
       </if>
       <if test="drugPositionThreeId != null">
         drug_position_three_id,
+      </if>
+      <if test="drugSchool != null">
+        drug_school,
       </if>
       <if test="workTime != null">
         work_time,
@@ -215,6 +220,9 @@
       </if>
       <if test="drugPositionThreeId != null">
         #{drugPositionThreeId,jdbcType=VARCHAR},
+      </if>
+      <if test="drugSchool != null">
+        #{drugSchool,jdbcType=VARCHAR},
       </if>
       <if test="workTime != null">
         #{workTime,jdbcType=TIMESTAMP},
@@ -278,6 +286,9 @@
       <if test="record.drugPositionThreeId != null">
         drug_position_three_id = #{record.drugPositionThreeId,jdbcType=VARCHAR},
       </if>
+      <if test="record.drugSchool != null">
+        drug_school = #{record.drugSchool,jdbcType=VARCHAR},
+      </if>
       <if test="record.workTime != null">
         work_time = #{record.workTime,jdbcType=TIMESTAMP},
       </if>
@@ -314,6 +325,7 @@
       drug_position_one_id = #{record.drugPositionOneId,jdbcType=VARCHAR},
       drug_position_two_id = #{record.drugPositionTwoId,jdbcType=VARCHAR},
       drug_position_three_id = #{record.drugPositionThreeId,jdbcType=VARCHAR},
+      drug_school = #{record.drugSchool,jdbcType=VARCHAR},
       work_time = #{record.workTime,jdbcType=TIMESTAMP},
       health_status = #{record.healthStatus,jdbcType=INTEGER},
       education_status = #{record.educationStatus,jdbcType=INTEGER},
@@ -357,6 +369,9 @@
       <if test="drugPositionThreeId != null">
         drug_position_three_id = #{drugPositionThreeId,jdbcType=VARCHAR},
       </if>
+      <if test="drugSchool != null">
+        drug_school = #{drugSchool,jdbcType=VARCHAR},
+      </if>
       <if test="workTime != null">
         work_time = #{workTime,jdbcType=TIMESTAMP},
       </if>
@@ -390,6 +405,7 @@
       drug_position_one_id = #{drugPositionOneId,jdbcType=VARCHAR},
       drug_position_two_id = #{drugPositionTwoId,jdbcType=VARCHAR},
       drug_position_three_id = #{drugPositionThreeId,jdbcType=VARCHAR},
+      drug_school = #{drugSchool,jdbcType=VARCHAR},
       work_time = #{workTime,jdbcType=TIMESTAMP},
       health_status = #{healthStatus,jdbcType=INTEGER},
       education_status = #{educationStatus,jdbcType=INTEGER},

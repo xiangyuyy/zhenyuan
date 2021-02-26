@@ -81,7 +81,6 @@ public class MemberServiceImpl implements MemberService {
     VReportMapper vReportMapper;
 
 
-
     @Override
     public List<Member> getMemberList(MemberListParam param) {
         PageUtil.init(param);
@@ -139,6 +138,7 @@ public class MemberServiceImpl implements MemberService {
         member.setDrugShopId(model.getDrugShopId());
         member.setDrugOrgId(model.getDrugOrgId());
         member.setEducationId(model.getEducationId());
+        member.setDrugSchool(model.getDrugSchool());
         return member;
     }
 
@@ -270,6 +270,23 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public List<SelectDto> getMemberDrugSchool(String id) {
+        String relationId = getMember(id).getRelationId();
+        List<SelectDto> dtoList = new ArrayList<>();
+        Usra04Example usra04Example = new Usra04Example();
+        usra04Example.createCriteria().andA0100EqualTo(relationId);
+        List<Usra04> list = usra04Mapper.selectByExample(usra04Example);
+        list.stream().forEach(x -> {
+            SelectDto selectDto = new SelectDto();
+            selectDto.setValue(x.getA0435());
+            selectDto.setLabel(x.getA0435());
+            dtoList.add(selectDto);
+
+        });
+        return dtoList;
+    }
+
+    @Override
     public List<SelectDto> getMemberMajor(String id) {
         String relationId = getMember(id).getRelationId();
         List<SelectDto> dtoList = new ArrayList<>();
@@ -334,12 +351,12 @@ public class MemberServiceImpl implements MemberService {
             }
             dto.setIdCard(usra01.getA0177());
             //dto.setTitle("待定");
-            List<VZhicheng> vZhichengList  = getMemberVZhichengr(usra01.getA0144());
+            List<VZhicheng> vZhichengList = getMemberVZhichengr(usra01.getA0144());
             String title = "";
-            for (VZhicheng v:vZhichengList) {
+            for (VZhicheng v : vZhichengList) {
                 title += v.getZcjb();
-                if(v.getZcsj() != null){
-                    title += "(" + DateUtil.getFormatString(v.getZcsj())+")" + " ";
+                if (v.getZcsj() != null) {
+                    title += "(" + DateUtil.getFormatString(v.getZcsj()) + ")" + " ";
                 }
             }
             dto.setTitle(title);
@@ -407,16 +424,15 @@ public class MemberServiceImpl implements MemberService {
             dto.setDrugTitle(drugTitle.getCodeitemdesc());
         }
         //虚挂
-        if (!StringUtils.isEmpty(x.getDrugShopId()) &&!x.getDrugShopId().equals(usra01.getE0122())) {
+        if (!StringUtils.isEmpty(x.getDrugShopId()) && !x.getDrugShopId().equals(usra01.getE0122())) {
             dto.setIsInvitual("是");
-        }
-        else {
+        } else {
             dto.setIsInvitual("否");
         }
 
         // 人员类别
-        Codeitem codeitemLb = codeItemService.getOneCodeitem(BaseConst.MEMBER_XL,usra01.getA0183());
-        if (codeitemLb != null){
+        Codeitem codeitemLb = codeItemService.getOneCodeitem(BaseConst.MEMBER_XL, usra01.getA0183());
+        if (codeitemLb != null) {
             dto.setPeopleKind(codeitemLb.getCodeitemdesc());
         }
         return dto;
@@ -439,6 +455,7 @@ public class MemberServiceImpl implements MemberService {
         member.setDrugShopId(updateMemberDto.getDrugShopId());
         member.setDrugOrgId(updateMemberDto.getDrugOrgId());
         member.setEducationId(updateMemberDto.getEducationId());
+        member.setDrugSchool(updateMemberDto.getDrugSchool());
         return memberMapper.updateByPrimaryKeySelective(member);
     }
 
@@ -451,7 +468,7 @@ public class MemberServiceImpl implements MemberService {
             dto.setCodeitemid(x.getCodeitemid());
             dto.setCodeitemdesc(x.getCodeitemdesc());
             dto.setCodesetid(x.getCodesetid());
-            if (!StringUtils.isEmpty(x.getCodeitemdesc())){
+            if (!StringUtils.isEmpty(x.getCodeitemdesc())) {
                 dto.setPycode(StringPinYinCodeUtil.getPinYinHeadChar(x.getCodeitemdesc()).toUpperCase());
             }
             daoList.add(dto);
@@ -461,24 +478,24 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Boolean updateOrAddCodeItem(CodeItemDto codeItemDto) {
-           return codeItemService.addOrUpdateItem(codeItemDto.getCodesetid(),codeItemDto.getCodeitemid(),codeItemDto.getCodeitemdesc());
+        return codeItemService.addOrUpdateItem(codeItemDto.getCodesetid(), codeItemDto.getCodeitemid(), codeItemDto.getCodeitemdesc());
 
     }
 
     @Override
     public Boolean deleteCodeItem(CodeItemDto codeItemDto) {
-        return codeItemService.deleteCodeItem(codeItemDto.getCodesetid(),codeItemDto.getCodeitemid());
+        return codeItemService.deleteCodeItem(codeItemDto.getCodesetid(), codeItemDto.getCodeitemid());
     }
 
     @Override
     public MemberInforDto getMemberInforDto(String id) {
         Member member = memberMapper.selectByPrimaryKey(new Long(id));
-        if (member == null){
+        if (member == null) {
             return null;
         }
         MemberInforDto memberInforDto = new MemberInforDto();
         Usra01 usra01 = usra01Mapper.selectByPrimaryKey(member.getRelationId());
-        if (usra01 == null){
+        if (usra01 == null) {
             return null;
         }
         MemberBaseInforDto memberBaseInforDto = new MemberBaseInforDto();
@@ -491,32 +508,32 @@ public class MemberServiceImpl implements MemberService {
         }
         memberBaseInforDto.setBirthday(DateUtil.getFormateDate(usra01.getA0111()));
         memberBaseInforDto.setWorkTime(DateUtil.getFormateDate(usra01.getA0141()));
-        Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX,usra01.getA0107());
-        if (codeitemSex != null){
+        Codeitem codeitemSex = codeItemService.getOneCodeitem(BaseConst.MEMBER_AX, usra01.getA0107());
+        if (codeitemSex != null) {
             memberBaseInforDto.setSex(codeitemSex.getCodeitemdesc());
         }
         memberBaseInforDto.setIdCard(usra01.getA0177());
 
-        Codeitem codeitemMz = codeItemService.getOneCodeitem(BaseConst.MEMBER_AE,usra01.getA0121());
-        if (codeitemMz != null){
+        Codeitem codeitemMz = codeItemService.getOneCodeitem(BaseConst.MEMBER_AE, usra01.getA0121());
+        if (codeitemMz != null) {
             memberBaseInforDto.setMingzu(codeitemMz.getCodeitemdesc());
         }
 
-        Codeitem codeitemJg = codeItemService.getOneCodeitem(BaseConst.MEMBER_AB,usra01.getA0114());
-        if (codeitemJg != null){
+        Codeitem codeitemJg = codeItemService.getOneCodeitem(BaseConst.MEMBER_AB, usra01.getA0114());
+        if (codeitemJg != null) {
             memberBaseInforDto.setNativePlace(codeitemJg.getCodeitemdesc());
         }
 
-        Codeitem codeitemHh = codeItemService.getOneCodeitem(BaseConst.MEMBER_HP,usra01.getA0174());
-        if (codeitemHh != null){
+        Codeitem codeitemHh = codeItemService.getOneCodeitem(BaseConst.MEMBER_HP, usra01.getA0174());
+        if (codeitemHh != null) {
             memberBaseInforDto.setHousehold(codeitemHh.getCodeitemdesc());
         }
         memberBaseInforDto.setAdress(usra01.getA0171());
         memberBaseInforDto.setAge(usra01.getA0112());
         memberBaseInforDto.setPyjm(StringPinYinCodeUtil.getPinYinHeadChar(usra01.getA0101()).toUpperCase());
         memberBaseInforDto.setMobile(usra01.getA0148());
-        Codeitem codeitemLb = codeItemService.getOneCodeitem(BaseConst.MEMBER_XL,usra01.getA0183());
-        if (codeitemLb != null){
+        Codeitem codeitemLb = codeItemService.getOneCodeitem(BaseConst.MEMBER_XL, usra01.getA0183());
+        if (codeitemLb != null) {
             memberBaseInforDto.setPkind(codeitemLb.getCodeitemdesc());
         }
         memberBaseInforDto.setWorkTime(DateUtil.getFormateDate(usra01.getA0142()));
@@ -535,12 +552,12 @@ public class MemberServiceImpl implements MemberService {
         Usra04Example usra04Example = new Usra04Example();
         usra04Example.createCriteria().andA0100EqualTo(member.getRelationId());
         List<Usra04> usra04List = usra04Mapper.selectByExample(usra04Example);
-        usra04List.stream().forEach(x->{
+        usra04List.stream().forEach(x -> {
             MemberEducationInforDto memberEducationInforDto = new MemberEducationInforDto();
             memberEducationInforDto.setDecs(x.getA0444());
             memberEducationInforDto.setSchool(x.getA0435());
-            memberEducationInforDto.setIsManager(x.getA04ac().equals("1")?"是":"否");
-            memberEducationInforDto.setIsHigh(x.getA04ad().equals("1")?"是":"否");
+            memberEducationInforDto.setIsManager(x.getA04ac().equals("1") ? "是" : "否");
+            memberEducationInforDto.setIsHigh(x.getA04ad().equals("1") ? "是" : "否");
 
             Codeitem codeitemDC = codeItemService.getOneCodeitem(BaseConst.MEMBER_DC, x.getA0449());
             if (codeitemDC != null) {
@@ -564,7 +581,7 @@ public class MemberServiceImpl implements MemberService {
         Usra22Example usra22Example = new Usra22Example();
         usra22Example.createCriteria().andA0100EqualTo(member.getRelationId());
         List<Usra22> usr22List = usra22Mapper.selectByExample(usra22Example);
-        usr22List.stream().forEach(x->{
+        usr22List.stream().forEach(x -> {
             MemberPoliticsInforDto memberPoliticsInforDto = new MemberPoliticsInforDto();
             memberPoliticsInforDto.setTime(x.getA2210());
 
@@ -586,7 +603,7 @@ public class MemberServiceImpl implements MemberService {
         Usra64Example usra64Example = new Usra64Example();
         usra64Example.createCriteria().andA0100EqualTo(member.getRelationId());
         List<Usra64> usr64List = usra64Mapper.selectByExample(usra64Example);
-        usr64List.stream().forEach(x->{
+        usr64List.stream().forEach(x -> {
             MemberRetireWorkInforDto memberRetireWorkInforDto = new MemberRetireWorkInforDto();
             memberRetireWorkInforDto.setRetireTime(x.getA6410());
             memberRetireWorkInforDto.setDealTime(x.getA6416());
@@ -606,7 +623,7 @@ public class MemberServiceImpl implements MemberService {
         Usra66Example usra66Example = new Usra66Example();
         usra66Example.createCriteria().andA0100EqualTo(member.getRelationId());
         List<Usra66> usr66List = usra66Mapper.selectByExample(usra66Example);
-        usr66List.stream().forEach(x->{
+        usr66List.stream().forEach(x -> {
             MemberOutWorkInforDto memberOutWorkInforDto = new MemberOutWorkInforDto();
             memberOutWorkInforDto.setOutTime(x.getA6605());
             memberOutWorkInforDto.setMark(x.getA6609());
@@ -629,7 +646,7 @@ public class MemberServiceImpl implements MemberService {
         Usra65Example usra65Example = new Usra65Example();
         usra65Example.createCriteria().andA0100EqualTo(member.getRelationId());
         List<Usra65> usr65List = usra65Mapper.selectByExample(usra65Example);
-        usr65List.stream().forEach(x->{
+        usr65List.stream().forEach(x -> {
             MemberBackWorkInforDto memberBackWorkInforDto = new MemberBackWorkInforDto();
             memberBackWorkInforDto.setCompany(x.getA6501());
             memberBackWorkInforDto.setReason(x.getA6506());
@@ -650,7 +667,7 @@ public class MemberServiceImpl implements MemberService {
         Usra71Example usra71Example = new Usra71Example();
         usra71Example.createCriteria().andA0100EqualTo(member.getRelationId());
         List<Usra71> usr71List = usra71Mapper.selectByExample(usra71Example);
-        usr71List.stream().forEach(x->{
+        usr71List.stream().forEach(x -> {
             MemberWorkInforDto memberWorkInforDto = new MemberWorkInforDto();
             memberWorkInforDto.setBeginTime(x.getA7110());
             memberWorkInforDto.setEndTime(x.getA7105());
@@ -671,7 +688,7 @@ public class MemberServiceImpl implements MemberService {
         VZhichengExample vZhichengExample = new VZhichengExample();
         vZhichengExample.createCriteria().andGhEqualTo(usra01.getA0144());//人员编号
         List<VZhicheng> vZhichengList = vZhichengMapper.selectByExample(vZhichengExample);
-        vZhichengList.stream().forEach(x->{
+        vZhichengList.stream().forEach(x -> {
             MemberDrugInforDto memberDrugInforDto = new MemberDrugInforDto();
             memberDrugInforDto.setKind(x.getZcjb());
             memberDrugInforDto.setNum(x.getZcbh());
@@ -686,7 +703,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<Member> getsjxgMemberList(ReportMemberListParam param, Boolean paging) {
-        if (paging){
+        if (paging) {
             PageUtil.init(param);
             PageHelper.startPage(param.getPageNum(), param.getPageSize());
         }
@@ -695,7 +712,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<Member> getbdxgMemberList(ReportMemberListParam param, Boolean paging) {
-        if (paging){
+        if (paging) {
             PageUtil.init(param);
             PageHelper.startPage(param.getPageNum(), param.getPageSize());
         }
@@ -703,14 +720,14 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<VReport> getgybzMemberList(VReportListParam param, Boolean paging){
-        if (paging){
+    public List<VReport> getgybzMemberList(VReportListParam param, Boolean paging) {
+        if (paging) {
             PageUtil.init(param);
             PageHelper.startPage(param.getPageNum(), param.getPageSize());
         }
         VReportExample vReportExample = new VReportExample();
         VReportExample.Criteria criteria = vReportExample.createCriteria();
-        if (!StringUtils.isEmpty(param.getShopId())){
+        if (!StringUtils.isEmpty(param.getShopId())) {
             criteria.andShopIdEqualTo(param.getShopId());
         }
         return vReportMapper.selectByExample(vReportExample);
@@ -718,7 +735,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<Member> getbzxtMemberList(ReportMemberListParam param, Boolean paging) {
-        if (paging){
+        if (paging) {
             PageUtil.init(param);
             PageHelper.startPage(param.getPageNum(), param.getPageSize());
         }

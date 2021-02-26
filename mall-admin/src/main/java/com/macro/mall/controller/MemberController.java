@@ -382,8 +382,16 @@ public class MemberController {
     @ApiOperation("获取人员修改中学历下拉框取值")
     @RequestMapping(value = "/getMemberEducation/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public CommonResult<List<SelectDto>> getAllmajor(@PathVariable String id) {
+    public CommonResult<List<SelectDto>> getMemberEducation(@PathVariable String id) {
         List<SelectDto> dto = memberService.getMemberEducation(id);
+        return CommonResult.success(dto);
+    }
+
+    @ApiOperation("获取人员修改中药监学校下拉框取值")
+    @RequestMapping(value = "/getMemberDrugSchool/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult<List<SelectDto>> getMemberDrugSchool(@PathVariable String id) {
+        List<SelectDto> dto = memberService.getMemberDrugSchool(id);
         return CommonResult.success(dto);
     }
 

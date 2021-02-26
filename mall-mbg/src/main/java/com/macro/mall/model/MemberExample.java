@@ -865,6 +865,76 @@ public class MemberExample {
             return (Criteria) this;
         }
 
+        public Criteria andDrugSchoolIsNull() {
+            addCriterion("drug_school is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrugSchoolIsNotNull() {
+            addCriterion("drug_school is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrugSchoolEqualTo(String value) {
+            addCriterion("drug_school =", value, "drugSchool");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrugSchoolNotEqualTo(String value) {
+            addCriterion("drug_school <>", value, "drugSchool");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrugSchoolGreaterThan(String value) {
+            addCriterion("drug_school >", value, "drugSchool");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrugSchoolGreaterThanOrEqualTo(String value) {
+            addCriterion("drug_school >=", value, "drugSchool");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrugSchoolLessThan(String value) {
+            addCriterion("drug_school <", value, "drugSchool");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrugSchoolLessThanOrEqualTo(String value) {
+            addCriterion("drug_school <=", value, "drugSchool");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrugSchoolLike(String value) {
+            addCriterion("drug_school like", value, "drugSchool");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrugSchoolNotLike(String value) {
+            addCriterion("drug_school not like", value, "drugSchool");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrugSchoolIn(List<String> values) {
+            addCriterion("drug_school in", values, "drugSchool");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrugSchoolNotIn(List<String> values) {
+            addCriterion("drug_school not in", values, "drugSchool");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrugSchoolBetween(String value1, String value2) {
+            addCriterion("drug_school between", value1, value2, "drugSchool");
+            return (Criteria) this;
+        }
+
+        public Criteria andDrugSchoolNotBetween(String value1, String value2) {
+            addCriterion("drug_school not between", value1, value2, "drugSchool");
+            return (Criteria) this;
+        }
+
         public Criteria andWorkTimeIsNull() {
             addCriterion("work_time is null");
             return (Criteria) this;

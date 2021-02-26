@@ -59,6 +59,8 @@ public interface MemberService {
 
     List<SelectDto> getMemberEducation(String id);
 
+    List<SelectDto> getMemberDrugSchool(String id);
+
     List<SelectDto> getMemberMajor(String id);
 
     List<VZhicheng> getMemberVZhichengr(String id);

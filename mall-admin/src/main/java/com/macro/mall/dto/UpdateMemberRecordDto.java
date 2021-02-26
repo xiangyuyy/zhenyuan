@@ -37,6 +37,9 @@ public class UpdateMemberRecordDto {
     @ApiModelProperty(value = "药监专业")
     private String drugMajorId;
 
+    @ApiModelProperty(value = "药监学校")
+    private String drugSchool;
+
     @ApiModelProperty(value = "职务或岗位1")
     private String drugPositionOneId;
 
