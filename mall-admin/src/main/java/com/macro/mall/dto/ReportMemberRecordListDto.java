@@ -18,6 +18,9 @@ public class ReportMemberRecordListDto {
     @ApiModelProperty(value = "门店")
     private String shopName;
 
+    @ApiModelProperty(value = "药监门店")
+    private String drugShopName;
+
     @ApiModelProperty(value = "姓名")
     private String name;
 
@@ -39,8 +42,8 @@ public class ReportMemberRecordListDto {
     @ApiModelProperty(value = "年龄")
     private Integer age;
 
-    @ApiModelProperty(value = "药监编制职称")
-    private String drugOrg;
+    @ApiModelProperty(value = "药监上报职称")
+    private String drugTitle;
 
     @ApiModelProperty(value = "药监学历")
     private String drugEducation;

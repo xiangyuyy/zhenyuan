@@ -55,6 +55,9 @@ public class DrugReportMember implements Serializable {
     @ApiModelProperty(value = "参加专业工作时间")
     private Date workTime;
 
+    @ApiModelProperty(value = "变更状态：1->正常;0->变更中")
+    private Integer status;
+
     @ApiModelProperty(value = "健康状况：0->不健康；1->健康")
     private Integer healthStatus;
 
@@ -202,6 +205,14 @@ public class DrugReportMember implements Serializable {
         this.workTime = workTime;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     public Integer getHealthStatus() {
         return healthStatus;
     }
@@ -249,6 +260,7 @@ public class DrugReportMember implements Serializable {
         sb.append(", drugPositionThreeId=").append(drugPositionThreeId);
         sb.append(", drugSchool=").append(drugSchool);
         sb.append(", workTime=").append(workTime);
+        sb.append(", status=").append(status);
         sb.append(", healthStatus=").append(healthStatus);
         sb.append(", educationStatus=").append(educationStatus);
         sb.append(", trainStatus=").append(trainStatus);

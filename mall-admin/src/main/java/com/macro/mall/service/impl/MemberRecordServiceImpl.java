@@ -119,6 +119,7 @@ public class MemberRecordServiceImpl implements MemberRecordService {
         //操作人
         drugReport.setOperatorId(drugReportService.getCurrentAdminUser().getUmsAdmin().getId().toString());
         drugReportMapper.updateByPrimaryKeySelective(drugReport);*/
+        // 删除MemberId 多次的变更 保留最新的一次
         MemberRecordExample memberRecordExample  = new MemberRecordExample();
         MemberRecordExample.Criteria criteria = memberRecordExample.createCriteria();
         criteria.andMemberIdEqualTo(updateMemberRecordDto.getMemberId());

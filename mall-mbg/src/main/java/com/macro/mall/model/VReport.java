@@ -7,19 +7,16 @@ public class VReport implements Serializable {
     @ApiModelProperty(value = "门店id")
     private String shopId;
 
-    @ApiModelProperty(value = "门店")
+    @ApiModelProperty(value = "组织名称")
     private String shopname;
 
-    @ApiModelProperty(value = "编制要求职称对应人数")
+    @ApiModelProperty(value = "执业药师")
     private Integer num;
 
-    @ApiModelProperty(value = "编制要求职称")
     private String type;
 
-    @ApiModelProperty(value = "实际配置人数")
     private Long nownum;
 
-    @ApiModelProperty(value = "差异")
     private Long diff;
 
     private static final long serialVersionUID = 1L;

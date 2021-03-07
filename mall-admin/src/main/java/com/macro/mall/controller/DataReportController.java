@@ -323,7 +323,7 @@ public class DataReportController {
             dto.setCreateTime(x.getCreateTime());
             dto.setDrugEducation(x.getDrugEducation());
             dto.setDrugMajor(x.getDrugMajor());
-            dto.setDrugOrg(x.getDrugOrg());
+            dto.setDrugTitle(x.getDrugTitle());
             dto.setDrugPositionAll(x.getDrugPositionAll());
             dto.setWorkTime(x.getWorkTime());
             dto.setShopName(x.getShopName());
@@ -337,7 +337,7 @@ public class DataReportController {
         });
         if (listDto.size() > 0) {
             ExportExcel<ReportMemberRecordListDto> ee = new ExportExcel<ReportMemberRecordListDto>();
-            String[] headers = {"单号", "门店", "姓名", "变更原因", "变更时间", "身份证号码", "性别", "出生年月", "年龄", "药监职称", "药监学历", "药监专业", "职务或岗位集合", "参加专业工作时间", "健康状况", "是否继续教育", "是否参加培训"};
+            String[] headers = {"单号", "门店","药监门店","姓名", "变更原因", "变更时间", "身份证号码", "性别", "出生年月", "年龄", "药监职称", "药监学历", "药监专业", "职务或岗位集合", "参加专业工作时间", "健康状况", "是否继续教育", "是否参加培训"};
             String fileName = new Date().toLocaleString();
             String shopName = "申报变更记录";
             ee.exportExcel(headers, listDto, shopName, fileName, response);

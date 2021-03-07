@@ -29,8 +29,8 @@ public class ExportSpecialDrugReportMemberDto {
     @ApiModelProperty(value = "年龄")
     private Integer age;
 
-    @ApiModelProperty(value = "药监编制职称")
-    private String drugOrg;
+    @ApiModelProperty(value = "药监上报职称")
+    private String drugTitle;
 
     @ApiModelProperty(value = "药监学历")
     private String drugEducation;

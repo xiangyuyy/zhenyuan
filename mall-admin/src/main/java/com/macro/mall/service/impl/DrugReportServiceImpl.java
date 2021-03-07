@@ -617,6 +617,10 @@ public class DrugReportServiceImpl implements DrugReportService {
                     drugReportMember.setReportShopId(drugReport.getShopId());
 
                     drugReportMember.setDrugSchool(member.getDrugSchool());
+
+                    // 变更中
+                    drugReportMember.setStatus(0);
+
                     drugReportMemberMapper.insertSelective(drugReportMember);
 
                     // 插入药监变更记录
@@ -792,7 +796,7 @@ public class DrugReportServiceImpl implements DrugReportService {
             model.setIdCard(x.getIdCard());
             model.setName(x.getName());
             model.setAge(x.getAge());
-            model.setDrugOrg(x.getDrugOrg());
+            model.setDrugTitle(x.getDrugTitle());
             model.setDrugPositionAll(x.getDrugPositionAll());
             model.setDrugMajor(x.getDrugMajor());
             model.setDrugEducation(x.getDrugEducation());
@@ -830,7 +834,7 @@ public class DrugReportServiceImpl implements DrugReportService {
             model.setIdCard(x.getIdCard());
             model.setName(x.getName());
             model.setAge(x.getAge());
-            model.setDrugOrg(x.getDrugOrg());
+            model.setDrugTitle(x.getDrugTitle());
             model.setDrugPositionAll(x.getDrugPositionAll());
             model.setDrugMajor(x.getDrugMajor());
             model.setDrugEducation(x.getDrugEducation());
@@ -1022,8 +1026,64 @@ public class DrugReportServiceImpl implements DrugReportService {
                     memberRecordMapper.updateByPrimaryKeySelective(x);
                 });
             }
+
+            // drugReportMember 状态是0 变更中的数据 该为1正常
+            DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
+            DrugReportMemberExample.Criteria criteria11 = drugReportMemberExample.createCriteria();
+            criteria11.andReportIdEqualTo(drugReport.getId());
+            criteria11.andStatusEqualTo(0);
+            List<DrugReportMember> list11 = drugReportMemberMapper.selectByExample(drugReportMemberExample);
+            if (list11.size() > 0){
+                list11.forEach(x->{
+                    x.setStatus(1); //正常
+                    // 删除变更中的数据
+                    drugReportMemberMapper.updateByPrimaryKeySelective(x);
+                });
+            }
             //修改审核状态
             drugReport.setCheckStatus(0);
+            //操作人
+            drugReport.setOperatorId(getCurrentAdminUser().getUmsAdmin().getId().toString());
+            drugReportMapper.updateByPrimaryKeySelective(drugReport);
+        }
+        return true;
+
+    }
+
+    @Override
+    public Boolean cancelChanges(String shopId) {
+        DrugReportExample drugReportExample = new DrugReportExample();
+        DrugReportExample.Criteria criteria = drugReportExample.createCriteria();
+        criteria.andShopIdEqualTo(shopId);
+        List<DrugReport> list = drugReportMapper.selectByExample(drugReportExample);
+        if (list.size() > 0) {
+            DrugReport drugReport = list.get(0);
+            //修改变更记录状态
+            MemberRecordExample memberRecordExample = new MemberRecordExample();
+            MemberRecordExample.Criteria criteria1 = memberRecordExample.createCriteria();
+            criteria1.andReportShopIdEqualTo(shopId);
+            criteria1.andStatusEqualTo(0);//变更中
+            List<MemberRecord> list1 = memberRecordMapper.selectByExample(memberRecordExample);
+            if (list1.size() > 0){
+                list1.forEach(x->{
+                    x.setStatus(1);
+                    // 删除变更中的数据
+                    memberRecordMapper.deleteByPrimaryKey(x.getId());
+                });
+            }
+
+            // 删除 drugReportMember 状态是0 变更中的数据
+            DrugReportMemberExample drugReportMemberExample = new DrugReportMemberExample();
+            DrugReportMemberExample.Criteria criteria11 = drugReportMemberExample.createCriteria();
+            criteria11.andReportIdEqualTo(drugReport.getId());
+            criteria11.andStatusEqualTo(0);
+            List<DrugReportMember> list11 = drugReportMemberMapper.selectByExample(drugReportMemberExample);
+            if (list11.size() > 0){
+                list11.forEach(x->{
+                    // 删除变更中的数据
+                    drugReportMemberMapper.deleteByPrimaryKey(x.getId());
+                });
+            }
             //操作人
             drugReport.setOperatorId(getCurrentAdminUser().getUmsAdmin().getId().toString());
             drugReportMapper.updateByPrimaryKeySelective(drugReport);

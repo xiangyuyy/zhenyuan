@@ -182,6 +182,7 @@ public class DrugReportController {
         shopIds.add(shopId);
         param.setShopIds(shopIds);
         List<DrugReport> list = drugReportService.getDrugReportList(param);
+        list = list.stream().filter(x->x.getCheckStatus().equals(1)).collect(Collectors.toList());
         if (list != null && list.size() > 0) {
             return CommonResult.success(list.get(0).getId());
         }
@@ -314,7 +315,7 @@ public class DrugReportController {
             List<ExportDrugReportMemberDto> result = drugReportService.exportDrugReportMember(sureDrugReportDto.getReportId());
             if(result.size() > 0) {
                 ExportExcel<ExportDrugReportMemberDto> ee = new ExportExcel<ExportDrugReportMemberDto>();
-                String[] headers = {"排列序号", "姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "药监编制职称", "药监学历 ", "药监专业", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
+                String[] headers = {"序号", "姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "药监职称", "学历 ", "专业", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
                 String fileName = reportId;
                 String shopName = drugReportService.getDrugReportDto(reportId).getShopName();
                 ee.exportExcel(headers, result, shopName, fileName, response);
@@ -331,7 +332,7 @@ public class DrugReportController {
             List<ExportSpecialDrugReportMemberDto> result = drugReportService.exportSpecialDrugReportMember(sureDrugReportDto.getReportId());
             if(result.size() > 0) {
                 ExportExcel<ExportSpecialDrugReportMemberDto> ee = new ExportExcel<ExportSpecialDrugReportMemberDto>();
-                String[] headers = {"排列序号", "姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "职药监编制职称", "药监学历 ", "药监专业", "药监学校", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
+                String[] headers = {"序号", "姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "药监职称", "学历 ", "专业", "学校", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
                 String fileName = reportId;
                 String shopName = drugReportService.getDrugReportDto(reportId).getShopName();
                 ee.exportExcel(headers, result, shopName, fileName, response);
@@ -451,6 +452,18 @@ public class DrugReportController {
     @ResponseBody
     public CommonResult sureChanges(String shopId) {
         Boolean result = drugReportService.sureChanges(shopId);
+        if (result) {
+            return CommonResult.success("提交成功");
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
+    @ApiOperation("撤销变更")
+    @RequestMapping(value = "/cancelChanges", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult cancelChanges(String shopId) {
+        Boolean result = drugReportService.cancelChanges(shopId);
         if (result) {
             return CommonResult.success("提交成功");
         } else {
