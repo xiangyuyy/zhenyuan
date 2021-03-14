@@ -31,4 +31,7 @@ public class DrugReportListDto {
     @ApiModelProperty(value = "部门申报建立时间")
     private Date reportTime;
 
+    @ApiModelProperty(value = "是否存在提交变更")
+    private Integer IsChange;
+
 }

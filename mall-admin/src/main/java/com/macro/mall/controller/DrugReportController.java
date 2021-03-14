@@ -315,7 +315,7 @@ public class DrugReportController {
             List<ExportDrugReportMemberDto> result = drugReportService.exportDrugReportMember(sureDrugReportDto.getReportId());
             if(result.size() > 0) {
                 ExportExcel<ExportDrugReportMemberDto> ee = new ExportExcel<ExportDrugReportMemberDto>();
-                String[] headers = {"序号", "姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "药监职称", "学历 ", "专业", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
+                String[] headers = {"序号", "姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "职称", "学历 ", "专业", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
                 String fileName = reportId;
                 String shopName = drugReportService.getDrugReportDto(reportId).getShopName();
                 ee.exportExcel(headers, result, shopName, fileName, response);
@@ -332,7 +332,7 @@ public class DrugReportController {
             List<ExportSpecialDrugReportMemberDto> result = drugReportService.exportSpecialDrugReportMember(sureDrugReportDto.getReportId());
             if(result.size() > 0) {
                 ExportExcel<ExportSpecialDrugReportMemberDto> ee = new ExportExcel<ExportSpecialDrugReportMemberDto>();
-                String[] headers = {"序号", "姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "药监职称", "学历 ", "专业", "学校", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
+                String[] headers = {"序号", "姓名", "身份证号码 ", "性别 ", "出身年月", "年龄", "职称", "学历 ", "专业", "学校", "职务或岗位", "参加工作时间", "健康状况", "是否继续教育", "是否参加培训"};
                 String fileName = reportId;
                 String shopName = drugReportService.getDrugReportDto(reportId).getShopName();
                 ee.exportExcel(headers, result, shopName, fileName, response);
@@ -464,6 +464,18 @@ public class DrugReportController {
     @ResponseBody
     public CommonResult cancelChanges(String shopId) {
         Boolean result = drugReportService.cancelChanges(shopId);
+        if (result) {
+            return CommonResult.success("提交成功");
+        } else {
+            return CommonResult.failed();
+        }
+    }
+
+    @ApiOperation("撤销提交的变更")
+    @RequestMapping(value = "/cancelSureChanges", method = RequestMethod.GET)
+    @ResponseBody
+    public CommonResult cancelSureChanges(String reportId) {
+        Boolean result = drugReportService.cancelSureChanges(reportId);
         if (result) {
             return CommonResult.success("提交成功");
         } else {

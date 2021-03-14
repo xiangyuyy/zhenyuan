@@ -76,6 +76,8 @@ public interface DrugReportService {
 
     Boolean cancelChanges(String shopId);
 
+    Boolean cancelSureChanges(String reportId);
+
     //修改序号
     int changeDrugReportMemberSort(String id,int sort);
 }
