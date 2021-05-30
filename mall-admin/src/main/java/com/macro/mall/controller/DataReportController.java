@@ -327,6 +327,7 @@ public class DataReportController {
             dto.setDrugPositionAll(x.getDrugPositionAll());
             dto.setWorkTime(x.getWorkTime());
             dto.setShopName(x.getShopName());
+            dto.setDrugShopName(x.getDrugShopName());
             dto.setReportId(x.getReportId());
             dto.setSex(x.getSex());
             dto.setIdCard(x.getIdCard());
